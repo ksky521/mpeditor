@@ -2,7 +2,7 @@ var path = require('path');
 var config = require('./config')
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, './', dir)
 }
 
 module.exports = {
@@ -16,7 +16,13 @@ module.exports = {
   },
   externals: {
     jQuery: 'jQuery',
-    ace: 'ace'
+    PR: 'PR'
+  },
+  resolve: {
+    modules: [
+      resolve('src'),
+      resolve('node_modules')
+    ]
   },
   module: {
     rules: [{
@@ -31,7 +37,9 @@ module.exports = {
     }, {
       test: /\.js$/,
       loader: 'eslint-loader',
+      enforce: 'pre',
       include: [resolve('src')],
+      exclude: [resolve('src/js/showdown-plugins'), resolve('src/js/google-code-prettify')],
       options: {
         formatter: require('eslint-friendly-formatter')
       }
