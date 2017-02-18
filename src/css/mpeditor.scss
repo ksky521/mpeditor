@@ -1,3 +1,30 @@
-body {
-  background-color: lightblue
+@import "mixins";
+.mpeditor {
+  @include clearfix();
+  .mpe-col {
+    width: 50%;
+  }
+  .mpe {
+    &_fl {
+      float: left;
+    }
+    &_fr {
+      float: right;
+    }
+    // editor
+    &_editor {
+      padding: 0 20px;
+      &_textarea {
+        width: 100%;
+        min-height: 200px;
+      }
+    }
+    // perview
+    &_perview {
+      overflow: auto;
+      padding-left: 20px;
+      padding-right: 45px;
+      position: relative;
+    }
+  }
 }
