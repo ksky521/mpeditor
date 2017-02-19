@@ -9,7 +9,6 @@ $(() => {
   $('#js-mpeditor').height($win.height())
   $.get('./static/demo.md').done((data) => {
     let editor = new Editor('#js-mpeditor', { text: data.trim() })
-    console.log(editor)
     $win.resize(() => {
       let height = $win.height()
       $('#js-mpeditor').height(height)

@@ -253,6 +253,4 @@ echo 'hello,world'
 | 苹果 | 1   | nice |
 | 橘子 | 2   | job |
 
-### 关于小胡子哥
 
-![微信公众号](./imgs/qrcode.jpg)

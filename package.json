@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "brace": "^0.9.1",
-    "showdown": "^1.6.4"
+    "showdown": "^1.6.4",
+    "underscore": "^1.8.3"
   },
   "engines": {
     "node": ">= 4.0.0",

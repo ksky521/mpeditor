@@ -1,9 +1,9 @@
-require('./css/common.scss')
-require('./css/mpeditor.scss')
-require('./css/theme-white.scss')
+import './css/common.scss'
+import './css/mpeditor.scss'
+import './css/theme-white.scss'
 
+import _ from 'underscore'
 import $ from 'jQuery'
-
 // ace
 import * as ace from 'brace'
 import 'brace/mode/markdown'
@@ -14,6 +14,7 @@ import showdown from 'showdown'
 import './js/showdown-plugins/showdown-prettify-for-wechat.js'
 import './js/showdown-plugins/showdown-github-task-list.js'
 import './js/showdown-plugins/showdown-footnote.js'
+import './js/showdown-plugins/showdown-section-divider.js'
 
 // 语法高亮
 import './js/google-code-prettify/run_prettify.js'
@@ -34,7 +35,14 @@ const tmpl = `
   </div>
 </div>
 `
-  // const $win = $(window)
+const $win = $(window)
+let mdSections = []
+let offsetBegin = 0
+$win.on('createMdSection', (evt, data) => {
+  mdSections = data.data
+}).on('markdownTrim', (e, offset) => {
+  offsetBegin = offset
+})
 
 export default class Editor {
   constructor (node, { text, updateDelayTime = 300 } = {}) {
@@ -59,6 +67,10 @@ export default class Editor {
       timer && clearTimeout(timer)
       timer = setTimeout(() => that.updatePreview(), updateDelayTime)
     })
+
+    // 跟滚动相关
+    this._scrollingHelper = $('<div>')
+    this._isPreviewMoving = false
     this._bindEvent()
   }
   setValue (content) {
@@ -87,22 +99,209 @@ export default class Editor {
     // 私有方法
   _initShowdown () {
     let converter = new showdown.Converter({
-      extensions: ['prettify', 'tasklist', 'footnote'],
+      extensions: ['prettify', 'tasklist', 'footnote', 'section-divider'],
       tables: true
     })
     return converter
+  }
+  _buildScrollLink () {
+    return _.throttle(() => {
+      let that = this
+      let mdSectionList = this._mdSectionList
+      let htmlSectionList = this._htmlSectionList
+      let aceEditor = this.editor
+      if (mdSectionList.length === 0 || mdSectionList.length !== htmlSectionList.length) {
+            // Delay
+        this._doScrollLink()
+        return
+      }
+
+      let editorScrollTop = aceEditor.renderer.getScrollTop()
+      if (editorScrollTop < 0) {
+        editorScrollTop = 0
+      }
+
+      let $previewElt = this.$preview
+      let previewScrollTop = $previewElt.scrollTop()
+      function getDestScrollTop (srcScrollTop, srcSectionList, destSectionList) {
+            // Find the section corresponding to the offset
+        let sectionIndex
+        let srcSection = _.find(srcSectionList, (section, index) => {
+          sectionIndex = index
+          return srcScrollTop < section.endOffset
+        })
+        if (srcSection === undefined) {
+                // Something wrong in the algorithm...
+          return
+        }
+        let posInSection = (srcScrollTop - srcSection.startOffset) / (srcSection.height || 1)
+        let destSection = destSectionList[sectionIndex]
+        return destSection.startOffset + destSection.height * posInSection
+      }
+
+      let lastEditorScrollTop = this.lastEditorScrollTop
+      let lastPreviewScrollTop = this.lastPreviewScrollTop
+      let destScrollTop
+      let isScrollEditor = this._scrollSyncLeader === 'editor'
+      let isScrollPreview = this._scrollSyncLeader === 'preview'
+      let scrollingHelper = this._scrollingHelper
+        // Perform the animation if diff > 9px
+      if (isScrollEditor === true) {
+        if (Math.abs(editorScrollTop - lastEditorScrollTop) <= 9) {
+          return
+        }
+        isScrollEditor = false
+            // Animate the preview
+        lastEditorScrollTop = editorScrollTop
+        destScrollTop = getDestScrollTop(editorScrollTop, mdSectionList, htmlSectionList)
+        destScrollTop = _.min([
+          destScrollTop,
+          $previewElt.prop('scrollHeight') - $previewElt.outerHeight()
+        ])
+        if (Math.abs(destScrollTop - previewScrollTop) <= 9) {
+                // Skip the animation if diff is <= 9
+          lastPreviewScrollTop = previewScrollTop
+          return
+        }
+        scrollingHelper.stop('scrollLinkFx', true).css('value', 0).animate({
+          value: destScrollTop - previewScrollTop
+        }, {
+          // easing: 'easeOutSine',
+          duration: 200,
+          queue: 'scrollLinkFx',
+          step: function (now) {
+            that._isPreviewMoving = true
+            lastPreviewScrollTop = previewScrollTop + now
+            $previewElt.scrollTop(lastPreviewScrollTop)
+          },
+          done: function () {
+            _.defer(function () {
+              that._isPreviewMoving = false
+            })
+          }
+        }).dequeue('scrollLinkFx')
+      } else if (isScrollPreview === true) {
+        if (Math.abs(previewScrollTop - lastPreviewScrollTop) <= 9) {
+          return
+        }
+        isScrollPreview = false
+        // Animate the editor
+        lastPreviewScrollTop = previewScrollTop
+        destScrollTop = getDestScrollTop(previewScrollTop, htmlSectionList, mdSectionList)
+
+        destScrollTop = _.min([
+          destScrollTop,
+          aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight + aceEditor.renderer.scrollMargin.bottom - aceEditor.renderer.$size.scrollerHeight
+        ])
+        // If negative, set it to zero
+        destScrollTop < 0 && (destScrollTop = 0)
+
+        if (Math.abs(destScrollTop - editorScrollTop) <= 9) {
+          // Skip the animation if diff is <= 9
+          lastEditorScrollTop = editorScrollTop
+          return
+        }
+        scrollingHelper.stop('scrollLinkFx', true).css('value', 0).animate({
+          value: destScrollTop - editorScrollTop
+        }, {
+          // easing: 'easeOutSine',
+          duration: 200,
+          queue: 'scrollLinkFx',
+          step: function (now) {
+            that._isEditorMoving = true
+            lastEditorScrollTop = editorScrollTop + now
+            aceEditor.session.setScrollTop(lastEditorScrollTop)
+          },
+          done: function () {
+            _.defer(function () {
+              that._isEditorMoving = false
+            })
+          }
+        }).dequeue('scrollLinkFx')
+      }
+    }, 100)
   }
 
   _bindEvent () {
     let sessionEditor = this.editor.getSession()
     let $preview = this.$preview
-    sessionEditor.on('changeScrollTop', (scrollTop) => $preview.scrollTop(scrollTop))
+    let that = this
 
-    $preview.on('scroll', function () {
-      sessionEditor.setScrollTop($(this).scrollTop())
+    let buildSection = this._buildSection()
+    this._doScrollLink = this._buildScrollLink()
+    sessionEditor.on('changeScrollTop', () => {
+      that._scrollSyncLeader = 'editor'
+
+      buildSection()
+    })
+
+    $preview.on('scroll', () => {
+      that._scrollSyncLeader = 'preview'
+      buildSection()
     })
   }
-    // 初始化编辑器
+  _buildSection () {
+    return _.debounce(() => {
+      let $preview = this.$preview
+      let preScrollTop = $preview.scrollTop()
+      // 处理预览html
+      let startOffset
+      let htmlSectionList = []
+      $preview.find('.mpe-section-divider').each((i, dom) => {
+        if (startOffset === undefined) {
+          startOffset = 0
+          return
+        }
+        let $node = $(dom)
+        let top = $node.position().top + preScrollTop
+        htmlSectionList.push({
+          startOffset: startOffset,
+          endOffset: top,
+          height: top - startOffset
+        })
+        startOffset = top
+      })
+    // Last section
+      let scrollHeight = $preview.prop('scrollHeight')
+      htmlSectionList.push({
+        startOffset: startOffset,
+        endOffset: scrollHeight,
+        height: scrollHeight - startOffset
+      })
+
+    // 处理编辑器
+      let mdSectionList = []
+      let mdSectionOffset = 0
+      let mdTextOffset = 0
+      let editorSession = this.editor.session
+      let editorLineHeight = this.editor.renderer.lineHeight
+
+      let firstSectionOffset = offsetBegin
+
+      mdSections.forEach((section) => {
+        mdTextOffset += section.text.length + firstSectionOffset
+        firstSectionOffset = 0
+        let documentPosition = editorSession.doc.indexToPosition(mdTextOffset)
+        let screenPosition = editorSession.documentToScreenPosition(documentPosition.row, documentPosition.column)
+        let newSectionOffset = screenPosition.row * editorLineHeight
+        var sectionHeight = newSectionOffset - mdSectionOffset
+        mdSectionList.push({
+          startOffset: mdSectionOffset,
+          endOffset: newSectionOffset,
+          height: sectionHeight
+        })
+        mdSectionOffset = newSectionOffset
+      })
+      this._mdSectionList = mdSectionList
+      this._htmlSectionList = htmlSectionList
+      // apply Scroll Link (-10 to have a gap > 9px)
+      this.lastEditorScrollTop = -10
+      this.lastPreviewScrollTop = -10
+      this._doScrollLink()
+    }, 500)
+  }
+
+  // 初始化编辑器
   _initEditor (id, val) {
     let editor = ace.edit(id)
     editor.setOption('spellcheck', true)
