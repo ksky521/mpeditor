@@ -3,6 +3,7 @@
   @include clearfix();
   .mpe-col {
     width: 50%;
+    height: 100%;
   }
   .mpe {
     &_fl {
@@ -11,20 +12,47 @@
     &_fr {
       float: right;
     }
+    $editor-font-size: 16px;
+    $editor-line-height: 26px;
     // editor
-    &_editor {
+    &-editor-wrap {
       padding: 0 20px;
-      &_textarea {
-        width: 100%;
-        min-height: 200px;
-      }
     }
-    // perview
-    &_perview {
+    &-editor {
+      width: 100%;
+      height: 100%;
+      font-size: $editor-font-size;
+      line-height: $editor-line-height;
+    }
+    // preview
+    &-preview-wrap {
+      padding: 0 20px;
+    }
+    &-preview {
       overflow: auto;
       padding-left: 20px;
       padding-right: 45px;
       position: relative;
+      border: none;
+      font-size: $editor-font-size;
+      line-height: $editor-line-height;
+    }
+    //滚动条
+    &-col::-webkit-scrollbar {
+      width: 9px
+    }
+    &-col::-webkit-scrollbar-track {
+      background: rgba(102, 128, 153, .1)
+    }
+    &-col::-webkit-scrollbar-thumb:hover {
+      background: rgba(102, 128, 153, .5)
+    }
+    &-col::-webkit-scrollbar-thumb {
+      background: rgba(102, 128, 153, .2)
+    }
+    &-col::-webkit-scrollbar-thumb:window-inactive,
+    &-col::-webkit-scrollbar-thumb:window-inactive {
+      background: rgba(102, 128, 153, .1)
     }
   }
 }

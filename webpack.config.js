@@ -1,13 +1,13 @@
-var path = require('path');
+var path = require('path')
 var config = require('./config')
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, './', dir)
 }
 
 module.exports = {
   entry: {
-    'js/mpeditor': './src/mpeditor.js'
+    'js/main': './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
