@@ -71,20 +71,21 @@ export default class Editor {
     // 跟滚动相关
     this._scrollingHelper = $('<div>')
     this._isPreviewMoving = false
+    this._isEditorMoving = false
     this._bindEvent()
   }
   setValue (content) {
-    this.editor.setValue(content)
+    this.editor.getSession().setValue(content)
     this.updatePreview()
     return this
   }
   updatePreview (content) {
     // console.log(this.editor.getValue())
     let val = this.converter.makeHtml(content || this.editor.getValue())
-    this.$preview.html(val).find('li').each(function () {
-      $(this).html('<span>' + $(this).html() + '</span>')
-    })
+    this.$preview.html(val)
     PR.prettyPrint()
+    this._buildSection()
+
     return this
   }
 
@@ -95,6 +96,7 @@ export default class Editor {
     this.$preview.height(height)
     this.$container.find('[eclass=mpe-col]').height(height)
     this.editor && this.editor.resize()
+    this._buildSection()
   }
     // 私有方法
   _initShowdown () {
@@ -111,7 +113,6 @@ export default class Editor {
       let htmlSectionList = this._htmlSectionList
       let aceEditor = this.editor
       if (mdSectionList.length === 0 || mdSectionList.length !== htmlSectionList.length) {
-            // Delay
         this._doScrollLink()
         return
       }
@@ -124,14 +125,12 @@ export default class Editor {
       let $previewElt = this.$preview
       let previewScrollTop = $previewElt.scrollTop()
       function getDestScrollTop (srcScrollTop, srcSectionList, destSectionList) {
-            // Find the section corresponding to the offset
         let sectionIndex
         let srcSection = _.find(srcSectionList, (section, index) => {
           sectionIndex = index
           return srcScrollTop < section.endOffset
         })
         if (srcSection === undefined) {
-                // Something wrong in the algorithm...
           return
         }
         let posInSection = (srcScrollTop - srcSection.startOffset) / (srcSection.height || 1)
@@ -145,13 +144,11 @@ export default class Editor {
       let isScrollEditor = this._scrollSyncLeader === 'editor'
       let isScrollPreview = this._scrollSyncLeader === 'preview'
       let scrollingHelper = this._scrollingHelper
-        // Perform the animation if diff > 9px
       if (isScrollEditor === true) {
         if (Math.abs(editorScrollTop - lastEditorScrollTop) <= 9) {
           return
         }
         isScrollEditor = false
-            // Animate the preview
         lastEditorScrollTop = editorScrollTop
         destScrollTop = getDestScrollTop(editorScrollTop, mdSectionList, htmlSectionList)
         destScrollTop = _.min([
@@ -159,7 +156,6 @@ export default class Editor {
           $previewElt.prop('scrollHeight') - $previewElt.outerHeight()
         ])
         if (Math.abs(destScrollTop - previewScrollTop) <= 9) {
-                // Skip the animation if diff is <= 9
           lastPreviewScrollTop = previewScrollTop
           return
         }
@@ -185,7 +181,6 @@ export default class Editor {
           return
         }
         isScrollPreview = false
-        // Animate the editor
         lastPreviewScrollTop = previewScrollTop
         destScrollTop = getDestScrollTop(previewScrollTop, htmlSectionList, mdSectionList)
 
@@ -230,18 +225,22 @@ export default class Editor {
     let buildSection = this._buildSection()
     this._doScrollLink = this._buildScrollLink()
     sessionEditor.on('changeScrollTop', () => {
-      that._scrollSyncLeader = 'editor'
-
-      buildSection()
+      if (that._isEditorMoving === false) {
+        that._scrollSyncLeader = 'editor'
+        buildSection()
+      }
     })
 
     $preview.on('scroll', () => {
-      that._scrollSyncLeader = 'preview'
-      buildSection()
+      if (that._isPreviewMoving === false) {
+        that._scrollSyncLeader = 'preview'
+        buildSection()
+      }
     })
   }
   _buildSection () {
     return _.debounce(() => {
+      console.log('buildSection')
       let $preview = this.$preview
       let preScrollTop = $preview.scrollTop()
       // 处理预览html
@@ -261,7 +260,7 @@ export default class Editor {
         })
         startOffset = top
       })
-    // Last section
+      // Last section
       let scrollHeight = $preview.prop('scrollHeight')
       htmlSectionList.push({
         startOffset: startOffset,
@@ -269,7 +268,7 @@ export default class Editor {
         height: scrollHeight - startOffset
       })
 
-    // 处理编辑器
+      // 处理编辑器
       let mdSectionList = []
       let mdSectionOffset = 0
       let mdTextOffset = 0
@@ -298,22 +297,26 @@ export default class Editor {
       this.lastEditorScrollTop = -10
       this.lastPreviewScrollTop = -10
       this._doScrollLink()
-    }, 500)
+    }, 20)
   }
 
   // 初始化编辑器
   _initEditor (id, val) {
     let editor = ace.edit(id)
-    editor.setOption('spellcheck', true)
+    let aceSession = editor.getSession()
+    let aceRenderer = editor.renderer
     editor.setOption('scrollPastEnd', true)
-    editor.renderer.setShowGutter(false)
-    editor.renderer.setPrintMarginColumn(false)
-    editor.getSession().setUseWrapMode(true)
-    editor.getSession().setNewLineMode('unix')
-    editor.getSession().setMode('ace/mode/markdown')
+    aceRenderer.setShowPrintMargin(false)
+
+    aceRenderer.setShowGutter(false)
+    aceSession.setUseWrapMode(true)
+    aceSession.setNewLineMode('unix')
+    aceSession.setMode('ace/mode/markdown')
+    aceSession.$selectLongWords = true
+    aceRenderer.setPadding(15)
     editor.setTheme('ace/theme/github')
     if (val) {
-      editor.setValue(val)
+      aceSession.setValue(val)
     }
     return editor
   }
