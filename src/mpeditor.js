@@ -4,7 +4,7 @@ import './css/theme-white.scss'
 
 import _ from 'underscore'
 import $ from 'jQuery'
-import './js/jquery.easing.js'
+// import './js/jquery.easing.js'
 // ace
 import * as ace from 'brace'
 import 'brace/mode/markdown'
@@ -163,7 +163,7 @@ export default class Editor {
         scrollingHelper.stop('scrollLinkFx', true).css('value', 0).animate({
           value: destScrollTop - previewScrollTop
         }, {
-          easing: 'easeOutSine',
+          // easing: 'easeOutSine',
           duration: 200,
           queue: 'scrollLinkFx',
           step: function (now) {
@@ -198,7 +198,7 @@ export default class Editor {
         scrollingHelper.stop('scrollLinkFx', true).css('value', 0).animate({
           value: destScrollTop - editorScrollTop
         }, {
-          easing: 'easeOutSine',
+          // easing: 'easeOutSine',
           duration: 200,
           queue: 'scrollLinkFx',
           step: function (now) {
@@ -238,7 +238,7 @@ export default class Editor {
     })
   }
   _buildSection () {
-    return _.debounce(() => {
+    return _.throttle(() => {
       // console.log('buildSection')
       let $preview = this.$preview
       let preScrollTop = $preview.scrollTop()
@@ -259,7 +259,6 @@ export default class Editor {
         })
         startOffset = top
       })
-      // Last section
       let scrollHeight = $preview.prop('scrollHeight')
       htmlSectionList.push({
         startOffset: startOffset,
@@ -296,7 +295,7 @@ export default class Editor {
       this.lastEditorScrollTop = -10
       this.lastPreviewScrollTop = -10
       this._doScrollLink()
-    }, 100)
+    }, 80)
   }
 
   // 初始化编辑器
