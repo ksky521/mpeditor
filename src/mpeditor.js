@@ -8,7 +8,7 @@ import $ from 'jQuery'
 // ace
 import * as ace from 'brace'
 import 'brace/mode/markdown'
-import 'brace/theme/github'
+import 'brace/theme/solarized_dark'
 
 // showdown
 import showdown from 'showdown'
@@ -303,7 +303,7 @@ export default class Editor {
     let editor = ace.edit(id)
     let aceSession = editor.getSession()
     let aceRenderer = editor.renderer
-    editor.setOption('scrollPastEnd', true)
+    // editor.setOption('scrollPastEnd', true)
     aceRenderer.setShowPrintMargin(false)
 
     aceRenderer.setShowGutter(false)
@@ -312,7 +312,7 @@ export default class Editor {
     aceSession.setMode('ace/mode/markdown')
     aceSession.$selectLongWords = true
     aceRenderer.setPadding(15)
-    editor.setTheme('ace/theme/github')
+    editor.setTheme('ace/theme/solarized_dark')
     if (val) {
       aceSession.setValue(val)
     }

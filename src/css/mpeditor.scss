@@ -16,7 +16,7 @@
     $editor-line-height: 26px;
     // editor
     &-editor-wrap {
-      padding: 0 20px;
+      padding: 0 20px 0 0;
     }
     &-editor {
       width: 100%;
@@ -26,7 +26,7 @@
     }
     // preview
     &-preview-wrap {
-      padding: 0 20px;
+      padding: 0 0 0 20px;
     }
     &-preview {
       overflow: auto;
