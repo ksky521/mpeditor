@@ -31,9 +31,6 @@ Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以�
 - [x] 修复 LaTex 公式渲染问题
 - [x] 新增 LaTex 公式编号功能
 
-### 2. 书写一个质能守恒公式[^LaTeX]
-
-$$E=mc^2$$
 
 ### 3. 高亮一段代码[^code]
 
@@ -47,44 +44,6 @@ if __name__ == '__main__':
     print 'hello world'
 ```
 
-### 4. 高效绘制 [流程图](https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown#7-流程图)
-
-```flow
-st=>start: Start
-op=>operation: Your Operation
-cond=>condition: Yes or No?
-e=>end
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
-
-### 5. 高效绘制 [序列图](https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown#8-序列图)
-
-```seq
-Alice->Bob: Hello Bob, how are you?
-Note right of Bob: Bob thinks
-Bob-->Alice: I am good thanks!
-```
-
-### 6. 高效绘制 [甘特图](https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown#9-甘特图)
-
-```gantt
-    title 项目开发流程
-    section 项目确定
-        需求分析       :a1, 2016-06-22, 3d
-        可行性报告     :after a1, 5d
-        概念验证       : 5d
-    section 项目实施
-        概要设计      :2016-07-05  , 5d
-        详细设计      :2016-07-08, 10d
-        编码          :2016-07-15, 10d
-        测试          :2016-07-22, 5d
-    section 发布验收
-        发布: 2d
-        验收: 3d
-```
 
 ### 7. 绘制表格
 
@@ -132,7 +91,6 @@ Bob-->Alice: I am good thanks!
 
 为了便于管理您的文稿，在 **预览区** 的顶部放置了如下所示的 **管理工具栏**：
 
-![tool-manager](https://www.zybuluo.com/static/img/toolbar-manager.jpg)
 
 通过管理工具栏可以：
 
@@ -145,7 +103,6 @@ Bob-->Alice: I am good thanks!
 
 ### 7. 阅读工具栏
 
-![tool-manager](https://www.zybuluo.com/static/img/toolbar-reader.jpg)
 
 通过 **预览区** 右上角的 **阅读工具栏**，可以查看当前文稿的目录并增强阅读体验。
 
@@ -169,8 +126,6 @@ Bob-->Alice: I am good thanks!
 
 标签以后的文稿在【文件列表】（Ctrl+Alt+F）里会按照标签分类，用户可以同时使用键盘或者鼠标浏览查看，或者在【文件列表】的搜索文本框内搜索标题关键字过滤文稿，如下图所示：
 
-![file-list](https://www.zybuluo.com/static/img/file-list.png)
-
 ### 10. 文稿发布和分享
 
 在您使用 Cmd Markdown 记录，创作，整理，阅读文稿的同时，我们不仅希望它是一个有力的工具，更希望您的思想和知识通过这个平台，连同优质的阅读体验，将他们分享给有相同志趣的人，进而鼓励更多的人来到这里记录分享他们的思想和知识，尝试点击 <i class="icon-share"></i> (Ctrl+Alt+P) 发布这份文档给好友吧！
@@ -182,9 +137,7 @@ Bob-->Alice: I am good thanks!
 作者 [@ghosert][3]     
 2016 年 07月 07日    
 
-[^LaTeX]: 支持 **LaTeX** 编辑显示支持，例如：$\sum_{i=1}^n a_i=0$， 访问 [MathJax][4] 参考更多使用方法。
 
-[^code]: 代码高亮功能支持包括 Java, Python, JavaScript 在内的，**四十一**种主流编程语言。
 
 [1]: https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown
 [2]: https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown#cmd-markdown-高阶语法手册
