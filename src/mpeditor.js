@@ -4,6 +4,7 @@ import './css/theme-white.scss'
 
 import _ from 'underscore'
 import $ from 'jQuery'
+import './js/jquery.easing.js'
 // ace
 import * as ace from 'brace'
 import 'brace/mode/markdown'
@@ -162,7 +163,7 @@ export default class Editor {
         scrollingHelper.stop('scrollLinkFx', true).css('value', 0).animate({
           value: destScrollTop - previewScrollTop
         }, {
-          // easing: 'easeOutSine',
+          easing: 'easeOutSine',
           duration: 200,
           queue: 'scrollLinkFx',
           step: function (now) {
@@ -188,18 +189,16 @@ export default class Editor {
           destScrollTop,
           aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight + aceEditor.renderer.scrollMargin.bottom - aceEditor.renderer.$size.scrollerHeight
         ])
-        // If negative, set it to zero
         destScrollTop < 0 && (destScrollTop = 0)
 
         if (Math.abs(destScrollTop - editorScrollTop) <= 9) {
-          // Skip the animation if diff is <= 9
           lastEditorScrollTop = editorScrollTop
           return
         }
         scrollingHelper.stop('scrollLinkFx', true).css('value', 0).animate({
           value: destScrollTop - editorScrollTop
         }, {
-          // easing: 'easeOutSine',
+          easing: 'easeOutSine',
           duration: 200,
           queue: 'scrollLinkFx',
           step: function (now) {
@@ -240,7 +239,7 @@ export default class Editor {
   }
   _buildSection () {
     return _.debounce(() => {
-      console.log('buildSection')
+      // console.log('buildSection')
       let $preview = this.$preview
       let preScrollTop = $preview.scrollTop()
       // 处理预览html
@@ -297,7 +296,7 @@ export default class Editor {
       this.lastEditorScrollTop = -10
       this.lastPreviewScrollTop = -10
       this._doScrollLink()
-    }, 20)
+    }, 100)
   }
 
   // 初始化编辑器
