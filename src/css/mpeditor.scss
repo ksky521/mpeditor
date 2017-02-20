@@ -12,22 +12,41 @@
     &_fr {
       float: right;
     }
+    // 导航条
+    &-nav{
+      &-wrap{
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        border-top: 1px solid rgba(128,128,128,0.1);
+        border-bottom: 1px solid rgba(128,128,128,0.1);
+        border-radius: 0;
+        z-index: 20;
+        background-color: #4a4a4a;
+        @include clearfix();
+      }
+      &-tools{}
+      &-item{}
+    }
+
     $editor-font-size: 16px;
     $editor-line-height: 26px;
     // editor
-    &-editor-wrap {
-      padding: 0 20px 0 0;
-    }
     &-editor {
       width: 100%;
       height: 100%;
       font-size: $editor-font-size;
       line-height: $editor-line-height;
+
+      &-wrap {
+        padding: 0 20px 0 0;
+      }
     }
     // preview
-    &-preview-wrap {
-      padding: 0 0 0 20px;
-    }
     &-preview {
       overflow: auto;
       padding-left: 20px;
@@ -36,6 +55,10 @@
       border: none;
       font-size: $editor-font-size;
       line-height: $editor-line-height;
+
+      &-wrap {
+        padding: 0 0 0 20px;
+      }
     }
     //滚动条
     &-col::-webkit-scrollbar {
@@ -53,6 +76,306 @@
     &-col::-webkit-scrollbar-thumb:window-inactive,
     &-col::-webkit-scrollbar-thumb:window-inactive {
       background: rgba(102, 128, 153, .1)
+    }
+
+
+    &-preview {
+      $def-color: #3e3e3e;
+      $def-link-color: #607fa6;
+      $warn-color: #E64340;
+      $title-color: #000;
+
+      $def-font-size: 16px;
+      $def-line-height:$def-font-size*1.75;
+      // 公众号文章样式
+      font-size: $def-font-size;
+      line-height: $def-line-height;
+      color: $def-color;
+      background-color: #fff;
+      p {
+        font-size: $def-font-size;
+        line-height: $def-line-height;
+        text-align: justify !important;
+      }
+      a{
+        color: $def-link-color;
+        // text-decoration: underline;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        margin: 1.2*$def-font-size 0 0.8*$def-font-size;
+        padding: 0;
+        font-weight: bold;
+      }
+      h1 {
+        min-height: 32px;
+        line-height: 28px;
+        border-bottom: solid 1px $title-color;
+        color: $title-color;
+        display: inline-block;
+        border-bottom-width: 3px;
+        border-bottom-style: solid;
+        border-color: rgb(51, 51, 51);
+        padding-top: 5px;
+        padding-right: 0.5*$def-font-size;
+        padding-left: 0.5*$def-font-size;
+        margin-bottom: -3px;
+        font-size: 18px;
+        margin:0.75*$def-font-size auto;
+        padding: 0.5*$def-font-size 0;
+        text-align: center;
+        width: 85%;
+        font-weight: normal;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      h2{
+        font-size: 18px;
+      }
+      h3 {
+        font-size: 17px;
+        font-weight: 500;
+      }
+      h4,h5{
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 0.5*$def-font-size;
+        font-weight: 500;
+      }
+
+      h6 {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 0.2*$def-font-size;
+        font-weight: 500;
+      }
+      blockquote, q {
+        border-left: 4px solid #aaa;
+        background-color: #f0f0f0;
+        padding: 0.4*$def-font-size 1*$def-font-size;
+        color: #777;
+        quotes: none;
+        p{
+          margin:0;
+          font-size: 14px;
+          text-align: left !important;
+        }
+      }
+
+      blockquote::before, blockquote::after, q::before, q::after {
+        content: none;
+      }
+      del{
+        text-decoration: none;
+      }
+
+
+      table, pre, dl, blockquote, q, ul, ol {
+        margin: 1.2*$def-font-size 0;
+      }
+
+      ul, ol {
+        padding-left: $def-font-size*2;
+        list-style-type: none;
+      }
+
+      li {
+        margin: 0.25*$def-font-size 0;
+        font-size: 16px;
+      }
+
+      li p {
+        margin: 0.5*$def-font-size 0 !important;
+      }
+      ol{
+        list-style-type: decimal;
+      }
+      ul {
+        list-style-type: square;
+        font-size: $def-font-size;
+      }
+      ul ul, ul ol, ol ul, ol ol {
+        margin: 0;
+        padding-left: $def-font-size;
+        list-style-type: circle;
+      }
+
+      p.task-list-list.uncheck{
+        color: #777;
+      }
+
+      ol ol, ul ol {
+        list-style-type: lower-roman;
+      }
+
+      ul ul ol, ul ol ol, ol ul ol, ol ol ol {
+        list-style-type: lower-alpha;
+      }
+
+      dl {
+        padding: 0;
+      }
+
+      dl dt {
+        font-size: $def-font-size;
+        font-weight: bold;
+        font-style: italic;
+      }
+
+      dl dd {
+        margin: 0 0 $def-font-size;
+        padding: 0 $def-font-size;
+      }
+
+      table {
+        padding: 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-size: $def-font-size;
+        font: inherit;
+        border: 0;
+      }
+
+      tbody {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      table tr {
+        border: 0;
+        border-top: 1px solid #CCC;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+      }
+
+      table tr:nth-child(2n) {
+        background-color: #F8F8F8;
+      }
+
+      table tr th, table tr td {
+        font-size: $def-font-size;
+        border: 1px solid #CCC;
+        margin: 0;
+        padding: 3px 8px;
+      }
+
+      table tr th {
+        font-weight: bold;
+        background-color: #F0F0F0;
+      }
+      ul li.task-list-list {
+        list-style-type: none;;
+        padding: 0 10px;
+      }
+      .task-list-list.checked {
+        color: #159957;
+      }
+      .task-list-list {
+        margin: 0;
+        padding: 0;
+      }
+      .task-list-list.uncheck {
+        color: #bfc1bf;
+      }
+
+      .task-list-list img {
+        height: 20px;
+        width: 20px;
+        margin: 0 10px;
+        top: 4px;
+        position: relative;
+      }
+      .icon_uncheck, .icon_check {
+        display: inline-block;
+        vertical-align: middle;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin-right: 4px;
+      }
+
+      .icon_check {
+        background-image: url(../img/square_check_fill.png);
+      }
+      .icon_uncheck {
+        background-image: url(../img/square.png);
+      }
+
+      pre.prettyprint {
+        border-radius: 0;
+        font-size: $def-font-size;
+        background-color: #f1efee;
+        line-height: 1.2*$def-font-size;
+        font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+        overflow-y: auto;
+      }
+
+      // 代码相关
+
+      pre.prettyprint.linenums {
+        border: 1px solid #e2e2e2 !important;
+        padding: 8px 0 6px;
+        padding-right: 15px;
+      }
+
+      ol.linenums {
+        margin-top: 0;
+        margin-bottom: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        list-style-type: none !important;
+        li {
+          code {
+            height: 20px !important;
+            line-height: 20px !important;
+            margin-left: -20px;
+            font-family: inherit !important;
+            display: flex;
+            span {
+              font-size: 13px !important;
+              line-height: 20px;
+              font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+            }
+          }
+        }
+      }
+
+      .code-in-text {
+        color: #585858;
+        background: #f3f1f1;
+        margin:0 3px;
+        padding:4px 6px;
+        white-space: pre-wrap;
+        border-radius:2px;
+        display: inline;
+        border: 1px solid #e2e2e2 !important;
+        span {
+          color: #585858;
+          background: #f3f1f1;
+          display: inline-block;
+          padding: 0 2px;
+          font-size: 14px;
+          font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+        }
+      }
+      .prettyprint.code-in-text {
+        background: #f3f1f1;
+        font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+      }
+
+      li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9 {
+        list-style-type: none !important;
+      }
+
+      li.L1, li.L3, li.L5, li.L7, li.L9 {
+        list-style-type: none !important;
+        background: transparent !important;
+      }
+
+
     }
   }
 }

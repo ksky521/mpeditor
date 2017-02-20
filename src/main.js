@@ -1,6 +1,6 @@
 import Editor from 'mpeditor'
 import $ from 'jQuery'
-
+import 'normalize.css'
 $(() => {
   // const editor = initEditor('js-mpe-textarea')
   const $win = $(window)

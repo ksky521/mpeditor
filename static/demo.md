@@ -1,7 +1,5 @@
 # 欢迎使用 MPEditor Markdown 编辑阅读器
 
-------
-
 **MPEditor**是专注于微信公众号的编辑阅读器，利用MPEditor可以使用 **Markdown** 语法编写微信公众号文章，编辑完后可以复制到公众号发布平台直接发布，真正的实现即看即所得：
 
 * 更加贴合微信UI标准
@@ -10,28 +8,35 @@
 * 支持语法高亮
 * 支持emoji表情
 
-> 下面内容 Markdown 语法测试
+> MPEditor解决了微信公众号编辑中遇见的一些编辑问题，增加了「工（ma）程（nong）师（men）」经常遇见的代码高亮、emoji和粗糙的审美问题。希望你会喜欢这个编辑器！
 
-------
 
 ## 什么是 Markdown
 
 Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 *斜体* 、~~delete~~ 某些文字，更棒的是，它还可以
 
-### 1. 基本列表样式
+# 标题样式：标题一，太个性了
+## 标题二
+### 标题三
+#### 标题四
+##### 标题五，不常用
+###### 标题六，不常用
+
+
+# 1. 基本列表样式
 
 * 偶是个无序列表
-  - 我是个二级无序列表
+    - 我是个二级无序列表
 * 真巧啊我也是个无序列表
 
 
 1. 我是个有序列表啊
 2. 嗯，me too~
-  * markdown so easy! 妈妈再也不用担心我的**学习**了
-3. 哈哈，我是马云爸爸的~~马仔~~
+3. markdown so easy! 妈妈再也不用担心我的**学习**了
 
-### 2. 制作一份待办事宜
+# 2. 制作一份待办事宜
 
+- [ ] 自动保存
 - [ ] 增加顶部工具栏：复制、github
 - [ ] 增加QQ音乐markdown语法支持
 - [x] 增加emoji语法支持
@@ -39,8 +44,7 @@ Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以�
 - [ ] wechat标准UI样式修改
 - [x] 修改markdown demo
 
-
-### 3. 高亮一段代码
+# 3. 高亮一段代码
 
 ```js
 // 新语法检测
@@ -63,7 +67,7 @@ $(function(){
 echo 'hello,world'
 ```
 
-### 4. 绘制表格
+# 4. 绘制表格
 下面是个普通的表格
 | 公众号 | id | 备注 |
 |-----|-----|------|
@@ -79,14 +83,12 @@ echo 'hello,world'
 
 
 下面的表格支持左右对齐：
-| 项目        | 左对齐   |  居中 |
-| --------   | -----:  | :----:  |
-| 计算机     | \$1600 |   5     |
-| 手机        |   \$12   |   12   |
-| 管线        |    \$1    |  234  |
+| h1    |    h2   |      h3 |
+|:------|:-------:|--------:|
+| 100   | [a][1]  | ![b][2] |
+| *foo* | **bar** | ~~baz~~ |
 
-
-### 5. 链接和图片
+# 5. 链接和图片
 
 * MPEditor：https://github.com/ksky521/mpeditor
 * wiki：[点击查看wiki](https://github.com/ksky521/mpeditor/wiki)
@@ -94,10 +96,24 @@ echo 'hello,world'
 下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
 ![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg)
 
+换个小点的头像
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg =120x120)
 
-### 6. 还支持emoji！
+# 6. 还支持emoji！
 
 * Unicode支持：😈 💗 😄 🐂 👍
 * github版本支持：:octocat: :cn: :red_car: :muscle: :smile: :sunglasses:
 
+# 7. 自定义样式
 
+```markdown
+* @@绿色 green@@ **@@绿色 green@@**
+* @@@红色 warn@@@
+* @@@@蓝色 blue@@@@
+* @@@@@黄色 yellow@@@@@
+```
+
+* @@绿色 green@@ **@@绿色 green@@**
+* @@@红色 warn@@@
+* @@@@蓝色 blue@@@@
+* @@@@@黄色 yellow@@@@@

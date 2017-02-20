@@ -13,10 +13,12 @@ import 'brace/theme/solarized_dark'
 // showdown
 import showdown from 'showdown'
 import './js/showdown-plugins/showdown-prettify-for-wechat.js'
-import './js/showdown-plugins/showdown-github-task-list.js'
+import './js/showdown-plugins/showdown-task-list.js'
 import './js/showdown-plugins/showdown-footnote.js'
 import './js/showdown-plugins/showdown-section-divider.js'
 import './js/showdown-plugins/showdown-emoji.js'
+import './js/showdown-plugins/showdown-image-size.js'
+import './js/showdown-plugins/showdown-colorful.js'
 
 // 语法高亮
 import './js/google-code-prettify/run_prettify.js'
@@ -24,16 +26,30 @@ import './js/google-code-prettify/run_prettify.js'
 const PR = require('PR')
 
 const tmpl = `
-<div eclass="mpe-col" class="mpe-editor-col mpe-col mpe_fl">
-  <div class="mpe-editor-tools"></div>
-  <div class="mpe-editor-wrap">
-    <div eid="editor" class="mpe-editor"></div>
+<div class="mpe-nav-wrap">
+  <div class="mpe-nav">
+    <ul class="mpe-nav-tools mpe_fl">
+      <li class="mpe-nav-item"></li>
+      <li class="mpe-nav-item"></li>
+      <li class="mpe-nav-item"></li>
+    </ul>
+    <ul class="mpe-nav-tools mpe_fr">
+      <li class="mpe-nav-item"></li>
+      <li class="mpe-nav-item"></li>
+      <li class="mpe-nav-item"></li>
+    </ul>
   </div>
 </div>
-<div eclass="mpe-col" class="mpe-preview-col mpe-col mpe_fr">
-  <div class="mpe-preview-tools"></div>
-  <div class="mpe-preview-wrap">
-    <div class="mpe-preview" eid="preview"></div>
+<div class="mpe-wrap">
+  <div eclass="mpe-col" class="mpe-editor-col mpe-col mpe_fl">
+    <div class="mpe-editor-wrap">
+      <div eid="editor" class="mpe-editor"></div>
+    </div>
+  </div>
+  <div eclass="mpe-col" class="mpe-preview-col mpe-col mpe_fr">
+    <div class="mpe-preview-wrap">
+      <div class="mpe-preview" eid="preview"></div>
+    </div>
   </div>
 </div>
 `
@@ -103,8 +119,10 @@ export default class Editor {
     // 私有方法
   _initShowdown () {
     let converter = new showdown.Converter({
-      extensions: ['prettify', 'tasklist', 'footnote', 'section-divider', 'showdown-emoji'],
-      tables: true
+      extensions: ['prettify', 'tasklist', 'section-divider', 'showdown-emoji', 'colorful'],
+      tables: true,
+      simpleLineBreaks: true,
+      strikethrough: true
     })
     return converter
   }
