@@ -322,7 +322,7 @@ export default class Editor {
     let editor = ace.edit(id)
     let aceSession = editor.getSession()
     let aceRenderer = editor.renderer
-    // editor.setOption('scrollPastEnd', true)
+    editor.setOption('scrollPastEnd', true)
     aceRenderer.setShowPrintMargin(false)
 
     aceRenderer.setShowGutter(false)
