@@ -13,7 +13,7 @@
 
 ## 什么是 Markdown
 
-Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 *斜体* 、~~delete~~ 某些文字，更棒的是，它还可以
+Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 *斜体* 、~~delete~~ 某些文字。@@@@MPEditor@@@@ 使用了 `showdown` 语法[^2]
 
 # 标题样式：标题一，太个性了，一般别用了！
 ## 标题二
@@ -85,12 +85,12 @@ echo 'hello,world'
 下面的表格支持左右对齐：
 | h1    |    h2   |      h3 |
 |:------|:-------:|--------:|
-| 100   | [a][1]  | ![b][2] |
+| 100   | a[^1]  | b[^2] |
 | *foo* | **bar** | ~~baz~~ |
 
 # 5. 链接和图片
 
-* MPEditor：https://github.com/ksky521/mpeditor
+* MPEditor：https://github.com/ksky521/mpeditor[^1]
 * wiki：[点击查看wiki](https://github.com/ksky521/mpeditor/wiki)
 
 下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
@@ -110,3 +110,14 @@ echo 'hello,world'
 * @@@红色 warn@@@
 * @@@@蓝色 blue@@@@
 * @@@@@黄色 yellow@@@@@
+
+再一次感谢您花费时间阅读这份欢迎稿！
+
+作者[@三水清][^3]
+2017年02月19日
+
+### Footnotes
+
+[^1]: https://github.com/ksky521/mpeditor
+[^2]: https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-synta
+[^3]: http://weibo.com/sanshuiqing

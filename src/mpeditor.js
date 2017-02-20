@@ -119,7 +119,7 @@ export default class Editor {
     // 私有方法
   _initShowdown () {
     let converter = new showdown.Converter({
-      extensions: ['prettify', 'tasklist', 'section-divider', 'showdown-emoji', 'colorful'],
+      extensions: ['prettify', 'tasklist', 'footnote', 'section-divider', 'showdown-emoji', 'colorful'],
       tables: true,
       simpleLineBreaks: true,
       strikethrough: true
