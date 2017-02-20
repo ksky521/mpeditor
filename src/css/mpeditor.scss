@@ -265,45 +265,6 @@
         font-weight: bold;
         background-color: #F0F0F0;
       }
-      ul li.task-list-list {
-        list-style-type: none;;
-        padding: 0 10px;
-      }
-      .task-list-list.checked {
-        color: #159957;
-      }
-      .task-list-list {
-        margin: 0;
-        padding: 0;
-      }
-      .task-list-list.uncheck {
-        color: #bfc1bf;
-      }
-
-      .task-list-list img {
-        height: 20px;
-        width: 20px;
-        margin: 0 10px;
-        top: 4px;
-        position: relative;
-      }
-      .icon_uncheck, .icon_check {
-        display: inline-block;
-        vertical-align: middle;
-        width: 20px;
-        height: 20px;
-        background-repeat: no-repeat;
-        background-size: contain;
-        margin-right: 4px;
-      }
-
-      .icon_check {
-        background-image: url(../img/square_check_fill.png);
-      }
-      .icon_uncheck {
-        background-image: url(../img/square.png);
-      }
-
       pre.prettyprint {
         border-radius: 0;
         font-size: $def-font-size;
