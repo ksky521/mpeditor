@@ -280,7 +280,10 @@ export default class Editor {
       }
     })
     // 工具栏
-    let clipboard = new Clipboard(this.$copyBtn[0], {target: () => this.$preview[0]})
+    let clipboard = new Clipboard(this.$copyBtn[0], {
+      action: 'cut',
+      target: () => this.$preview[0]
+    })
     clipboard.on('success', (e) => {
       console.info('Text:', e.text)
     })
