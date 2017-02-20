@@ -38,6 +38,9 @@
       &-tools{
         list-style-type: none;
       }
+      &-select{
+
+      }
       &-item{
         float:left;
         a{
@@ -49,6 +52,19 @@
           line-height: 20px;
           color: #fff;
           position: relative;
+        }
+        select{
+          width: 80px;
+          min-height: 30px;
+          padding: 6px 8px;
+          display: table-cell;
+          padding-top: 0;
+          padding-bottom: 0;
+          background: #eee;
+          border: 0;
+          box-shadow: none;
+          border: 1px solid #d5d5d5;
+          border-radius: 3px;
         }
       }
     }

@@ -8,7 +8,27 @@ import $ from 'jQuery'
 // ace
 import * as ace from 'brace'
 import 'brace/mode/markdown'
+import 'brace/theme/solarized_light'
 import 'brace/theme/solarized_dark'
+import 'brace/theme/chrome'
+import 'brace/theme/chaos'
+import 'brace/theme/ambiance'
+import 'brace/theme/clouds'
+import 'brace/theme/clouds_midnight'
+import 'brace/theme/cobalt'
+import 'brace/theme/dawn'
+import 'brace/theme/github'
+import 'brace/theme/monokai'
+import 'brace/theme/textmate'
+import 'brace/theme/kuroir'
+import 'brace/theme/twilight'
+import 'brace/theme/merbivore'
+import 'brace/theme/mono_industrial'
+import 'brace/theme/merbivore_soft'
+import 'brace/theme/tomorrow'
+import 'brace/theme/tomorrow_night'
+import 'brace/theme/tomorrow_night_bright'
+import 'brace/theme/tomorrow_night_blue'
 
 // showdown
 import showdown from 'showdown'
@@ -50,10 +70,30 @@ const tmpl = `
           <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1456"><path d="M516 352c-1.888 0-3.808-0.16-5.664-0.512l-356-64C139.104 284.736 128 271.488 128 256L128 160c0-52.928 43.072-96 96-96l576 0c52.928 0 96 43.072 96 96l0 96c0 15.424-11.04 28.672-26.208 31.456l-348 64C519.872 351.84 517.952 352 516 352zM192 229.248l323.936 58.24L832 229.344 832 160c0-17.632-14.336-32-32-32L224 128C206.368 128 192 142.368 192 160L192 229.248zM800 960 224 960c-52.928 0-96-43.072-96-96L128 384c0-17.664 14.336-32 32-32s32 14.336 32 32l0 480c0 17.664 14.368 32 32 32l576 0c17.664 0 32-14.336 32-32L832 384c0-17.664 14.304-32 32-32s32 14.336 32 32l0 480C896 916.928 852.928 960 800 960zM607.808 640c17.696 0 32-14.304 32-32s-14.304-32-32-32l-51.84 0 76.16-73.312c12.704-12.288 13.088-32.448 0.8-45.152-12.288-12.736-32.512-12.992-45.248-0.768l-76.256 73.6-73.344-73.216c-12.512-12.48-32.8-12.48-45.28 0.064-12.48 12.512-12.448 32.608 0.032 45.088L466.88 576l-51.136 0c-17.664 0-32 14.304-32 32s14.336 32 32 32L480 640l0 32-64.256 0c-17.664 0-32 14.304-32 32s14.336 32 32 32L480 736l0 64.384c0 17.696 14.336 32 32 32s32-14.304 32-32L544 736l63.808 0c17.696 0 32-14.304 32-32s-14.304-32-32-32L544 672l0-32L607.808 640z" p-id="1457"></path></svg>
         </a>
       </li>
-      <li class="mpe-nav-item">
-        <a href="#">
-          <svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3490"><path d="M800 64H224C171.072 64 128 107.072 128 160v96a32 32 0 0 0 26.336 31.488l356 64a30.56 30.56 0 0 0 11.456-0.032l348-64A32 32 0 0 0 896 256V160c0-52.928-43.072-96-96-96zM884.512 359.424a31.744 31.744 0 0 0-26.208-6.912L512 415.456 165.728 352.512A32.064 32.064 0 0 0 128 384v480c0 52.928 43.072 96 96 96h576c52.928 0 96-43.072 96-96V384c0-9.472-4.224-18.496-11.488-24.576zM607.808 608a32 32 0 1 1 0 64H544v32h63.808a32 32 0 1 1 0 64H544v64.416a32 32 0 1 1-64 0V768h-64.256a32 32 0 1 1 0-64H480v-32h-64.256a32 32 0 1 1 0-64h51.168l-74.016-73.664a31.968 31.968 0 0 1 45.184-45.12l73.376 73.216 76.256-73.6a32 32 0 0 1 45.248 0.768 31.872 31.872 0 0 1-0.8 45.152L555.968 608h51.84z" p-id="3491"></path></svg>
-        </a>
+      <li class="mpe-nav-item mpe-nav-select">
+        <select eid="editorTheme">
+          <option value="solarized_light">solarized_light</option>
+          <option selected value="solarized_dark">solarized_dark[默认]</option>
+          <option value="chrome">chrome</option>
+          <option value="chaos">chaos</option>
+          <option value="ambiance">ambiance</option>
+          <option value="clouds">clouds</option>
+          <option value="clouds_midnight">clouds_midnight</option>
+          <option value="cobalt">cobalt</option>
+          <option value="dawn">dawn</option>
+          <option value="github">github</option>
+          <option value="monokai">monokai</option>
+          <option value="textmate">textmate</option>
+          <option value="kuroir">kuroir</option>
+          <option value="twilight">twilight</option>
+          <option value="merbivore">merbivore</option>
+          <option value="mono_industrial">mono_industrial</option>
+          <option value="merbivore_soft">merbivore_soft</option>
+          <option value="tomorrow">tomorrow</option>
+          <option value="tomorrow_night">tomorrow_night</option>
+          <option value="tomorrow_night_bright">tomorrow_night_bright</option>
+          <option value="tomorrow_night_blue">tomorrow_night_blue</option>
+        </select>
       </li>
       <li class="mpe-nav-item">
         <a href="#">
@@ -287,6 +327,10 @@ export default class Editor {
     clipboard.on('success', (e) => {
       console.info('Text:', e.text)
     })
+    this.$editorTheme.on('change', function () {
+      let theme = this.value
+      that.editor.setTheme('ace/theme/' + theme)
+    })
   }
   _buildSection () {
     return _.throttle(() => {
@@ -363,7 +407,7 @@ export default class Editor {
     aceSession.setMode('ace/mode/markdown')
     aceSession.$selectLongWords = true
     aceRenderer.setPadding(15)
-    editor.setTheme('ace/theme/solarized_dark')
+    editor.setTheme('ace/theme/solarized_light')
     if (val) {
       aceSession.setValue(val)
     }
