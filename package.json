@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "brace": "^0.9.1",
+    "clipboard": "^1.6.0",
     "normalize.css": "^5.0.0",
     "showdown": "^1.6.4",
     "underscore": "^1.8.3"

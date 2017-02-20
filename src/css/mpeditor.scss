@@ -6,17 +6,22 @@
     height: 100%;
   }
   .mpe {
+    $nav-height: 40px;
+
     &_fl {
       float: left;
     }
     &_fr {
       float: right;
     }
+    &-wrap{
+      margin-top: $nav-height;
+    }
     // 导航条
     &-nav{
       &-wrap{
-        display: none;
-        position: absolute;
+        position: fixed;
+        height: $nav-height;
         top: 0;
         left: 0;
         width: 100%;
@@ -26,11 +31,26 @@
         border-bottom: 1px solid rgba(128,128,128,0.1);
         border-radius: 0;
         z-index: 20;
-        background-color: #4a4a4a;
+        background-color: #222;
+        // box-shadow:0 1px 3px rgba(0, 0, 0, 0.065);
         @include clearfix();
       }
-      &-tools{}
-      &-item{}
+      &-tools{
+        list-style-type: none;
+      }
+      &-item{
+        float:left;
+        a{
+          height:24px;
+          width: 24px;
+          display: block;
+          padding: 8px 11px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #fff;
+          position: relative;
+        }
+      }
     }
 
     $editor-font-size: 16px;
@@ -50,12 +70,15 @@
     &-preview {
       overflow: auto;
       padding-left: 20px;
-      padding-right: 45px;
+      padding-right: 20px;
       position: relative;
       border: none;
       font-size: $editor-font-size;
       line-height: $editor-line-height;
-
+      &::selection {
+        background: #fde6ba;
+        color: #000;
+      }
       &-wrap {
         padding: 0 0 0 20px;
       }
@@ -109,12 +132,9 @@
       h1 {
         min-height: 32px;
         line-height: 28px;
-        border-bottom: solid 1px $title-color;
+        border-bottom: solid 2px $title-color;
         color: $title-color;
         display: inline-block;
-        border-bottom-width: 3px;
-        border-bottom-style: solid;
-        border-color: rgb(51, 51, 51);
         padding-top: 5px;
         padding-right: 0.5*$def-font-size;
         padding-left: 0.5*$def-font-size;
@@ -123,7 +143,7 @@
         margin:0.75*$def-font-size auto;
         padding: 0.5*$def-font-size 0;
         text-align: center;
-        width: 85%;
+        width: 80%;
         font-weight: normal;
         display: flex;
         flex-direction: column;
@@ -312,9 +332,9 @@
         white-space: pre-wrap;
         border-radius:2px;
         display: inline;
-        border: 1px solid #e2e2e2 !important;
+        // border: 1px solid #e2e2e2 !important;
         span {
-          color: #585858;
+          color: #c7254e;
           background: #f3f1f1;
           display: inline-block;
           padding: 0 2px;

@@ -42,11 +42,11 @@ showdown.extension('showdown-emoji', () => {
     filter (text) {
       text = text.replace(/:([a-z0-9_+-]+):/g, (match, iconId) => {
         // https://assets-cdn.github.com/images/icons/emoji/octocat.png
-        return '<img src="https://assets-cdn.github.com/images/icons/emoji/' + iconId + '.png" style="width:16px;height:16px;" class="mpe-emoji"/>'
+        return '<img src="https://assets-cdn.github.com/images/icons/emoji/' + iconId + '.png" style="width:16px;height:16px;" width="16" height="16" class="mpe-emoji"/>'
       })
       return replace(text, function (rawText) {
         let iconId = grabTheRightIcon(rawText)
-        let img = '<img src="https://assets-cdn.github.com/images/icons/emoji/unicode/' + iconId + '.png" style="width:16px;height:16px;" class="mpe-emoji"/>'
+        let img = '<img src="https://assets-cdn.github.com/images/icons/emoji/unicode/' + iconId + '.png" style="width:16px;height:16px;" width="16" height="16" class="mpe-emoji"/>'
         return img
       })
     }

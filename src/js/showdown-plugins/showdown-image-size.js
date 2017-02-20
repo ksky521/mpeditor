@@ -58,6 +58,8 @@ showdown.subParser('images', function (text, options, globals) {
     if (width && height) {
       width = (width === '*') ? 'auto' : width
       height = (height === '*') ? 'auto' : height
+      result += ' width="' + width + '"'
+      result += ' height="' + height + '"'
 
       width = getUnit(width)
       height = getUnit(height)
