@@ -38,9 +38,7 @@ showdown.extension('section-divider', () => {
         return match
       })
       buildSections(startIndex, text.length)
-      $win.trigger('createMdSection', {
-        data: mdSectionList
-      })
+      $win.trigger('createMdSection', mdSectionList)
       return mdSectionList.reduce(function (a, b) {
         return a + b.textWithDelimiter
       }, '')

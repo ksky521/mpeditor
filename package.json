@@ -6,6 +6,7 @@
     "dev": "node build/dev-server.js",
     "build": "node build/build.js"
   },
+  "description": "wechat markdown editor",
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
@@ -31,6 +32,7 @@
     "opn": "^4.0.2",
     "ora": "^1.1.0",
     "sass-loader": "^6.0.1",
+    "strip-ansi": "^3.0.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",

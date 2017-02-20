@@ -16,6 +16,7 @@ import './js/showdown-plugins/showdown-prettify-for-wechat.js'
 import './js/showdown-plugins/showdown-github-task-list.js'
 import './js/showdown-plugins/showdown-footnote.js'
 import './js/showdown-plugins/showdown-section-divider.js'
+import './js/showdown-plugins/showdown-emoji.js'
 
 // 语法高亮
 import './js/google-code-prettify/run_prettify.js'
@@ -39,8 +40,8 @@ const tmpl = `
 const $win = $(window)
 let mdSections = []
 let offsetBegin = 0
-$win.on('createMdSection', (evt, data) => {
-  mdSections = data.data
+$win.on('createMdSection', (evt, ...data) => {
+  mdSections = data
 }).on('markdownTrim', (e, offset) => {
   offsetBegin = offset
 })
@@ -102,7 +103,7 @@ export default class Editor {
     // 私有方法
   _initShowdown () {
     let converter = new showdown.Converter({
-      extensions: ['prettify', 'tasklist', 'footnote', 'section-divider'],
+      extensions: ['prettify', 'tasklist', 'footnote', 'section-divider', 'showdown-emoji'],
       tables: true
     })
     return converter
