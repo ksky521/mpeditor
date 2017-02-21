@@ -375,7 +375,7 @@ export default class Editor {
     $tip.css({
       top: pos.top - 20,
       left: pos.left - $(node).width() / 2
-    }).animate({opacity: 1, top: pos.top + $(node).height()}, 300)
+    }).animate({opacity: 1, top: pos.top + $(node).height() + 20}, 300)
     setTimeout(() => {
       $tip.animate({opacity: 0}, 300, () => {
         $tip.remove()
