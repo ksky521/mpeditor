@@ -148,18 +148,23 @@
       line-height: $def-line-height;
       color: $def-color;
       background-color: #fff;
+      .mpe-section-divider{
+        margin:0 !important;
+        padding:0 !important;
+      }
       p {
         font-size: $def-font-size;
         line-height: $def-line-height;
         text-align: justify !important;
+        min-height: 0 !important;
+        margin-bottom: 10px;
       }
       a{
         color: $def-link-color;
         text-decoration: none;
       }
       h1, h2, h3, h4, h5, h6 {
-        margin: 12px 0 12px;
-        padding: 0;
+        margin: 20px 0;
         font-weight: bold;
       }
       h1 {
@@ -188,20 +193,18 @@
       h4,h5{
         font-size: 16px;
         color: #666;
-        margin-bottom: 0.5*$def-font-size;
         font-weight: 500;
       }
 
       h6 {
         font-size: 16px;
         color: #777;
-        margin-bottom: 0.2*$def-font-size;
         font-weight: 500;
       }
       blockquote, q {
         border-left: 6px solid #b4b4b4;
         background-color: #f7f7f7;
-        padding: 10px $def-font-size;
+        padding: 0.8em 1em;
         color: #777;
         quotes: none;
 
@@ -221,21 +224,19 @@
 
 
       table, pre, dl, blockquote, q, ul, ol {
-        margin: $def-font-size 0;
+        margin: 20px 0;
       }
 
       ul, ol {
-        padding-left: $def-font-size*2;
-        list-style-type: none;
+        padding-left: 2em;
       }
-
       li {
-        margin: 0.25*$def-font-size 0;
+        margin-bottom: 0.25em;
         font-size: 16px;
       }
 
       li p {
-        margin: 0.5*$def-font-size 0 !important;
+        margin: 0.5em 0 !important;
       }
       ol{
         list-style-type: decimal;
@@ -246,7 +247,7 @@
       }
       ul ul, ul ol, ol ul, ol ol {
         margin: 0;
-        padding-left: $def-font-size;
+        padding-left: 1em;
         list-style-type: circle;
       }
 
@@ -273,8 +274,8 @@
       }
 
       dl dd {
-        margin: 0 0 $def-font-size;
-        padding: 0 $def-font-size;
+        margin: 0 0 1em;
+        padding: 0 1em;
       }
 
       table {
@@ -319,7 +320,7 @@
         border-radius: 0;
         font-size: $def-font-size;
         background-color: #f1efee;
-        line-height: 1.2*$def-font-size;
+        line-height: 1.2em;
         font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
         overflow-y: auto;
       }

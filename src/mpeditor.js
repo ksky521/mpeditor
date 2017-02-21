@@ -206,7 +206,8 @@ export default class Editor {
   }
   _autoSave () {
     this._autoSaveTimer = setInterval(() => {
-      LS.mpe_content = this.editor.getValue()
+      let text = this.editor.getValue()
+      if (text !== '')LS.mpe_content = text
     }, 10e3)
   }
   _buildScrollLink () {

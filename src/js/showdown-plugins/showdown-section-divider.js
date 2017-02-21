@@ -24,7 +24,7 @@ showdown.extension('section-divider', () => {
       let startIndex = 0
       function buildSections (startIndex, endIndex) {
         let subStr = text.substring(startIndex, endIndex)
-        let newText = '\n<section class="mpe-section-divider"></section>\n\n' + subStr + '\n'
+        let newText = '\n<div class="mpe-section-divider"></div>\n\n' + subStr + '\n'
         mdSectionList.push({
           text: subStr,
           textWithDelimiter: newText
