@@ -1,19 +1,19 @@
 import Editor from 'mpeditor'
 import $ from 'jQuery'
 import 'normalize.css'
+const $win = $(window)
+const LS = window.localStorage
 $(() => {
-  // const editor = initEditor('js-mpe-textarea')
-  const $win = $(window)
-    // const $perview = $('#js-mpe-perview')
-
   $('#js-mpeditor').height($win.height())
-  $.get('./static/demo.md').done((data) => {
-    let editor = new Editor('#js-mpeditor', { text: data.trim() })
-    $win.resize(() => {
-      let height = $win.height()
-      $('#js-mpeditor').height(height)
-
-      editor.resize.bind(editor)(height)
-    })
-  })
+  LS.mpe_content ? createEditor(LS.mpe_content) : $.get('./static/demo.md').done(createEditor)
 })
+
+function createEditor (data) {
+  let editor = new Editor('#js-mpeditor', { text: data.trim() })
+  $win.resize(() => {
+    let height = $win.height()
+    $('#js-mpeditor').height(height)
+
+    editor.resize.bind(editor)(height)
+  })
+}

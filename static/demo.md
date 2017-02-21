@@ -15,7 +15,6 @@
 
 Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 *斜体* 、~~delete~~ 某些文字。[^info MPEditor] 使用了 `showdown` 语法（一种markdown的扩展语法）
 
-# 标题样式：太个性了，一般别用了！
 ## 标题二
 ### 标题三
 #### 标题四
@@ -23,7 +22,7 @@ Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以�
 ###### 标题六，不常用
 
 
-# 1. 基本列表样式
+## 1. 基本列表样式
 
 * 偶是个无序列表
     - 我是个二级无序列表
@@ -34,17 +33,8 @@ Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以�
 2. 嗯，me too~
 3. markdown so easy! 妈妈再也不用担心我的**学习**了
 
-# 2. 制作一份待办事宜
 
-- [ ] 自动保存
-- [ ] 页面footer设计
-- [ ] 增加顶部工具栏：复制、github
-- [x] 增加emoji语法支持
-- [ ] 增加底部公众号关注语法
-- [x] wechat标准UI样式修改
-- [x] 修改markdown demo
-
-# 3. 高亮一段代码
+## 2. 高亮一段代码
 
 ```js
 // 新语法检测
@@ -67,10 +57,27 @@ $(function(){
 echo 'hello,world'
 ```
 
-# 4. 绘制表格
+
+## 链接和图片
+
+* MPEditor：https://github.com/ksky521/mpeditor
+* wiki：[点击查看wiki](https://github.com/ksky521/mpeditor/wiki)
+
+下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg)
+
+换个小点的头像
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg =120x120)
+
+## 支持emoji！
+
+* Unicode支持：😈 💗 😄 🐂 👍
+* github版本支持：:octocat: :cn: :red_car: :muscle: :smile: :sunglasses:
+
+## 绘制表格
 下面是个普通的表格
 | 公众号 | id | 备注 |
-|-----|-----|------|
+|:-----|-----|:------:|
 | 三水清 | sanshuiqing123   | 作者很帅 |
 | 博客 | http://js8.in   | 程序媛鼓励师 |
 
@@ -82,36 +89,20 @@ echo 'hello,world'
 博客 | http://js8.in   | 程序媛鼓励师 
 
 
-下面的表格支持左右对齐：
-| h1    |    h2   |      h3 |
-|:------|:-------:|--------:|
-| 100   | a  | b |
-| *foo* | **bar** | ~~baz~~ |
 
-# 5. 链接和图片
+## 扩展语法样式
 
-* MPEditor：https://github.com/ksky521/mpeditor
-* wiki：[点击查看wiki](https://github.com/ksky521/mpeditor/wiki)
-
-下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
-![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg)
-
-换个小点的头像
-![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg =120x120)
-
-# 6. 还支持emoji！
-
-* Unicode支持：😈 💗 😄 🐂 👍
-* github版本支持：:octocat: :cn: :red_car: :muscle: :smile: :sunglasses:
-
-# 7. 自定义样式
-
-* [^success 绿色 green/success] **[^green 绿色 green/success]**
+* [^success 绿色 green/success] 
+* **[^green 绿色 green/success]**
 * [^danger 红色 danger/red]
 * [^blue 蓝色 info/blue]
 * [^warning 黄色 warning/yellow]
 * [^#ccc 自定义颜色值#ccc]
 * [^#337ab7 自定义颜色值#337ab7]
+* [^12px 自定义字号12px]
+* [^14px 自定义字号14px]
+* [^20px 自定义字号20px]
+* [^#337ab7^20px 自定义颜色值#337ab7^20px]
 
 再一次感谢您花费时间阅读这份欢迎稿！
 
