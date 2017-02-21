@@ -142,7 +142,7 @@
       $title-color: #000;
 
       $def-font-size: 16px;
-      $def-line-height: 1.75em;
+      $def-line-height: 1.7em;
       // 公众号文章样式
       font-size: $def-font-size;
       line-height: $def-line-height;
@@ -164,7 +164,7 @@
         text-decoration: none;
       }
       h1, h2, h3, h4, h5, h6 {
-        margin: 20px 0;
+        margin: 12px 0 8px;
         font-weight: bold;
       }
       h1 {
@@ -224,7 +224,7 @@
 
 
       table, pre, dl, blockquote, q, ul, ol {
-        margin: 20px 0;
+        margin: 16px 0;
       }
 
       ul, ol {
@@ -232,10 +232,13 @@
       }
       li {
         margin-bottom: 0.25em;
-        font-size: 16px;
+        font-size: $def-font-size;
+
       }
 
       li p {
+        font-size: $def-font-size;
+        color: $def-color;
         margin: 0.5em 0 !important;
       }
       ol{

@@ -45,7 +45,16 @@ showdown.extension('colorful', () => {
       })
       return text
     }
-  }, {
+  },
+  // {
+  //   type: 'output',
+  //   filter (text) {
+  //     return text.replace(/<li>(.+?)<\/li>/ig, (m, txt) => {
+  //       return `<li><section><section class="mpe-wechat-li" style="font-size:16px;"><span>${txt}</span></section></section></li>`
+  //     })
+  //   }
+  // },
+  {
     type: 'output',
     filter (text) {
       text = text.split('<!--FT-PLACEHOLDER-->')
