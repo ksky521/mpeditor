@@ -43,7 +43,9 @@ import './js/showdown-plugins/showdown-colorful.js'
 import './js/google-code-prettify/run_prettify.js'
 
 const PR = require('PR')
-
+const LS = window.localStorage
+LS.mpePreviewClass = LS.mpePreviewClass || 'mpe_fr'
+LS.mpeEditorClass = LS.mpeEditorClass || 'mpe_fl'
 const tmpl = `<div class="mpeditor">
 <div class="mpe-nav-wrap" eid="nav">
   <div class="mpe-nav">
@@ -113,12 +115,12 @@ const tmpl = `<div class="mpeditor">
   </div>
 </div>
 <div class="mpe-wrap">
-  <div eclass="mpe-col" class="mpe-editor-col mpe-col mpe_fl">
+  <div eclass="mpe-col" class="mpe-editor-col mpe-col ${LS.mpeEditorClass}">
     <div class="mpe-editor-wrap">
       <div eid="editor" class="mpe-editor"></div>
     </div>
   </div>
-  <div eclass="mpe-col" class="mpe-preview-col mpe-col mpe_fr">
+  <div eclass="mpe-col" class="mpe-preview-col mpe-col ${LS.mpeEditorClass}">
     <div class="mpe-preview-wrap">
       <div class="mpe-preview" eid="preview"></div>
     </div>
@@ -135,7 +137,6 @@ $win.on('createMdSection', (evt, ...data) => {
   offsetBegin = offset
 })
 
-const LS = window.localStorage
 export default class Editor {
   constructor (node, { text, updateDelayTime = 300 } = {}) {
     let $container = $(node).html(tmpl)
@@ -354,6 +355,7 @@ export default class Editor {
       LS.mpe_editorTheme = theme
     })
     this.$transferBtn.on('click', () => {
+      [LS.mpePreviewClass, LS.mpeEditorClass] = [LS.mpeEditorClass, LS.mpePreviewClass]
       $container.find('.mpe-col').toggleClass('mpe_fr mpe_fl')
     })
     this.$clearBtn.on('click', () => {
