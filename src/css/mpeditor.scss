@@ -16,10 +16,33 @@
     &_fr {
       float: right;
     }
+    &-toast{
+      position: fixed;
+      z-index: 5000;
+      width: 100px;
+      height: 100px;
+      top: 40%;
+      left: 50%;
+      margin-left: -50px;
+      background: rgba(17, 17, 17, 0.7);
+      text-align: center;
+      border-radius: 5px;
+      color: #fff;
+      display: none;
+      svg {
+        margin-top: 10px;
+        color: #fff;
+        width: 50px;
+        margin-bottom: 10px;
+
+      }
+      p{
+        margin: 0 0 15px;
+      }
+    }
     &-wrap{
       // margin-top: $nav-height;
       @include clearfix();
-
     }
     // 导航条
     &-nav{
