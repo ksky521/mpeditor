@@ -100,7 +100,7 @@ echo 'hello,world'
     * ["danger" 内置红色 danger/red]
     * ["blue" 蓝色 info/blue]
     * ["warning" 黄色 warning/yellow]
-    * ["#ccc" 自定义颜色值#ccc] + [^#337ab7 自定义颜色值#337ab7]
+    * ["#ccc" 自定义颜色值#ccc] + ["#337ab7" 自定义颜色值#337ab7]
 * 字号扩展
     - ["12px" 自定义字号12px]
     - ["2em" 自定义字号2em]
