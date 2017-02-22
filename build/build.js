@@ -1,12 +1,25 @@
-var webpack = require('webpack');
-var ora = require('ora');
-var chalk = require('chalk');
-var config = require('../webpack.config')
+var webpack = require('webpack')
+var ora = require('ora')
+var shell = require('shelljs')
+var path = require('path')
+var chalk = require('chalk')
+var webpackConfig = require('./webpack.prod.conf')
+process.env.NODE_ENV = 'production'
+var config = require('../config')
 
-var spinner = ora('building for production...');
-spinner.start();
-webpack(config, function(err, stats) {
-  spinner.stop();
+var spinner = ora('building for production...')
+spinner.start()
+
+var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
+shell.rm('-rf', assetsPath)
+shell.mkdir('-p', assetsPath)
+shell.config.silent = true
+shell.cp('-R', 'static/*', assetsPath)
+shell.cp('index.html', assetsPath)
+shell.config.silent = false
+
+webpack(webpackConfig, function (err, stats) {
+  spinner.stop()
   if (err) {
     throw err
   }

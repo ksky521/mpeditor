@@ -93,18 +93,23 @@ echo 'hello,world'
 
 
 ## 扩展语法样式
+此部分写法，会被转换为`span`包裹的文字，然后加上对应的样式属性
 
-* [^success 绿色 green/success] 
-* **[^green 绿色 green/success]**
-* [^danger 红色 danger/red]
-* [^blue 蓝色 info/blue]
-* [^warning 黄色 warning/yellow]
-* [^#ccc 自定义颜色值#ccc]
-* [^#337ab7 自定义颜色值#337ab7]
-* [^12px 自定义字号12px]
-* [^14px 自定义字号14px]
-* [^20px 自定义字号20px]
-* [^#337ab7^20px 自定义颜色值#337ab7^20px]
+* ["success" 颜色扩展]
+    * ["green" 内置绿色 green/success]
+    * ["danger" 内置红色 danger/red]
+    * ["blue" 蓝色 info/blue]
+    * ["warning" 黄色 warning/yellow]
+    * ["#ccc" 自定义颜色值#ccc] + [^#337ab7 自定义颜色值#337ab7]
+* 字号扩展
+    - ["12px" 自定义字号12px]
+    - ["2em" 自定义字号2em]
+    - ["120%" 自定义字号120%]
+* center和strong
+    - ["center" 文字居中]
+    - ["strong" 文字加粗]
+* 任意自定义样式组合
+    * ["padding-left:30px;blue;strong;center" 自定义css样式]
 
 再一次感谢您花费时间阅读这份欢迎稿！
 

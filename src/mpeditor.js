@@ -38,7 +38,7 @@ import './js/showdown-plugins/showdown-task-list.js'
 import './js/showdown-plugins/showdown-section-divider.js'
 import './js/showdown-plugins/showdown-emoji.js'
 import './js/showdown-plugins/showdown-image-size.js'
-import './js/showdown-plugins/showdown-colorful.js'
+import './js/showdown-plugins/showdown-rich.js'
 
 // 语法高亮
 import './js/google-code-prettify/run_prettify.js'
@@ -47,6 +47,7 @@ const PR = require('PR')
 const LS = window.localStorage
 LS.mpe_previewClass = LS.mpe_previewClass || 'mpe_fr'
 LS.mpe_editorClass = LS.mpe_editorClass || 'mpe_fl'
+
 const tmpl = `<div class="mpeditor">
 <div class="mpe-nav-wrap" eid="nav">
   <div class="mpe-nav">
@@ -203,7 +204,7 @@ export default class Editor {
     // 私有方法
   _initShowdown () {
     let converter = new showdown.Converter({
-      extensions: ['prettify', 'tasklist', 'section-divider', 'showdown-emoji', 'colorful'],
+      extensions: ['prettify', 'tasklist', 'section-divider', 'emoji', 'rich'],
       tables: true,
       simpleLineBreaks: true,
       strikethrough: true

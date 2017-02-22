@@ -36,7 +36,7 @@ const grabTheRightIcon = (rawText) => {
   )
 }
 
-showdown.extension('showdown-emoji', () => {
+showdown.extension('emoji', () => {
   return [{
     type: 'output',
     filter (text) {
