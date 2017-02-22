@@ -7,7 +7,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    'js/main': './src/main.js'
+    'main': './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -53,7 +53,10 @@ module.exports = {
     }, {
       test: /\.js$/,
       loader: 'babel-loader',
-      include: [resolve('src')]
+      include: [resolve('src')],
+      query: {
+        presets: ['es2015']
+      }
     }, {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
       loader: 'url-loader',

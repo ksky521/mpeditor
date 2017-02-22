@@ -11,11 +11,16 @@
 
 > MPEditor解决了微信公众号编辑中遇见的一些编辑问题，增加了「工（ma）程（nong）师（men）」经常遇见的代码高亮、emoji问题。希望你会喜欢这种极（zhuang）客（bi）的体验
 
+![MPEditor](./mpeditor.png)
+
 ## 部署
 
 ```bash
 npm i
+# 本地测试
 npm run dev
+# 发布
+npm run build
 ```
 
 ## 广告

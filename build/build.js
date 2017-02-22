@@ -15,7 +15,6 @@ shell.rm('-rf', assetsPath)
 shell.mkdir('-p', assetsPath)
 shell.config.silent = true
 shell.cp('-R', 'static/*', assetsPath)
-shell.cp('index.html', assetsPath)
 shell.config.silent = false
 
 webpack(webpackConfig, function (err, stats) {
