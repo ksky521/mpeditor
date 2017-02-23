@@ -15,6 +15,8 @@ module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   externals: {
+    WB2: 'WB2',
+    AV: 'AV',
     jQuery: 'jQuery',
     PR: 'PR'
   },
