@@ -50,7 +50,7 @@ showdown.extension('rich', () => {
       })
 
       text = text.replace(/[\n]+[-]{2,}eof[-]{2,}[\n\s]+/ig, (m, footer) => {
-        return '<section><section style="margin:5px auto;padding-top:1.2em;padding-bottom:0.6em;"><section style="font-size:1em; border-style: solid none none; border-top-width: 1px; border-color: rgb(17, 17, 17); color: rgb(204, 204, 204);" class="96wx-bdc"></section><section style="margin-top: -0.7em;text-align:center;line-height:1.4;"><span style="padding:8px 23px;background-color:#fff;color:#000;margin-top:-1em;">EOF</span></section></section></section><!--FT-PLACEHOLDER-->'
+        return '<section><section style="margin:5px auto;padding-top:1.2em;padding-bottom:0.6em;"><section style="font-size:1em; border-style: solid none none; border-top-width: 1px; border-color: rgb(17, 17, 17); color: rgb(204, 204, 204);"></section><section style="margin-top: -0.7em;text-align:center;line-height:1.4;"><span style="padding:8px 23px;background-color:#fff;color:#000;margin-top:-1em;">EOF</span></section></section></section><!--FT-PLACEHOLDER-->'
       })
       return text
     }
@@ -74,7 +74,11 @@ showdown.extension('rich', () => {
                 </section>
               </section>`
       }
-      return text.join('\n')
+      text = text.join('\n')
+      text = text.replace(/<p>\s*\[center]((.+\n)+.*?)\[\/center]\s*<\/p>/gi, function (m, txt) {
+        return `<section style="text-align:center;">${txt}</section>`
+      })
+      return text
     }
   }]
 })

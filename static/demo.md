@@ -15,7 +15,7 @@
 * `⌘+Alt+U` or `Ctrl+Alt+U`：隐藏/显示顶部工具栏
 
 ## 什么是 Markdown
-Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 *斜体* 、~~delete~~ 某些文字。[^info MPEditor] 使用了 `showdown` 语法（一种markdown的扩展语法）
+Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 *斜体* 、~~delete~~ 某些文字。["info" MPEditor] 使用了 `showdown` 语法（一种markdown的扩展语法）
 
 ## 标题二
 ### 标题三
@@ -118,4 +118,5 @@ echo 'hello,world'
 作者[@三水清](http://weibo.com/sanshuiqing)
 2017年02月19日
 
-
+[center]下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg)[/center]
