@@ -4,6 +4,7 @@ import './css/theme-white.scss'
 import Clipboard from 'clipboard'
 import _ from 'underscore'
 import $ from 'jQuery'
+import pangu from 'pangu'
 // import './js/jquery.easing.js'
 // ace
 import * as ace from 'brace'
@@ -184,6 +185,8 @@ export default class Editor {
     // console.log(this.editor.getValue())
     let val = this.converter.makeHtml(content || this.editor.getValue())
     this.$preview.html(val)
+    // pangu
+    pangu.spacingNode(this.$preview[0])
     PR.prettyPrint()
     this._buildSection()
 
