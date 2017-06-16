@@ -103,8 +103,8 @@ echo 'hello,world'
     * ["#ccc" 自定义颜色值#ccc] + ["#337ab7" 自定义颜色值#337ab7]
 * 字号扩展
     - ["12px" 自定义字号12px]
-    - ["2em" 自定义字号2em]
     - ["120%" 自定义字号120%]
+    - ["2em" 自定义字号2em]
 * center和strong
     - ["center" 文字居中]
     - ["strong" 文字加粗]
