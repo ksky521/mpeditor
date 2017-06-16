@@ -3,7 +3,7 @@ import showdown from 'showdown'
 
 showdown.extension('pangu', () => {
   return [{
-    type: 'output',
+    type: 'filter',
     filter (text) {
       text = pangu.spacing(text)
       // console.log(text)

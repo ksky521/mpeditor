@@ -58,7 +58,6 @@
     "clipboard": "^1.6.0",
     "hotkeys-js": "^2.0.1",
     "normalize.css": "^5.0.0",
-    "pangu": "^3.3.0",
     "showdown": "^1.6.4",
     "underscore": "^1.8.3"
   },
