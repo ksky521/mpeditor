@@ -39,6 +39,7 @@ import './js/showdown-plugins/showdown-section-divider.js'
 import './js/showdown-plugins/showdown-emoji.js'
 import './js/showdown-plugins/showdown-image-size.js'
 import './js/showdown-plugins/showdown-rich.js'
+import './js/showdown-plugins/showdown-pangu.js'
 
 // 语法高亮
 import './js/google-code-prettify/run_prettify.js'
@@ -204,7 +205,7 @@ export default class Editor {
     // 私有方法
   _initShowdown () {
     let converter = new showdown.Converter({
-      extensions: ['prettify', 'tasklist', 'section-divider', 'emoji', 'rich'],
+      extensions: ['prettify', 'tasklist', 'section-divider', 'emoji', 'rich', 'pangu'],
       tables: true,
       simpleLineBreaks: true,
       strikethrough: true
