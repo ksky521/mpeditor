@@ -65,13 +65,13 @@ echo 'hello,world'
 ## 3. 链接和图片
 
 -   MPEditor：https://github.com/ksky521/mpeditor
--   wiki：[点击查看 wiki](https://github.com/ksky521/mpeditor/wiki)
+-   demo: [点击查看 demo](https://github.com/ksky521/mpeditor/blob/master/static/demo.md)
 
 下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
-![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)
+![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg)
 
 换个小点的头像
-![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg =120x120)
+![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg =120x120)
 
 ## 4. 支持 emoji！
 
@@ -130,4 +130,4 @@ echo 'hello,world'
 2020 年 06 月 21 日
 
 [center]下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
-![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)[/center]
+![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg)[/center]
