@@ -28,7 +28,7 @@ showdown.subParser('githubCodeBlocks', function (text, options, globals) {
         language,
         codeblock
     ) {
-        var end = options.omitExtraWLInCodeBlocks ? '' : '\n';
+        let end = options.omitExtraWLInCodeBlocks ? '' : '\n';
 
         // First parse the github code block
         codeblock = showdown.subParser('encodeCode')(codeblock, options, globals);
@@ -36,13 +36,13 @@ showdown.subParser('githubCodeBlocks', function (text, options, globals) {
         codeblock = codeblock.replace(/^\n+/g, ''); // trim leading newlines
         codeblock = codeblock.replace(/\n+$/g, ''); // trim trailing whitespace
 
-        codeblock =
-            '<pre><code' +
-            (language ? ' class="' + language + ' language-' + language + '"' : '') +
-            '>' +
-            codeblock +
-            end +
-            '</code></pre>';
+        codeblock
+            = '<pre><code'
+            + (language ? ' class="' + language + ' language-' + language + '"' : '')
+            + '>'
+            + codeblock
+            + end
+            + '</code></pre>';
 
         codeblock = showdown.subParser('hashBlock')(codeblock, options, globals);
 
@@ -66,9 +66,11 @@ showdown.subParser('githubCodeBlocks', function (text, options, globals) {
                 color = colors[language];
             }
             style += !color ? '' : `color: ${color};`;
-        } else if (language === 'center') {
+        }
+        else if (language === 'center') {
             style += 'text-align:center;';
-        } else {
+        }
+        else {
             style += language;
         }
         globals.converter._useDivider = false;

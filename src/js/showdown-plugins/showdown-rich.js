@@ -14,7 +14,7 @@ const colors = {
 function styleParser(css) {
     css = css.split(';');
     css = css
-        .map((style) => {
+        .map(style => {
             if (/^(green|blue|red|yellow|warning|info|success|danger|#[\w\d]{6}|#[\d\w]{3})$/.test(style)) {
                 // 颜色
                 let color = style;
@@ -23,13 +23,14 @@ function styleParser(css) {
                     color = colors[style];
                 }
                 return `color:${color}`;
-            } else if (/^[\d.]+(px|em|%)$/.test(style)) {
+            }
+            else if (/^[\d.]+(px|em|%)$/.test(style)) {
                 return `font-size:${style}`;
             }
 
             return style;
         })
-        .filter((v) => {
+        .filter(v => {
             return v !== '';
         });
     return css.join(';');
@@ -53,8 +54,8 @@ showdown.extension('rich', () => {
                     return `
 <section style="height:32px;">
     <section style="margin-top:20px;width:100%;border-top:${
-        $2 === '=' ? 'dashed' : 'solid'
-    } 1px #515151;" data-width="100%">
+    $2 === '=' ? 'dashed' : 'solid'
+} 1px #515151;" data-width="100%">
         <section style="margin-top: -15px; text-align: center;"><section style="background-color:#fefefe;display:inline-block;padding:0px 5px;">
         <p>${$3}</p>
         </section></section>
