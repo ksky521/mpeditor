@@ -1,4 +1,4 @@
-let showdown = require('showdown');
+import showdown from 'showdown';
 
 showdown.extension('tasklist', function () {
     return [

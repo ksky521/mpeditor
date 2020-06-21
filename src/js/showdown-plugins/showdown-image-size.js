@@ -69,7 +69,6 @@ showdown.subParser('images', function (text, options, globals) {
         }
 
         result += ' />';
-
         return result;
     }
 

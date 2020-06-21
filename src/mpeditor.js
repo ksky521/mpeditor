@@ -5,7 +5,6 @@ import Clipboard from 'clipboard';
 import _ from 'underscore';
 import $ from 'jQuery';
 import pangu from 'pangu';
-// import './js/jquery.easing.js'
 // ace
 import * as ace from 'brace';
 import 'brace/mode/markdown';
@@ -40,11 +39,10 @@ import './js/showdown-plugins/showdown-section-divider.js';
 import './js/showdown-plugins/showdown-emoji.js';
 import './js/showdown-plugins/showdown-image-size.js';
 import './js/showdown-plugins/showdown-rich.js';
+import './js/showdown-plugins/showdown-warning.js';
 
 // 语法高亮
-import '../3rd/google-code-prettify/run_prettify.js';
 
-const PR = require('PR');
 const LS = window.localStorage;
 LS.mpe_previewClass = LS.mpe_previewClass || 'mpe_fr';
 LS.mpe_editorClass = LS.mpe_editorClass || 'mpe_fl';
@@ -57,7 +55,7 @@ const tmpl = `<div class="mpeditor">
     </ul>
     <ul class="mpe-nav-tools mpe_fr">
       <li class="mpe-nav-item mpe-nav-text">
-        <span>选择编辑器主题</span>
+        <span>编辑器主题</span>
       </li>
       <li class="mpe-nav-item mpe-nav-select">
         <select eid="editorTheme">
@@ -82,6 +80,21 @@ const tmpl = `<div class="mpeditor">
           <option value="tomorrow_night">tomorrow_night</option>
           <option value="tomorrow_night_bright">tomorrow_night_bright</option>
           <option value="tomorrow_night_blue">tomorrow_night_blue</option>
+        </select>
+      </li>
+      <li class="mpe-nav-item mpe-nav-text">
+        <span>Prismjs主题</span>
+      </li>
+      <li class="mpe-nav-item mpe-nav-select" style="width: 120px;">
+        <select eid="prismTheme">
+          <option selected value="prism">default</option>
+          <option value="prism-dark">dark</option>
+          <option value="prism-funky">funky</option>
+          <option value="prism-okaidia">okaidia</option>
+          <option value="prism-twilight">twilight</option>
+          <option value="prism-coy">coy</option>
+          <option value="prism-solarizedlight">solarized_light</option>
+          <option value="prism-tomorrow">tomorrow_night</option>
         </select>
       </li>
       <li class="mpe-nav-item">
@@ -187,9 +200,9 @@ export default class Editor {
         this.$preview.html(val);
         // pangu
         pangu.spacingNode(this.$preview[0]);
-        PR.prettyPrint();
         this._buildSection();
-
+        // eslint-disable-next-line no-undef
+        Prism.highlightAll();
         return this;
     }
 
@@ -207,7 +220,7 @@ export default class Editor {
     // 私有方法
     _initShowdown() {
         let converter = new showdown.Converter({
-            extensions: ['prettify', 'tasklist', 'section-divider', 'emoji', 'rich'],
+            extensions: ['prettify', 'tasklist', 'section-divider', 'emoji', 'warning', 'rich'],
             tables: true,
             simpleLineBreaks: true,
             strikethrough: true,
@@ -380,6 +393,13 @@ export default class Editor {
             that.editor.setTheme('ace/theme/' + theme);
             // 存储
             LS.mpe_editorTheme = theme;
+        });
+        this.$prismTheme.on('change', function () {
+            let theme = this.value;
+
+            $('#prismjs-style').attr('href', `https://prismjs.com/themes/${theme}.css`);
+            // 存储
+            // LS.mpe_prismTheme = theme;
         });
         this.$transferBtn.on('click', () => {
             [LS.mpe_previewClass, LS.mpe_editorClass] = [LS.mpe_editorClass, LS.mpe_previewClass];

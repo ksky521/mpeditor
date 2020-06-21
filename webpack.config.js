@@ -1,6 +1,7 @@
 const path = require('path');
-const config = require('./config');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const config = require('./config');
 function resolve(dir) {
     return path.join(__dirname, './', dir);
 }
@@ -27,14 +28,24 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                    {
-                        loader: 'style-loader',
-                    },
+                    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
                     {
                         loader: 'css-loader',
+                        options: {
+                            sourceMap: !isProd,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: !isProd,
+                        },
                     },
                     {
                         loader: 'less-loader',
+                        options: {
+                            sourceMap: !isProd,
+                        },
                     },
                 ],
             },
@@ -46,18 +57,17 @@ module.exports = {
                     },
                     {
                         loader: 'css-loader',
+                        options: {
+                            sourceMap: !isProd,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: !isProd,
+                        },
                     },
                 ],
-            },
-            {
-                test: /\.js$/,
-                loader: 'eslint-loader',
-                enforce: 'pre',
-                include: [resolve('src')],
-                exclude: [resolve('src/js/showdown-plugins'), resolve('src/js/google-code-prettify')],
-                options: {
-                    formatter: require('eslint-friendly-formatter'),
-                },
             },
             {
                 test: /\.js$/,

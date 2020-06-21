@@ -5,10 +5,13 @@ const config = require('../config');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('../webpack.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const env = process.env.NODE_ENV === 'testing' ? require('../config/test.env') : config.build.env;
 
 const webpackConfig = merge(baseWebpackConfig, {
+    mode: 'production',
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
@@ -21,20 +24,84 @@ const webpackConfig = merge(baseWebpackConfig, {
         filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
         chunkFilename: utils.assetsPath('js/[id].[chunkhash:7].js'),
     },
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true, // Must be set to true if using source-maps in production
+                terserOptions: {
+                    comments: false,
+                    compress: {
+                        unused: true,
+                        // 删掉 debugger
+                        drop_debugger: true, // eslint-disable-line
+                        // 移除 console
+                        drop_console: true, // eslint-disable-line
+                        // 移除无用的代码
+                        dead_code: true, // eslint-disable-line
+                    },
+                    ie8: false,
+                    safari10: true,
+                    warnings: false,
+                    toplevel: true,
+                },
+            }),
+            new OptimizeCSSAssetsPlugin({
+                assetNameRegExp: /\.css$/g,
+                cssProcessorOptions: {
+                    mergeLonghand: false,
+                    cssDeclarationSorter: false,
+                    normalizeUrl: false,
+                    discardUnused: false,
+                    // 避免 cssnano 重新计算 z-index
+                    zindex: false,
+                    reduceIdents: false,
+                    safe: true,
+                    // cssnano 集成了autoprefixer的功能
+                    // 会使用到autoprefixer进行无关前缀的清理
+                    // 关闭autoprefixer功能
+                    // 使用postcss的autoprefixer功能
+                    autoprefixer: false,
+                    discardComments: {
+                        removeAll: true,
+                    },
+                },
+                canPrint: true,
+            }),
+        ],
+        splitChunks: {
+            chunks: 'async',
+            minSize: 30000,
+            minRemainingSize: 0,
+            maxSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: '~',
+            cacheGroups: {
+                defaultVendors: {
+                    name: 'vendor',
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+        },
+    },
     plugins: [
         // http://vuejs.github.io/vue-loader/en/workflow/production.html
         new webpack.DefinePlugin({
             'process.env': env,
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-            },
-            sourceMap: true,
-        }),
         // extract css into its own file
-        new ExtractTextPlugin({
+        new MiniCssExtractPlugin({
             filename: utils.assetsPath('css/[name].[contenthash:7].css'),
+            chunkFilename: '[id].css',
         }),
         // generate dist index.html with correct asset hash for caching.
         // you can customize output by editing /index.html
@@ -52,24 +119,6 @@ const webpackConfig = merge(baseWebpackConfig, {
             },
             // necessary to consistently work with multiple chunks via CommonsChunkPlugin
             chunksSortMode: 'dependency',
-        }),
-        // split vendor js into its own file
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: function (module, count) {
-                // any required modules inside node_modules are extracted to vendor
-                return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
-                );
-            },
-        }),
-        // extract webpack runtime and module manifest to its own file in order to
-        // prevent vendor hash from being updated whenever app bundle is updated
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest',
-            chunks: ['vendor'],
         }),
     ],
 });

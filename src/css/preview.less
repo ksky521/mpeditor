@@ -1,0 +1,311 @@
+@import 'var';
+@import 'theme';
+
+.mpe-preview {
+    @def-color: @color-text-primary;
+    @def-link-color: @color-primary;
+    @warn-color: @color-warning;
+    @title-color: #000;
+
+    @def-font-size: 16px;
+    @def-line-height: 1.7em;
+    // 公众号文章样式
+    font-size: @def-font-size;
+    line-height: @def-line-height;
+    color: @def-color;
+    background-color: #fff;
+
+    // preview
+    overflow: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: relative;
+    border: none;
+    font-size: @editor-font-size;
+    line-height: @editor-line-height;
+
+    &::selection {
+        background: #fde6ba;
+        color: #000;
+    }
+    // &-wrap {
+    //     // padding: 0 0 0 20px;
+    // }
+    .mpe-section-divider {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    p {
+        font-size: @def-font-size;
+        line-height: @def-line-height;
+        text-align: justify !important;
+        min-height: 0 !important;
+        margin-bottom: 10px;
+    }
+    a {
+        color: @def-link-color;
+        text-decoration: none;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 12px 0 8px;
+        font-weight: bold;
+    }
+    h1 {
+        font-size: 18px;
+        font-weight: bold;
+        min-height: 32px;
+        line-height: 28px;
+        border-bottom: solid 1px @title-color;
+        color: @title-color;
+        display: inline-block;
+        margin: 12px auto;
+        padding: 0.5 * @def-font-size 0 5px;
+        text-align: center;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    h2 {
+        font-size: 18px;
+    }
+    h3 {
+        font-size: 17px;
+        font-weight: 600;
+    }
+    h4,
+    h5 {
+        font-size: 16px;
+        color: #666;
+        font-weight: 600;
+    }
+
+    h6 {
+        font-size: 16px;
+        color: #777;
+        font-weight: 600;
+    }
+    blockquote,
+    q {
+        border-left: 6px solid @color-primary;
+        background-color: #ecf8ff;
+        padding: 0.8em 1em;
+        color: #5e6d82;
+        quotes: none;
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            text-align: left !important;
+        }
+    }
+
+    blockquote::before,
+    blockquote::after,
+    q::before,
+    q::after {
+        content: none;
+    }
+    del {
+        text-decoration: none;
+    }
+
+    table,
+    pre,
+    dl,
+    blockquote,
+    q,
+    ul,
+    ol {
+        margin: 16px 0;
+    }
+
+    ul,
+    ol {
+        padding-left: 2em;
+    }
+    li {
+        margin-bottom: 0.25em;
+        font-size: @def-font-size;
+    }
+
+    li p {
+        font-size: @def-font-size;
+        color: @def-color;
+        margin: 0.5em 0 !important;
+    }
+    ol {
+        list-style-type: decimal;
+    }
+    ul {
+        list-style-type: square;
+        font-size: @def-font-size;
+    }
+    ul ul,
+    ul ol,
+    ol ul,
+    ol ol {
+        margin: 0;
+        padding-left: 1em;
+        list-style-type: circle;
+    }
+
+    p.task-list-list.uncheck {
+        color: #777;
+    }
+
+    ol ol,
+    ul ol {
+        list-style-type: lower-roman;
+    }
+
+    ul ul ol,
+    ul ol ol,
+    ol ul ol,
+    ol ol ol {
+        list-style-type: lower-alpha;
+    }
+
+    dl {
+        padding: 0;
+    }
+
+    dl dt {
+        font-size: @def-font-size;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    dl dd {
+        margin: 0 0 1em;
+        padding: 0 1em;
+    }
+
+    table {
+        padding: 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-size: @def-font-size;
+        font: inherit;
+        border: 0;
+    }
+
+    tbody {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    table tr {
+        border: 0;
+        border-top: 1px solid #ccc;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    table tr:nth-child(2n) {
+        background-color: #f8f8f8;
+    }
+
+    table tr th,
+    table tr td {
+        font-size: @def-font-size;
+        border: 1px solid #ccc;
+        margin: 0;
+        padding: 3px 8px;
+    }
+
+    table tr th {
+        font-weight: bold;
+        background-color: #f0f0f0;
+    }
+    pre.prettyprint {
+        border-radius: 0;
+        font-size: @def-font-size;
+        background-color: #f1efee;
+        line-height: 1.2em;
+        font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+        overflow-y: auto;
+    }
+
+    // 代码相关
+
+    pre.prettyprint.linenums {
+        border: 1px solid #e2e2e2 !important;
+        padding: 8px 0 6px;
+        padding-right: 15px;
+    }
+
+    ol.linenums {
+        margin-top: 0;
+        margin-bottom: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        list-style-type: none !important;
+        li {
+            code {
+                height: 20px !important;
+                line-height: 20px !important;
+                margin-left: -20px;
+                font-family: inherit !important;
+                display: flex;
+                span {
+                    font-size: 13px !important;
+                    line-height: 20px;
+                    font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+                }
+            }
+        }
+    }
+
+    .code-in-text {
+        color: #585858;
+        background: #f3f1f1;
+        margin: 0 3px;
+        padding: 4px 6px;
+        white-space: pre-wrap;
+        border-radius: 2px;
+        display: inline;
+        // border: 1px solid #e2e2e2 !important;
+        span {
+            color: #c7254e;
+            background: #f3f1f1;
+            display: inline-block;
+            padding: 0 2px;
+            font-size: 14px;
+            font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+        }
+    }
+    .prettyprint.code-in-text {
+        background: #f3f1f1;
+        font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
+    }
+
+    li.L0,
+    li.L1,
+    li.L2,
+    li.L3,
+    li.L4,
+    li.L5,
+    li.L6,
+    li.L7,
+    li.L8,
+    li.L9 {
+        list-style-type: none !important;
+    }
+
+    li.L1,
+    li.L3,
+    li.L5,
+    li.L7,
+    li.L9 {
+        list-style-type: none !important;
+        background: transparent !important;
+    }
+}

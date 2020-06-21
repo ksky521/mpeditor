@@ -1,0 +1,83 @@
+.mpe-tooltip {
+    position: absolute;
+    z-index: 999;
+    display: block;
+    font-size: 12px;
+    word-wrap: break-word;
+    opacity: 0;
+
+    @tooltip-arrow-width: 5px;
+    @tooltip-margin: 0;
+    @tooltip-arrow-color: #3cc51f;
+
+    &_top {
+        padding: @tooltip-arrow-width 0;
+        margin-top: @tooltip-margin;
+
+        .mpe-tooltip-inner::before {
+            bottom: 0;
+            left: 50%;
+            margin-left: -@tooltip-arrow-width;
+            content: '';
+            border-width: @tooltip-arrow-width @tooltip-arrow-width 0;
+            border-top-color: @tooltip-arrow-color;
+        }
+    }
+    &_right {
+        padding: 0 @tooltip-arrow-width;
+        margin-left: @tooltip-margin;
+
+        .mpe-tooltip-inner::before {
+            top: 50%;
+            left: 0;
+            margin-top: -@tooltip-arrow-width;
+            content: '';
+            border-width: @tooltip-arrow-width @tooltip-arrow-width @tooltip-arrow-width 0;
+            border-right-color: @tooltip-arrow-color;
+        }
+    }
+    &_bottom {
+        padding: @tooltip-arrow-width 0;
+        margin-top: @tooltip-margin;
+
+        .mpe-tooltip-inner::before {
+            top: 0;
+            left: 50%;
+            margin-left: -@tooltip-arrow-width;
+            content: '';
+            border-width: 0 @tooltip-arrow-width @tooltip-arrow-width;
+            border-bottom-color: @tooltip-arrow-color;
+        }
+    }
+    &_left {
+        padding: 0 @tooltip-arrow-width;
+        margin-left: -@tooltip-margin;
+
+        .mpe-tooltip-inner::before {
+            top: 50%;
+            right: 0;
+            margin-top: -@tooltip-arrow-width;
+            content: '';
+            border-width: @tooltip-arrow-width 0 @tooltip-arrow-width @tooltip-arrow-width;
+            border-left-color: @tooltip-arrow-color;
+        }
+    }
+
+    // Wrapper for the tooltip content
+    &-inner {
+        max-width: 200px;
+        padding: 3px 8px;
+        color: #fff;
+        text-align: center;
+        background-color: @tooltip-arrow-color;
+        border-radius: 3px;
+
+        &::before {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+        }
+    }
+}

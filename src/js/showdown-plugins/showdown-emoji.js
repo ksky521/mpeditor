@@ -1,4 +1,5 @@
-let showdown = require('showdown');
+import showdown from 'showdown';
+import emojiMap from './emoji.json';
 
 // from twemoji
 // eslint-disable-next-line max-len
@@ -45,20 +46,17 @@ showdown.extension('emoji', () => {
             filter(text) {
                 text = text.replace(/:([a-z0-9_+-]+):/g, (match, iconId) => {
                     // https://assets-cdn.github.com/images/icons/emoji/octocat.png
-                    return (
-                        '<img src="https://assets-cdn.github.com/images/icons/emoji/'
-                        + iconId
-                        + '.png" style="width:16px;height:16px;" width="16" height="16" class="mpe-emoji"/>'
-                    );
+                    return emojiMap[iconId] ? emojiMap[iconId] : match;
                 });
-                return replace(text, function (rawText) {
-                    let iconId = grabTheRightIcon(rawText);
-                    let img
-                        = '<img src="https://assets-cdn.github.com/images/icons/emoji/unicode/'
-                        + iconId
-                        + '.png" style="width:16px;height:16px;" width="16" height="16" class="mpe-emoji"/>';
-                    return img;
-                });
+                return text;
+                // return replace(text, function (rawText) {
+                //     let iconId = grabTheRightIcon(rawText);
+                //     let img
+                //         = '<img src="https://github.githubassets.com/images/icons/emoji/unicode/'
+                //         + iconId
+                //         + '.png" style="width:16px;height:16px;" width="16" height="16" class="mpe-emoji"/>';
+                //     return img;
+                // });
             },
         },
     ];

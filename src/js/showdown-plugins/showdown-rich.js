@@ -1,14 +1,14 @@
 import showdown from 'showdown';
 
 const colors = {
-    green: '#00cf02',
-    blue: '#00bdff',
+    green: '#67C23A',
+    blue: '#409EFF',
     red: '#ff656a',
-    yellow: '#ffca00',
-    success: '#00cf02',
-    danger: '#ff656a',
-    info: '#00bdff',
-    warning: '#ffca00',
+    yellow: '#E6A23C',
+    success: '#67C23A',
+    danger: '#F56C6C',
+    info: '#909399',
+    warning: '#E6A23C',
     gray: '#999999',
 };
 function styleParser(css) {
@@ -26,12 +26,6 @@ function styleParser(css) {
             }
             else if (/^[\d.]+(px|em|%)$/.test(style)) {
                 return `font-size:${style}`;
-            }
-            else if (style === 'strong') {
-                return 'font-weight:bold';
-            }
-            else if (style === 'center') {
-                return 'text-align:center';
             }
 
             return style;
@@ -55,9 +49,15 @@ showdown.extension('rich', () => {
                     return text;
                 });
 
-                text = text.replace(/[\n]+[-]{2,}eof[-]{2,}[\n\s]+/gi, (m, footer) => {
-                    // eslint-disable-next-line max-len
-                    return '<section><section style="margin:5px auto;padding-top:1.2em;padding-bottom:0.6em;"><section style="font-size:1em; border-style: solid none none; border-top-width: 1px; border-color: rgb(17, 17, 17); color: rgb(204, 204, 204);"></section><section style="margin-top: -0.7em;text-align:center;line-height:1.4;"><span style="padding:8px 23px;background-color:#fff;color:#000;margin-top:-1em;">EOF</span></section></section></section><!--FT-PLACEHOLDER-->';
+                text = text.replace(/[\n]+[-]{2,}([\w\d]+)[-]{2,}[\n\s]+/gi, (m, footer) => {
+                    /* eslint-disable max-len */
+                    return `<section style="height:32px;">
+                        <section style="margin-top:20px;width:100%;border-top:solid 1px #515151;" data-width="100%">
+                            <section style="margin-top: -15px; text-align: center;"><section style="background-color:#fefefe;display:inline-block;padding:0px 5px;">
+                            <p>${footer}</p>
+                            </section></section>
+                        </section>
+                    </section><!--FT-PLACEHOLDER-->`;
                 });
                 return text;
             },

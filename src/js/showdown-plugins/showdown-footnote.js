@@ -1,6 +1,6 @@
-let showdown = require('showdown');
+import showdown from 'showdown';
 
-let converter = new showdown.Converter();
+const converter = new showdown.Converter();
 
 showdown.extension('footnote', function () {
     return [
