@@ -124,10 +124,10 @@ echo 'hello,world'
 
 再一次感谢您花费时间阅读这份欢迎稿！
 
---eof--
+--EOF--
 
 作者[@三水清](http://weibo.com/sanshuiqing)
-2017 年 02 月 19 日
+2020 年 06 月 21 日
 
 [center]下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
 ![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)[/center]

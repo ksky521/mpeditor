@@ -6,6 +6,7 @@ function resolve(dir) {
     return path.join(__dirname, './', dir);
 }
 const isProd = process.env.NODE_ENV === 'production';
+console.log(`是否是生产环境: ${isProd}`);
 const publicPath = isProd ? config.build.assetsPublicPath : config.dev.assetsPublicPath;
 module.exports = {
     entry: {

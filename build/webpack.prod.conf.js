@@ -21,8 +21,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
         path: config.build.assetsRoot,
+        publicPath: './',
         filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
-        chunkFilename: utils.assetsPath('js/[id].[chunkhash:7].js'),
+        chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js'),
     },
     optimization: {
         minimizer: [
@@ -71,24 +72,26 @@ const webpackConfig = merge(baseWebpackConfig, {
             }),
         ],
         splitChunks: {
-            chunks: 'async',
+            chunks: 'all',
             minSize: 30000,
-            minRemainingSize: 0,
             maxSize: 0,
             minChunks: 1,
             maxAsyncRequests: 6,
             maxInitialRequests: 4,
             automaticNameDelimiter: '~',
             cacheGroups: {
-                defaultVendors: {
+                default: false,
+                brace: {
+                    name: 'ace',
+                    test: /[\\/]node_modules[\\/]brace[\\/]/,
+                    enforce: true,
+                    priority: 10,
+                },
+                common: {
                     name: 'vendor',
                     test: /[\\/]node_modules[\\/]/,
-                    priority: -10,
-                },
-                default: {
-                    minChunks: 2,
-                    priority: -20,
-                    reuseExistingChunk: true,
+                    enforce: true,
+                    priority: 9,
                 },
             },
         },
@@ -101,7 +104,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // extract css into its own file
         new MiniCssExtractPlugin({
             filename: utils.assetsPath('css/[name].[contenthash:7].css'),
-            chunkFilename: '[id].css',
+            chunkFilename: '[name].css',
         }),
         // generate dist index.html with correct asset hash for caching.
         // you can customize output by editing /index.html

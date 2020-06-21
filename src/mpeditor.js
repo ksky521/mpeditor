@@ -195,6 +195,8 @@ export default class Editor {
         return this;
     }
     updatePreview(content) {
+        // this._isInput = false;
+        this._isUpdatePreview = true;
         // console.log(this.editor.getValue())
         let val = this.converter.makeHtml(content || this.editor.getValue());
         this.$preview.html(val);
@@ -238,6 +240,11 @@ export default class Editor {
     _buildScrollLink() {
         return _.throttle(() => {
             let that = this;
+            if (that._isUpdatePreview) {
+                // 方式更新html的时候发生滚动
+                that._isUpdatePreview = false;
+                return;
+            }
             let mdSectionList = this._mdSectionList;
             let htmlSectionList = this._htmlSectionList;
             let aceEditor = this.editor;
@@ -266,7 +273,6 @@ export default class Editor {
                 let destSection = destSectionList[sectionIndex];
                 return destSection.startOffset + destSection.height * posInSection;
             }
-
             let lastEditorScrollTop = this.lastEditorScrollTop;
             let lastPreviewScrollTop = this.lastPreviewScrollTop;
             let destScrollTop;
@@ -296,12 +302,13 @@ export default class Editor {
                             // easing: 'easeOutSine',
                             duration: 200,
                             queue: 'scrollLinkFx',
-                            step: function (now) {
+                            step(now) {
                                 that._isPreviewMoving = true;
                                 lastPreviewScrollTop = previewScrollTop + now;
+                                // console.log(lastPreviewScrollTop)
                                 $previewElt.scrollTop(lastPreviewScrollTop);
                             },
-                            done: function () {
+                            done() {
                                 _.defer(function () {
                                     that._isPreviewMoving = false;
                                 });
@@ -309,20 +316,21 @@ export default class Editor {
                         }
                     )
                     .dequeue('scrollLinkFx');
-            }
-            else if (isScrollPreview === true) {
+            } else if (isScrollPreview === true) {
                 if (Math.abs(previewScrollTop - lastPreviewScrollTop) <= 9) {
                     return;
                 }
+                // 暂停同步
+                // return;
                 isScrollPreview = false;
                 lastPreviewScrollTop = previewScrollTop;
                 destScrollTop = getDestScrollTop(previewScrollTop, htmlSectionList, mdSectionList);
 
                 destScrollTop = _.min([
                     destScrollTop,
-                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight
-                        + aceEditor.renderer.scrollMargin.bottom
-                        - aceEditor.renderer.$size.scrollerHeight,
+                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight +
+                        aceEditor.renderer.scrollMargin.bottom -
+                        aceEditor.renderer.$size.scrollerHeight,
                 ]);
                 destScrollTop < 0 && (destScrollTop = 0);
 
@@ -385,7 +393,7 @@ export default class Editor {
             action: 'cut',
             target: () => this.$preview[0],
         });
-        clipboard.on('success', e => {
+        clipboard.on('success', (e) => {
             this._createTips(this.$copyBtn, '复制成功');
         });
         this.$editorTheme.on('change', function () {
@@ -495,7 +503,7 @@ export default class Editor {
 
             let firstSectionOffset = offsetBegin;
 
-            mdSections.forEach(section => {
+            mdSections.forEach((section) => {
                 mdTextOffset += section.text.length + firstSectionOffset;
                 firstSectionOffset = 0;
                 let documentPosition = editorSession.doc.indexToPosition(mdTextOffset);
