@@ -4,7 +4,7 @@ showdown.subParser('images', function (text, options, globals) {
 
     text = globals.converter._dispatch('images.before', text, options, globals);
     // eslint-disable-next-line max-len
-    let inlineRegExp = /!\[(.*?)]\s?\([ \t]*()<?(\S+?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(['"])(.*?)\6[ \t]*)?\)/g;
+    let inlineRegExp = /!\[(.*?)]\s?\([ \t]*()<?(\S+?)>?(?:\s+=([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(['"])(.*?)\6[ \t]*)?\)/g;
     let referenceRegExp = /!\[([^\]]*?)] ?(?:\n *)?\[(.*?)]()()()()()/g;
 
     function writeImageTag(wholeMatch, altText, linkId, url, width, height, m5, title) {
@@ -79,9 +79,10 @@ showdown.subParser('images', function (text, options, globals) {
         }
         return text;
     }
+    // console.log(text)
     // First, handle reference-style labeled images: ![alt text][id]
     text = text.replace(referenceRegExp, writeImageTag);
-
+    // console.log(text)
     // Next, handle inline images:  ![alt text](url =<width>x<height> "optional title")
     text = text.replace(inlineRegExp, writeImageTag);
 

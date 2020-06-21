@@ -15,7 +15,10 @@ showdown.extension('section-divider', () => {
     return [
         {
             type: 'lang',
-            filter: text => {
+            filter: (text, $2) => {
+                if ($2._useDivider === false) {
+                    return text;
+                }
                 text = text.replace(/(^|\n)```([^\n]*?)```([ \t]*(?=\n))/g, function (a, b, c, d) {
                     return b + '```\n' + c + '\n```' + d;
                 });

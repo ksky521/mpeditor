@@ -73,7 +73,7 @@
         "hotkeys-js": "^3.8.1",
         "normalize.css": "^8.0.1",
         "pangu": "^4.0.7",
-        "showdown": "^1.6.4",
+        "showdown": "^1.9.1",
         "underscore": "^1.8.3"
     },
     "engines": {

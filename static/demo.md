@@ -122,12 +122,30 @@ echo 'hello,world'
 
 !> MPEditor 解决了微信公众号编辑中遇见的一些编辑问题，增加了「工（ma）程（nong）师（men）」经常遇见的代码高亮、emoji 问题。希望你会喜欢这种极（zhuang）客（bi）的体验
 
+## 8. 分割线
+
+--分割线--
+
+==密封线==
+
+
+
 再一次感谢您花费时间阅读这份欢迎稿！
 
 --EOF--
+
+~~~font-size: 12px;
 
 作者[@三水清](http://weibo.com/sanshuiqing)
 2020 年 06 月 21 日
 
 [center]下面是个「三水清」的微信公众号二维码，欢迎扫描关注：
 ![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg)[/center]
+
+~~~
+
+~~~display: flex;justify-content:center;align-items:center;
+![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg  =120x120)
+
+![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg =120x120)
+~~~

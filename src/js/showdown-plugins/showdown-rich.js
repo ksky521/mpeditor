@@ -14,7 +14,7 @@ const colors = {
 function styleParser(css) {
     css = css.split(';');
     css = css
-        .map(style => {
+        .map((style) => {
             if (/^(green|blue|red|yellow|warning|info|success|danger|#[\w\d]{6}|#[\d\w]{3})$/.test(style)) {
                 // 颜色
                 let color = style;
@@ -23,14 +23,13 @@ function styleParser(css) {
                     color = colors[style];
                 }
                 return `color:${color}`;
-            }
-            else if (/^[\d.]+(px|em|%)$/.test(style)) {
+            } else if (/^[\d.]+(px|em|%)$/.test(style)) {
                 return `font-size:${style}`;
             }
 
             return style;
         })
-        .filter(v => {
+        .filter((v) => {
             return v !== '';
         });
     return css.join(';');
@@ -49,15 +48,19 @@ showdown.extension('rich', () => {
                     return text;
                 });
 
-                text = text.replace(/[\n]+[-]{2,}([\w\d]+)[-]{2,}[\n\s]+/gi, (m, footer) => {
+                text = text.replace(/(?:^|\n)((-|=){2,})([^\s|\=\-]+)\1(?:\n|$)/g, (m, $1, $2, $3) => {
                     /* eslint-disable max-len */
-                    return `<section style="height:32px;">
-                        <section style="margin-top:20px;width:100%;border-top:solid 1px #515151;" data-width="100%">
-                            <section style="margin-top: -15px; text-align: center;"><section style="background-color:#fefefe;display:inline-block;padding:0px 5px;">
-                            <p>${footer}</p>
-                            </section></section>
-                        </section>
-                    </section><!--FT-PLACEHOLDER-->`;
+                    return `
+<section style="height:32px;">
+    <section style="margin-top:20px;width:100%;border-top:${
+        $2 === '=' ? 'dashed' : 'solid'
+    } 1px #515151;" data-width="100%">
+        <section style="margin-top: -15px; text-align: center;"><section style="background-color:#fefefe;display:inline-block;padding:0px 5px;">
+        <p>${$3}</p>
+        </section></section>
+    </section>
+</section>
+`;
                 });
                 return text;
             },
@@ -73,15 +76,15 @@ showdown.extension('rich', () => {
         {
             type: 'output',
             filter(text) {
-                text = text.split('<!--FT-PLACEHOLDER-->');
-                if (text.length === 2) {
-                    text[1] = `<section>
-                <section style="font-size:12px;color:#8e8e8e">
-                ${text[1]}
-                </section>
-              </section>`;
-                }
-                text = text.join('\n');
+                // text = text.split('<!--FT-PLACEHOLDER-->');
+                // if (text.length === 2) {
+                //     text[1] = `<section>
+                //             <section style="font-size:12px;color:#8e8e8e">
+                //             ${text[1]}
+                //             </section>
+                //         </section>`;
+                // }
+                // text = text.join('\n');
                 text = text.replace(/<p>\s*\[center]((.+\n)+.*?)\[\/center]\s*<\/p>/gi, function (m, txt) {
                     return `<section style="text-align:center;">${txt}</section>`;
                 });

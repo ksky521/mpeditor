@@ -33,6 +33,8 @@ import hotkeys from 'hotkeys-js';
 
 // showdown
 import showdown from 'showdown';
+import './js/showdown-plugins/showdown-block.js';
+
 import './js/showdown-plugins/showdown-prettify-for-wechat.js';
 import './js/showdown-plugins/showdown-task-list.js';
 import './js/showdown-plugins/showdown-section-divider.js';
@@ -227,6 +229,7 @@ export default class Editor {
             simpleLineBreaks: true,
             strikethrough: true,
         });
+        // converter.listen('images.before', ()=>{console.log(arguments)})
         return converter;
     }
     _autoSave() {
@@ -248,6 +251,7 @@ export default class Editor {
             let mdSectionList = this._mdSectionList;
             let htmlSectionList = this._htmlSectionList;
             let aceEditor = this.editor;
+            // console.log( mdSectionList.length,htmlSectionList.length)
             if (mdSectionList.length === 0 || mdSectionList.length !== htmlSectionList.length) {
                 this._doScrollLink();
                 return;
@@ -316,8 +320,7 @@ export default class Editor {
                         }
                     )
                     .dequeue('scrollLinkFx');
-            }
-            else if (isScrollPreview === true) {
+            } else if (isScrollPreview === true) {
                 if (Math.abs(previewScrollTop - lastPreviewScrollTop) <= 9) {
                     return;
                 }
@@ -329,9 +332,9 @@ export default class Editor {
 
                 destScrollTop = _.min([
                     destScrollTop,
-                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight
-                        + aceEditor.renderer.scrollMargin.bottom
-                        - aceEditor.renderer.$size.scrollerHeight,
+                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight +
+                        aceEditor.renderer.scrollMargin.bottom -
+                        aceEditor.renderer.$size.scrollerHeight,
                 ]);
                 destScrollTop < 0 && (destScrollTop = 0);
 
@@ -394,7 +397,7 @@ export default class Editor {
             action: 'cut',
             target: () => this.$preview[0],
         });
-        clipboard.on('success', e => {
+        clipboard.on('success', (e) => {
             this._createTips(this.$copyBtn, '复制成功');
         });
         this.$editorTheme.on('change', function () {
@@ -448,9 +451,9 @@ export default class Editor {
     }
     _createTips(node, text, dir = 'bottom', timeout = 2000) {
         let tmpl = `
-    <div class="mpe-tooltip mpe-tooltip_${dir}" >
-      <div class="mpe-tooltip-inner">${text}</div>
-    </div>
+        <div class="mpe-tooltip mpe-tooltip_${dir}" >
+            <div class="mpe-tooltip-inner">${text}</div>
+        </div>
     `;
         let pos = $(node).position();
 
@@ -504,7 +507,7 @@ export default class Editor {
 
             let firstSectionOffset = offsetBegin;
 
-            mdSections.forEach(section => {
+            mdSections.forEach((section) => {
                 mdTextOffset += section.text.length + firstSectionOffset;
                 firstSectionOffset = 0;
                 let documentPosition = editorSession.doc.indexToPosition(mdTextOffset);
