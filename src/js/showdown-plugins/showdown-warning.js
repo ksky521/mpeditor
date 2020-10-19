@@ -11,7 +11,7 @@ showdown.extension('warning', () => {
                     .split('\n')
                     .map(text => {
                         if (/^!>/.test(text)) {
-                            text = `<blockquote style="border-left:6px solid #F56C6C;background-color:#fef0f0"><p>${text.replace(
+                            text = `<blockquote style="background-color:#fef0f0"><p>${text.replace(
                                 /^!>/,
                                 ''
                             )}</p></blockquote>`;
