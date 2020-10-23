@@ -36,7 +36,6 @@
         padding: 0 !important;
     }
     p {
-
         text-align: justify !important;
         min-height: 0 !important;
         margin-bottom: 10px;
@@ -72,10 +71,13 @@
     }
     h2 {
         font-size: 18px;
+        border-bottom: solid 1px @title-color;
+        margin-bottom: 10px;
     }
     h3 {
         font-size: 17px;
         font-weight: 600;
+        margin-bottom: 10px;
     }
     h4,
     h5 {
@@ -91,7 +93,9 @@
     }
     blockquote,
     q {
-        border-left: 6px solid @color-primary;
+        border-left: 3px solid @color-primary;
+        border-radius: 3px;
+        // border-left: 0;
         background-color: #ecf8ff;
         padding: 0.8em 1em;
         color: #5e6d82;
@@ -103,7 +107,18 @@
             text-align: left !important;
         }
     }
-
+    blockquote,
+    q {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0 0 8px;
+            font-weight: bold;
+        }
+    }
     blockquote::before,
     blockquote::after,
     q::before,
