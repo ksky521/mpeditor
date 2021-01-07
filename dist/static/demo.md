@@ -10,12 +10,16 @@
 
 > MPEditor 解决了微信公众号编辑中遇见的一些编辑问题，增加了「工（ma）程（nong）师（men）」经常遇见的代码高亮、emoji 问题。希望你会喜欢这种极（zhuang）客（bi）的体验
 
+==[header-box] 使用方法
+
+在左侧Markdown编辑器中编写Markdown格式的内容，编辑完成后点击右上角`√`，复制内容到微信编辑器粘贴即可。
+
 ## 本编辑器支持快捷键
 
 -   `⌘+S` or `Ctrl+S`：保存编写的内容
--   `⌘+Alt+U` or `Ctrl+Alt+U`：隐藏/显示顶部工具栏
+-   `⌘+⌥+U` or `Ctrl+Alt+U`：隐藏/显示顶部工具栏
 
-## 什么是 Markdown
+==[header-box]  什么是 Markdown
 
 Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 _斜体_ 、~~delete~~ 某些文字。["info" MPEditor] 使用了 `showdown` 语法（一种 markdown 的扩展语法）
 
