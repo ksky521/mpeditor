@@ -316,7 +316,8 @@ export default class Editor {
                         }
                     )
                     .dequeue('scrollLinkFx');
-            } else if (isScrollPreview === true) {
+            }
+            else if (isScrollPreview === true) {
                 if (Math.abs(previewScrollTop - lastPreviewScrollTop) <= 9) {
                     return;
                 }
@@ -328,9 +329,9 @@ export default class Editor {
 
                 destScrollTop = _.min([
                     destScrollTop,
-                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight +
-                        aceEditor.renderer.scrollMargin.bottom -
-                        aceEditor.renderer.$size.scrollerHeight,
+                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight
+                        + aceEditor.renderer.scrollMargin.bottom
+                        - aceEditor.renderer.$size.scrollerHeight,
                 ]);
                 destScrollTop < 0 && (destScrollTop = 0);
 
@@ -393,7 +394,7 @@ export default class Editor {
             action: 'cut',
             target: () => this.$preview[0],
         });
-        clipboard.on('success', (e) => {
+        clipboard.on('success', e => {
             this._createTips(this.$copyBtn, '复制成功');
         });
         this.$editorTheme.on('change', function () {
@@ -413,7 +414,8 @@ export default class Editor {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            } else {
+            }
+            else {
                 alert('写点啥再下载吧');
             }
         });
@@ -516,7 +518,7 @@ export default class Editor {
 
             let firstSectionOffset = offsetBegin;
 
-            mdSections.forEach((section) => {
+            mdSections.forEach(section => {
                 mdTextOffset += section.text.length + firstSectionOffset;
                 firstSectionOffset = 0;
                 let documentPosition = editorSession.doc.indexToPosition(mdTextOffset);
