@@ -1445,11 +1445,6 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-brace@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.npmjs.org/brace/-/brace-0.11.1.tgz#4896fcc9d544eef45f4bb7660db320d3b379fe58"
-  integrity sha1-SJb8ydVE7vRfS7dmDbMg07N5/lg=
-
 braces@^2.3.1, braces@^2.3.2:
   version "2.3.2"
   resolved "https://registry.npmjs.org/braces/-/braces-2.3.2.tgz#5979fd3f14cd531565e5fa2df1abfff1dfaee729"
@@ -1895,11 +1890,6 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
-
-codemirror@~5.59.1:
-  version "5.59.1"
-  resolved "http://registry.npm.baidu-int.com/codemirror/-/codemirror-5.59.1.tgz#cd6465555a87f8a2243eb41ffb460c777e15212c"
-  integrity sha1-zWRlVVqH+KIkPrQf+0YMd34VISw=
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -3492,11 +3482,6 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hotkeys-js@^3.8.1:
-  version "3.8.1"
-  resolved "https://registry.npmjs.org/hotkeys-js/-/hotkeys-js-3.8.1.tgz#fa7051f73bf1dc92a8b8d580a40b247f91966376"
-  integrity sha512-YlhVQtyG9f1b7GhtzdhR0Pl+cImD1ZrKI6zYUa7QLd0zuThiL7RzZ+ANJyy7z+kmcCpNYBf5PjBa3CjiQ5PFpw==
-
 hsl-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/hsl-regex/-/hsl-regex-1.0.0.tgz#d49330c789ed819e276a4c0d272dffa30b18fe6e"
@@ -4480,6 +4465,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+markdown-it-implicit-figures@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.npm.taobao.org/markdown-it-implicit-figures/download/markdown-it-implicit-figures-0.10.0.tgz#0e75e80b846da1e3117a3fc6d6b013d0cc3f2a8c"
+  integrity sha1-DnXoC4RtoeMRej/G1rAT0Mw/Kow=
 
 markdown-it@~12.0.4:
   version "12.0.4"
@@ -6930,11 +6920,6 @@ uglify-js@3.4.x:
   dependencies:
     commander "~2.19.0"
     source-map "~0.6.1"
-
-underscore@^1.8.3:
-  version "1.10.2"
-  resolved "https://registry.npmjs.org/underscore/-/underscore-1.10.2.tgz#73d6aa3668f3188e4adb0f1943bd12cfd7efaaaf"
-  integrity sha512-N4P+Q/BuyuEKFJ43B9gYuOj4TQUHXX+j2FqguVOpjkssLUUrnJofCcBccJSCoeturDoZU6GorDTHSvUDlSQbTg==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

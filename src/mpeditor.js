@@ -8,17 +8,11 @@ import pangu from 'pangu';
 // markdown-it
 import markdownIt from 'markdown-it';
 import mdHighlight from './js/markdown-plugins/highlight';
+import mdBlockQuote from './js/markdown-plugins/blockquote';
+import mdList from './js/markdown-plugins/list';
+import mdImageFlow from './js/markdown-plugins/image-flow';
+import mdImplicitFigures from 'markdown-it-implicit-figures';
 
-// import showdown from 'showdown';
-// import './js/showdown-plugins/showdown-block.js';
-
-// import './js/showdown-plugins/showdown-prettify-for-wechat.js';
-// import './js/showdown-plugins/showdown-task-list.js';
-// import './js/showdown-plugins/showdown-section-divider.js';
-// import './js/showdown-plugins/showdown-emoji.js';
-// import './js/showdown-plugins/showdown-image-size.js';
-// import './js/showdown-plugins/showdown-rich.js';
-// import './js/showdown-plugins/showdown-warning.js';
 import downloadBlobAsFile from './js/download.js';
 
 // 语法高亮
@@ -53,6 +47,17 @@ const tmpl = `<div class="mpeditor">
         </a>
       </li>
       <li class="mpe-nav-item">
+        <a href="javascript:void(0)" eid="pcBtn" title="切换PC视图" style="display:none">
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M661.333333 768v64H362.666667v-64h298.666666z m149.333334-576a64 64 0 0 1 64 64v405.333333a64 64 0 0 1-64 64H213.333333a64 64 0 0 1-64-64V256a64 64 0 0 1 64-64h597.333334z m0 64H213.333333v405.333333h597.333334V256z m-149.333334 170.666667v64H362.666667v-64h298.666666z" /></svg>
+        </a>
+      </li>
+      <li class="mpe-nav-item">
+        <a href="javascript:void(0)" eid="mobileBtn" title="切换手机视图">
+        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M704 149.333333a64 64 0 0 1 64 64v597.333334a64 64 0 0 1-64 64H320a64 64 0 0 1-64-64V213.333333a64 64 0 0 1 64-64h384z m0 64H320v597.333334h384V213.333333z m-192 469.333334a42.666667 42.666667 0 1 1 0 85.333333 42.666667 42.666667 0 0 1 0-85.333333z m85.333333-437.333334v64h-170.666666v-64h170.666666z" /></svg>
+        </a>
+      </li>
+
+      <li class="mpe-nav-item">
         <a href="javascript:void(0)" eid="copyBtn" title="复制内容">
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M746.666667 149.333333a64 64 0 0 1 64 64v181.333334a64 64 0 0 1 64 64v49.664l-64 58.496v-87.573334l-239.104 197.376a95.978667 95.978667 0 0 1-117.632 3.050667l-3.84-2.986667-236.757334-192V800h372.330667l62.805333 64H213.333333a64 64 0 0 1-64-64v-341.333333a64 64 0 0 1 64-64V213.333333a64 64 0 0 1 64-64h469.333334z m126.869333 467.861334l44.928 45.610666-174.08 171.456-105.536-104.106666 44.970667-45.568 60.586666 59.818666 129.130667-127.210666zM746.666667 213.333333H277.333333v240.853334l213.184 172.906666a32 32 0 0 0 37.845334 1.984l2.56-1.92L746.666667 449.109333V213.333333z m-149.333334 192v64H362.666667v-64h234.666666z m64-128v64H362.666667v-64h298.666666z" /></svg>
         </a>
@@ -77,7 +82,7 @@ const tmpl = `<div class="mpeditor">
     </div>
   </div>
   <div eclass="mpe-col" class="mpe-preview-col mpe-col ${LS.mpe_previewClass}" data-index=2>
-    <div class="mpe-preview-wrap">
+    <div class="mpe-preview-wrap" eid="previewContainer">
       <div class="mpe-preview" eid="preview"></div>
     </div>
   </div>
@@ -151,36 +156,12 @@ export default class Editor {
         let $nav = this.$nav;
         height = height - ($nav.is(':hidden') ? 0 : $nav.height());
         // this.$editor.height(height);
-        this.$preview.parent().height(height);
+        this.$previewContainer.height(height);
         // this.$container.find('[eclass=mpe-col]').height(height);
-        this.editor && this.editor.resize();
+        // this.editor && this.editor.resize();
     }
     // 私有方法
-    _initMarkdownRender() {
-        let md = markdownIt({
-            html: false, // Enable HTML tags in source
-            xhtmlOut: false, // Use '/' to close single tags (<br />).
-            // This is only for full CommonMark compatibility.
-            breaks: false, // Convert '\n' in paragraphs into <br>
-            langPrefix: 'language-', // CSS language prefix for fenced blocks. Can be
-            // useful for external highlighters.
-            linkify: false, // Autoconvert URL-like text to links
-            // Enable some language-neutral replacement + quotes beautification
-            // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js
-            typographer: false,
 
-            // Double + single quotes replacement pairs, when typographer enabled,
-            // and smartquotes on. Could be either a String or an Array.
-            //
-            // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
-            // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
-            quotes: '“”‘’'
-        });
-        // 添加plugin
-        md.use(mdHighlight);
-
-        return md;
-    }
     _autoSave() {
         // this._autoSaveTimer = setInterval(() => {
         let text = this.editor.getValue();
@@ -199,11 +180,10 @@ export default class Editor {
         const editorToTop = cmData.top;
         const editorScrollHeight = cmData.height - cmData.clientHeight;
         this.scale = ($preview[0].offsetHeight - $container[0].offsetHeight + 55) / editorScrollHeight;
-        const $previewContainer = $preview.parent();
+        const $previewContainer = this.$previewContainer;
         if (this.index === 1) {
             $previewContainer.scrollTop(editorToTop * this.scale);
-        }
-        else {
+        } else {
             markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale);
         }
     }
@@ -235,12 +215,21 @@ export default class Editor {
             // 存储
             LS.mpe_editorTheme = theme;
         });
+        this.$mobileBtn.on('click', () => {
+            this.$previewContainer.addClass('mobile');
+            this.$mobileBtn.hide();
+            this.$pcBtn.show();
+        });
+        this.$pcBtn.on('click', () => {
+            this.$previewContainer.removeClass('mobile');
+            this.$pcBtn.hide();
+            this.$mobileBtn.show();
+        });
         this.$downloadBtn.on('click', () => {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            }
-            else {
+            } else {
                 alert('写点啥再下载吧');
             }
         });
@@ -274,7 +263,35 @@ export default class Editor {
         }, timeout);
         return $tip;
     }
+    _initMarkdownRender() {
+        let md = markdownIt({
+            html: true, // Enable HTML tags in source
+            xhtmlOut: false, // Use '/' to close single tags (<br />).
+            // This is only for full CommonMark compatibility.
+            breaks: false, // Convert '\n' in paragraphs into <br>
+            langPrefix: 'language-', // CSS language prefix for fenced blocks. Can be
+            // useful for external highlighters.
+            linkify: false, // Autoconvert URL-like text to links
+            // Enable some language-neutral replacement + quotes beautification
+            // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js
+            typographer: false,
 
+            // Double + single quotes replacement pairs, when typographer enabled,
+            // and smartquotes on. Could be either a String or an Array.
+            //
+            // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+            // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+            quotes: '“”‘’'
+        });
+        // 添加plugin
+        md.use(mdBlockQuote) // blockquote嵌套
+            .use(mdHighlight) // 语法高亮
+            .use(mdImplicitFigures, {figcaption: true}) // 图示
+            .use(mdList) // li列表处理
+            .use(mdImageFlow); // 滚动图片
+
+        return md;
+    }
     // 初始化编辑器
     _initEditor(id, val) {
         const that = this;

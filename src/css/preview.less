@@ -30,6 +30,11 @@
     }
     &-wrap {
         overflow-y: auto;
+        &.mobile {
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+            width: 375px;
+            margin: 0 auto;
+        }
     }
     .mpe-section-divider {
         margin: 0 !important;
@@ -91,40 +96,7 @@
         color: #777;
         font-weight: 600;
     }
-    blockquote,
-    q {
-        border-left: 3px solid @color-primary;
-        border-radius: 3px;
-        // border-left: 0;
-        background-color: #ecf8ff;
-        padding: 0.8em 1em;
-        color: #5e6d82;
-        quotes: none;
 
-        p {
-            margin: 0;
-            font-size: 14px;
-            text-align: left !important;
-        }
-    }
-    blockquote,
-    q {
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            margin: 0 0 8px;
-            font-weight: bold;
-        }
-    }
-    blockquote::before,
-    blockquote::after,
-    q::before,
-    q::after {
-        content: none;
-    }
     del {
         text-decoration: none;
     }
@@ -132,7 +104,6 @@
     table,
     pre,
     dl,
-    blockquote,
     q,
     ul,
     ol {
@@ -241,45 +212,7 @@
         background-color: #f0f0f0;
     }
 
-    pre.prettyprint {
-        border-radius: 0;
-        font-size: @def-font-size;
-        background-color: #f1efee;
-        line-height: 1.2em;
-        font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
-        overflow-y: auto;
-    }
-
     // 代码相关
-
-    pre.prettyprint.linenums {
-        border: 1px solid #e2e2e2 !important;
-        padding: 8px 0 6px;
-        padding-right: 15px;
-    }
-
-    ol.linenums {
-        margin-top: 0;
-        margin-bottom: 0;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        list-style-type: none !important;
-        li {
-            code {
-                height: 20px !important;
-                line-height: 20px !important;
-                margin-left: -20px;
-                font-family: inherit !important;
-                display: flex;
-                span {
-                    font-size: 13px !important;
-                    line-height: 20px;
-                    font-family: 'consolas', 'menlo', 'courier', 'monospace', 'Microsoft Yahei' !important;
-                }
-            }
-        }
-    }
-
     .code-in-text {
         margin: 0 3px;
         white-space: pre-wrap;
@@ -327,7 +260,7 @@
             flex-shrink: 0;
             height: 100%;
             padding: 1em;
-            margin:0;
+            margin: 0;
             list-style-type: none;
         }
         .code-snippet__line-index li {
@@ -346,7 +279,7 @@
             color: rgba(0, 0, 0, 0.15);
         }
         pre {
-            margin:0;
+            margin: 0;
             overflow-x: auto;
             padding: 1em;
             padding-left: 1em;
@@ -364,5 +297,138 @@
             position: relative;
             font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
         }
+    }
+    // from https://www.mdnice.com/
+    // quote
+    /*引用*/
+    blockquote {
+        border: none;
+        color: #303133;
+        &.multiquote-1 {
+            border-left: 3px solid @color-primary;
+            border-radius: 3px;
+            // border-left: 0;
+            background-color: #ecf8ff;
+            padding: 0.8em 1em;
+            color: #5e6d82;
+            quotes: none;
+
+            p {
+                margin: 0;
+                font-size: 14px;
+                text-align: left !important;
+            }
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0 0 8px;
+            font-weight: bold;
+        }
+        &::before,
+        &::after {
+            content: none;
+        }
+        &.multiquote-2 {
+            margin: 20px auto;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 90%;
+        }
+
+        &.multiquote-3 {
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+        }
+
+        &.multiquote-3 p {
+            text-align: center;
+        }
+
+        &.multiquote-3 h3 {
+            text-align: center;
+        }
+    }
+    // image-flow
+    .imageflow-layer1 {
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+        white-space: normal;
+        border: 0px none;
+        padding: 0px;
+        overflow: hidden;
+    }
+    .imageflow-layer1 {
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+        white-space: normal;
+        border: 0px none;
+        padding: 0px;
+        overflow: hidden;
+    }
+
+    .imageflow-layer2 {
+        white-space: nowrap;
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .imageflow-layer3 {
+        display: inline-block;
+        word-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+    .imageflow-img {
+        display: inline-block;
+    }
+
+    .imageflow-caption {
+        text-align: center;
+        margin-top: 0px;
+        padding-top: 0px;
+        color: #888;
+    }
+
+    figure a {
+        border: none;
+    }
+
+    figure a img {
+        margin: 0px;
+    }
+
+    figure {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 图片链接嵌套 */
+    figure a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 图片链接嵌套，图片解释 */
+    figure a + figcaption {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: -35px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        line-height: 35px;
+        z-index: 20;
     }
 }
