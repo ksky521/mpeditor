@@ -12,6 +12,13 @@
         width: 50%;
         height: 100%;
     }
+    .CodeMirror {
+        font-size: @editor-font-size;
+        line-height: @editor-line-height;
+        height: 100vh;
+        -webkit-box-shadow: inset 0 0 12px -6px #000 !important;
+        box-shadow: inset 0 0 12px -6px #000 !important;
+    }
     .mpe {
         &_fl {
             float: left;
@@ -43,6 +50,7 @@
             }
         }
         &-wrap {
+            display: flex;
             // margin-top: @nav-height;
             .clearfix();
         }
@@ -51,30 +59,14 @@
         &-editor {
             width: 100%;
             height: 100%;
+            border: none;
             font-size: @editor-font-size;
             line-height: @editor-line-height;
 
             &-wrap {
+                // height: 100%;
                 // padding: 0 20px 0 0;
             }
-        }
-
-        //滚动条
-        &-col::-webkit-scrollbar {
-            width: 9px;
-        }
-        &-col::-webkit-scrollbar-track {
-            background: rgba(102, 128, 153, 0.1);
-        }
-        &-col::-webkit-scrollbar-thumb:hover {
-            background: rgba(102, 128, 153, 0.5);
-        }
-        &-col::-webkit-scrollbar-thumb {
-            background: rgba(102, 128, 153, 0.2);
-        }
-        &-col::-webkit-scrollbar-thumb:window-inactive,
-        &-col::-webkit-scrollbar-thumb:window-inactive {
-            background: rgba(102, 128, 153, 0.1);
         }
     }
 }
