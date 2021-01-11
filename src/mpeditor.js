@@ -4,7 +4,7 @@ import './css/theme-white.less';
 import Clipboard from 'clipboard';
 import $ from 'jQuery';
 import pangu from 'pangu';
-
+/* globals CodeMirror, $, jQuery */
 // markdown-it
 import markdownIt from 'markdown-it';
 import mdImgSize from 'markdown-it-imsize';
@@ -99,7 +99,52 @@ const tmpl = `<div class="mpeditor">
 `;
 /* eslint-enable  max-len */
 
+const KEYS_MAPS = {
+    'Cmd-B': 'bold',
+    'Cmd-I': 'italicize',
+    "Cmd-'": 'blockquote',
+    'Cmd-U':'strikethrough',
+    // 'Cmd-U': 'unorderedList',
+    'Cmd-P': 'image',
+    'Cmd-H': 'headerbox',
+    'Cmd-K': 'link'
+};
 export default class Editor {
+    actions = {
+        'Cmd-S'(instance) {
+            this._save();
+        },
+        bold() {
+            this.toggleAround('**', '**');
+        },
+        italicize() {
+            this.toggleAround('*', '*');
+        },
+        strikethrough() {
+            this.toggleAround('~~', '~~');
+        },
+        code() {
+            this.toggleAround('```\r\n', '\r\n```');
+        },
+        blockquote() {
+            this.toggleBefore('> ');
+        },
+        orderedList() {
+            this.toggleBefore('1. ');
+        },
+        unorderedList() {
+            this.toggleBefore('* ');
+        },
+        image() {
+            this.toggleAround('![', '](http://)');
+        },
+        link() {
+            this.toggleAround('[', '](http://)');
+        },
+        headerbox() {
+            this.toggleAround('<header-box>', '</header-box>');
+        }
+    };
     constructor(node, {text, updateDelayTime = 300} = {}) {
         let $container = $(node).html(tmpl);
         this.scale = 1;
@@ -112,9 +157,11 @@ export default class Editor {
             let id = dom.attr('eid');
             that['$' + id] = dom;
         });
+        // 在创建codeMirror之前
+        const extraKeys = this.registerKeyMaps();
 
         this.resize();
-        let editor = (this.editor = this._initEditor(this.$editor[0], text));
+        let editor = (this.editor = this._initEditor(this.$editor[0], text, extraKeys));
         this.converter = this._initMarkdownRender();
         if (text) {
             this.updatePreview(text);
@@ -134,6 +181,7 @@ export default class Editor {
         // 自动保存
         this._autoSave();
     }
+
     _setCurrentIndex(index) {
         this.index = parseInt(index, 10);
     }
@@ -157,12 +205,84 @@ export default class Editor {
         // TODO 收集footnote
         return this;
     }
+    toggleAround(start, end) {
+        let doc = this.editor.getDoc();
+        let cursor = doc.getCursor();
 
+        if (doc.somethingSelected()) {
+            let selection = doc.getSelection();
+            if (selection.startsWith(start) && selection.endsWith(end)) {
+                doc.replaceSelection(selection.substring(start.length, selection.length - end.length), 'around');
+            } else {
+                doc.replaceSelection(start + selection + end, 'around');
+            }
+        } else {
+            // If no selection then insert start and end args and set cursor position between the two.
+            doc.replaceRange(start + end, {line: cursor.line, ch: cursor.ch});
+            doc.setCursor({line: cursor.line, ch: cursor.ch + start.length});
+        }
+    }
+    toggleBefore(insertion) {
+        let doc = this.editor.getDoc();
+        let cursor = doc.getCursor();
+
+        if (doc.somethingSelected()) {
+            let selections = doc.listSelections();
+            let remove = null;
+            this.editor.operation(function () {
+                selections.forEach(function (selection) {
+                    let pos = [selection.head.line, selection.anchor.line].sort();
+
+                    // Remove if the first text starts with it
+                    if (remove == null) {
+                        remove = doc.getLine(pos[0]).startsWith(insertion);
+                    }
+
+                    for (let i = pos[0]; i <= pos[1]; i++) {
+                        if (remove) {
+                            // Don't remove if we don't start with it
+                            if (doc.getLine(i).startsWith(insertion)) {
+                                doc.replaceRange('', {line: i, ch: 0}, {line: i, ch: insertion.length});
+                            }
+                        } else {
+                            doc.replaceRange(insertion, {line: i, ch: 0});
+                        }
+                    }
+                });
+            });
+        } else {
+            let line = cursor.line;
+            if (doc.getLine(line).startsWith(insertion)) {
+                doc.replaceRange('', {line: line, ch: 0}, {line: line, ch: insertion.length});
+            } else {
+                doc.replaceRange(insertion, {line: line, ch: 0});
+            }
+        }
+    }
+    registerKeyMaps(keyMaps = KEYS_MAPS) {
+        const extraKeys = {};
+        Object.keys(keyMaps).forEach(key => {
+            const actionName = keyMaps[key];
+            if (typeof this.actions[actionName] !== 'function') {
+                throw `MPEditor CodeMirror: ${actionName} is not a registered action`;
+            }
+
+            let realName = key.replace(
+                'Cmd-',
+                CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Cmd-' : 'Ctrl-'
+            ).replace(
+                'Alt-',
+                CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Shift-' : 'Alt-'
+            );
+            extraKeys[realName] = this.actions[actionName].bind(this);
+        });
+        return extraKeys;
+    }
     // 改变大小
     resize(height) {
         height = height || this.$container.height();
-        let $nav = this.$nav;
-        height = height - ($nav.is(':hidden') ? 0 : $nav.height());
+        // let $nav = this.$nav;
+        // height = height;
         // this.$editor.height(height);
         this.$previewContainer.height(height);
         // this.$container.find('[eclass=mpe-col]').height(height);
@@ -187,13 +307,12 @@ export default class Editor {
         const cmData = markdownEditor.getScrollInfo();
         const editorToTop = cmData.top;
         const editorScrollHeight = cmData.height - cmData.clientHeight;
-        this.scale = ($preview[0].offsetHeight - $container[0].offsetHeight + 55) / editorScrollHeight;
+        this.scale = ($preview[0].offsetHeight - $container[0].offsetHeight + 40) / editorScrollHeight;
         const $previewContainer = this.$previewContainer;
         if (this.index === 1) {
             $previewContainer.scrollTop(editorToTop * this.scale);
-        }
-        else {
-            markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale);
+        } else {
+            markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale + 40);
         }
     }
     _bindEvent() {
@@ -238,8 +357,7 @@ export default class Editor {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            }
-            else {
+            } else {
                 alert('写点啥再下载吧');
             }
         });
@@ -299,13 +417,13 @@ export default class Editor {
             .use(mdImplicitFigures, {figcaption: true}) // 图示
             .use(mdList) // li列表处理
             .use(blockifyTag) // 自定义样式
-            .use(mdImgSize)// 图片
+            .use(mdImgSize) // 图片
             .use(mdImageFlow); // 滚动图片
 
         return md;
     }
     // 初始化编辑器
-    _initEditor(id, val) {
+    _initEditor(id, val, extraKeys) {
         const that = this;
         let theme = LS.mpe_editorTheme ? LS.mpe_editorTheme : 'default';
         // eslint-disable-next-line
@@ -314,14 +432,7 @@ export default class Editor {
             lineWrapping: true,
             styleActiveLine: true,
             theme,
-            extraKeys: {
-                'Cmd-S'(instance) {
-                    that._save();
-                },
-                'Ctrl-S'(instance) {
-                    that._save();
-                }
-            },
+            extraKeys,
             mode: 'text/x-markdown'
         });
 

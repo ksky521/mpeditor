@@ -15,11 +15,18 @@
 
 ## 本编辑器支持快捷键
 
--   `⌘+S` or `Ctrl+S`：保存编写的内容
+-   `⌘+S` / `Ctrl+S`：保存编写的内容
+-   `⌘+B` / `Ctrl+B`：加粗
+-   `⌘+I` / `Ctrl+I`：斜体
+-   `⌘+'` / `Ctrl+'`：引用
+-   `⌘+U` / `Ctrl+U`：删除线,
+-   `⌘+P` / `Ctrl+P`：快速插入图片,
+-   `⌘+H` / `Ctrl+H`：`header-box`语法，（往后看）
+-   `⌘+K` / `Ctrl+K`：快速链接
 
 <header-box>什么是 Markdown</header-box>
 
-Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 _斜体_ 、~~delete~~ 某些文字。["info" MPEditor] 使用了 `showdown` 语法（一种 markdown 的扩展语法）
+Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，**粗体** 、 _斜体_ 、~~delete~~ 某些文字。<span class="info">MPEditor</span> 使用了 `markdown-it`转换语法，`CodeMirror`来做编辑器
 
 <header-box>语法</header-box>
 
@@ -183,7 +190,7 @@ echo 'hello,world'
 
 
 #### 横屏滑动幻灯片
-<![蓝1](https://files.mdnice.com/blue.jpg),![绿2](https://files.mdnice.com/green.jpg),![红3](https://files.mdnice.com/red.jpg)>
+<![蓝1](https://wx3.sinaimg.cn/mw1024/796f423bly1gmjzbkngw7j20m80goglq.jpg),![绿2](https://wx2.sinaimg.cn/mw1024/796f423bly1gmjzbtl1dej20m80go3yr.jpg),![红3](https://wx1.sinaimg.cn/mw1024/796f423bly1gmjzc0fmapj20m80gomxf.jpg)>
 
 
 再一次感谢您花费时间阅读这份欢迎稿！

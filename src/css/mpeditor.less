@@ -6,7 +6,7 @@
 @import 'theme';
 .mpeditor {
     position: relative;
-    overflow-y: hidden;
+    // overflow-y: hidden;
     .clearfix();
     .mpe-col {
         width: 50%;
@@ -50,10 +50,12 @@
         }
         &-wrap {
             display: flex;
-            // margin-top: @nav-height;
+            margin-top: @nav-height;
             .clearfix();
         }
-
+        &-nav-wrap {
+            position: fixed;
+        }
         // editor
         &-editor {
             width: 100%;
