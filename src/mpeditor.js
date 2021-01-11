@@ -192,7 +192,8 @@ export default class Editor {
         const $previewContainer = this.$previewContainer;
         if (this.index === 1) {
             $previewContainer.scrollTop(editorToTop * this.scale);
-        } else {
+        }
+        else {
             markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale);
         }
     }
@@ -238,7 +239,8 @@ export default class Editor {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            } else {
+            }
+            else {
                 alert('写点啥再下载吧');
             }
         });
