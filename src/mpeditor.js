@@ -13,6 +13,9 @@ import mdList from './js/markdown-plugins/list';
 import mdImageFlow from './js/markdown-plugins/image-flow';
 import mdImplicitFigures from 'markdown-it-implicit-figures';
 
+// output plugin
+import emoji from './js/emoji';
+import center from './js/center';
 import downloadBlobAsFile from './js/download.js';
 
 // 语法高亮
@@ -138,11 +141,17 @@ export default class Editor {
         this.updatePreview();
         return this;
     }
+    render(content) {
+        let text = this.converter.render(content || this.editor.getValue());
+        text = emoji(text);
+        text = center(text);
+        return text;
+    }
     updatePreview(content) {
         // this._isInput = false;
         this._isUpdatePreview = true;
         // console.log(this.editor.getValue())
-        let val = this.converter.render(content || this.editor.getValue());
+        let val = this.render(content);
         this.$preview.html(val);
         // pangu
         pangu.spacingNode(this.$preview[0]);
@@ -183,8 +192,7 @@ export default class Editor {
         const $previewContainer = this.$previewContainer;
         if (this.index === 1) {
             $previewContainer.scrollTop(editorToTop * this.scale);
-        }
-        else {
+        } else {
             markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale);
         }
     }
@@ -230,8 +238,7 @@ export default class Editor {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            }
-            else {
+            } else {
                 alert('写点啥再下载吧');
             }
         });
