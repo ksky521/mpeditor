@@ -278,6 +278,83 @@
             display: inline;
             color: rgba(0, 0, 0, 0.15);
         }
+        .code-snippet_nowrap code {
+            white-space: pre;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex
+        }
+
+        .code-snippet_nowrap code span.code-snippet_outer::after {
+            content: " "
+        }
+
+        .code-snippet__comment,.code-snippet__quote {
+            color: #afafaf;
+            font-style: italic
+        }
+
+        .code-snippet__keyword,.code-snippet__selector-tag,.code-snippet__subst {
+            color: #ca7d37
+        }
+
+        .code-snippet__number,.code-snippet__literal,.code-snippet__variable,.code-snippet__template-variable,.code-snippet__tag .code-snippet__attr {
+            color: #0e9ce5
+        }
+
+        .code-snippet__string,.code-snippet__doctag {
+            color: #d14
+        }
+
+        .code-snippet__title,.code-snippet__section,.code-snippet__selector-id {
+            color: #d14
+        }
+
+        .code-snippet__subst {
+            font-weight: normal
+        }
+
+        .code-snippet__type,.code-snippet__class .code-snippet__title {
+            color: #0e9ce5
+        }
+
+        .code-snippet__tag,.code-snippet__name,.code-snippet__attribute {
+            color: #0e9ce5;
+            font-weight: normal
+        }
+
+        .code-snippet__regexp,.code-snippet__link {
+            color: #ca7d37
+        }
+
+        .code-snippet__symbol,.code-snippet__bullet {
+            color: #d14
+        }
+
+        .code-snippet__built_in,.code-snippet__builtin-name {
+            color: #ca7d37
+        }
+
+        .code-snippet__meta {
+            color: #afafaf
+        }
+
+        .code-snippet__deletion {
+            background: #fdd
+        }
+
+        .code-snippet__addition {
+            background: #dfd
+        }
+
+        .code-snippet__emphasis {
+            font-style: italic
+        }
+
+        .code-snippet__strong {
+            font-weight: bold
+        }
+
         pre {
             margin: 0;
             overflow-x: auto;
