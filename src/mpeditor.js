@@ -7,15 +7,16 @@ import pangu from 'pangu';
 
 // markdown-it
 import markdownIt from 'markdown-it';
+import mdImgSize from 'markdown-it-imsize';
+
 import mdHighlight from './js/markdown-plugins/highlight';
 import mdBlockQuote from './js/markdown-plugins/blockquote';
 import mdList from './js/markdown-plugins/list';
 import mdImageFlow from './js/markdown-plugins/image-flow';
 import mdImplicitFigures from 'markdown-it-implicit-figures';
+import blockifyTag from './js/markdown-plugins/blockify-tag';
 
 // output plugin
-import emoji from './js/emoji';
-import center from './js/center';
 import downloadBlobAsFile from './js/download.js';
 
 // 语法高亮
@@ -143,8 +144,6 @@ export default class Editor {
     }
     render(content) {
         let text = this.converter.render(content || this.editor.getValue());
-        text = emoji(text);
-        text = center(text);
         return text;
     }
     updatePreview(content) {
@@ -299,6 +298,8 @@ export default class Editor {
             .use(mdHighlight) // 语法高亮
             .use(mdImplicitFigures, {figcaption: true}) // 图示
             .use(mdList) // li列表处理
+            .use(blockifyTag) // 自定义样式
+            .use(mdImgSize)// 图片
             .use(mdImageFlow); // 滚动图片
 
         return md;

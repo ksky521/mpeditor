@@ -101,10 +101,18 @@ export default function (md) {
         const numbers = [];
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
+            /* eslint-disable max-len */
 
             codeLines.push(
                 `<code><span class="code-snippet_outer">${
-                    line ? (useHljs ? highlightjs.highlight(lang, line, true).value : line) : '<br>'
+                    line
+                        ? useHljs
+                            ? highlightjs
+                                .highlight(lang, line, true)
+                                .value.replace('&amp;gt;', '>')
+                                .replace('&amp;lt;', '<')
+                            : line
+                        : '<br>'
                 }</span></code>`
             );
             numbers.push('<li></li>');

@@ -76,6 +76,10 @@
     }
     h2 {
         font-size: 18px;
+        margin-bottom: 10px;
+    }
+    h6 {
+        font-size: 18px;
         border-bottom: solid 1px @title-color;
         margin-bottom: 10px;
     }
@@ -84,14 +88,13 @@
         font-weight: 600;
         margin-bottom: 10px;
     }
-    h4,
-    h5 {
+    h4 {
         font-size: 16px;
         color: #666;
         font-weight: 600;
     }
 
-    h6 {
+    h5 {
         font-size: 16px;
         color: #777;
         font-weight: 600;
@@ -211,11 +214,31 @@
         font-weight: bold;
         background-color: #f0f0f0;
     }
+    // 内置样式
+    span.green,
+    span.success {
+        color: #67c23a;
+    }
+    span.blue,
+    span.info {
+        color: #409eff;
+    }
+    span.red,
+    span.danger {
+        color: #ff656a;
+    }
+    span.yellow,
+    span.warning {
+        color: #e6a23c;
+    }
+
+    span.gray {
+        color: #999999;
+    }
 
     // 代码相关
     .code-in-text {
         margin: 0 3px;
-        white-space: pre-wrap;
         display: inline;
         color: #c7254e;
         background: #f3f1f1;
@@ -239,6 +262,20 @@
     }
 
     /*wechat code block*/
+    .code-snippet {
+        font-size: 14px;
+        margin: 10px 0;
+        display: block;
+        overflow-x: auto;
+        color: #333;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.03);
+        border: 1px solid #f0f0f0;
+        border-radius: 2px;
+        counter-reset: line;
+        line-height: 26px;
+        white-space: normal;
+    }
     .rich_media_content .code-snippet *,
     .rich_media_content .code-snippet__fix * {
         max-width: 1000% !important;
@@ -255,6 +292,30 @@
         border-radius: 2px;
         display: flex;
         line-height: 26px;
+        pre {
+            margin: 0;
+            overflow-x: auto;
+            padding: 1em;
+            padding-left: 0;
+            white-space: normal;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+        }
+        code {
+            text-align: left;
+            font-size: 14px;
+            display: block;
+            white-space: pre;
+            display: flex;
+            position: relative;
+            font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        }
+        .code-snippet_nowrap code {
+            white-space: pre;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+        }
         .code-snippet__line-index {
             counter-reset: line;
             flex-shrink: 0;
@@ -278,101 +339,91 @@
             display: inline;
             color: rgba(0, 0, 0, 0.15);
         }
-        .code-snippet_nowrap code {
-            white-space: pre;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex
-        }
 
         .code-snippet_nowrap code span.code-snippet_outer::after {
-            content: " "
+            content: ' ';
         }
 
-        .code-snippet__comment,.code-snippet__quote {
+        .code-snippet__comment,
+        .code-snippet__quote {
             color: #afafaf;
-            font-style: italic
+            font-style: italic;
         }
 
-        .code-snippet__keyword,.code-snippet__selector-tag,.code-snippet__subst {
-            color: #ca7d37
+        .code-snippet__keyword,
+        .code-snippet__selector-tag,
+        .code-snippet__subst {
+            color: #ca7d37;
         }
 
-        .code-snippet__number,.code-snippet__literal,.code-snippet__variable,.code-snippet__template-variable,.code-snippet__tag .code-snippet__attr {
-            color: #0e9ce5
+        .code-snippet__number,
+        .code-snippet__literal,
+        .code-snippet__variable,
+        .code-snippet__template-variable,
+        .code-snippet__tag .code-snippet__attr {
+            color: #0e9ce5;
         }
 
-        .code-snippet__string,.code-snippet__doctag {
-            color: #d14
+        .code-snippet__string,
+        .code-snippet__doctag {
+            color: #d14;
         }
 
-        .code-snippet__title,.code-snippet__section,.code-snippet__selector-id {
-            color: #d14
+        .code-snippet__title,
+        .code-snippet__section,
+        .code-snippet__selector-id {
+            color: #d14;
         }
 
         .code-snippet__subst {
-            font-weight: normal
+            font-weight: normal;
         }
 
-        .code-snippet__type,.code-snippet__class .code-snippet__title {
-            color: #0e9ce5
-        }
-
-        .code-snippet__tag,.code-snippet__name,.code-snippet__attribute {
+        .code-snippet__type,
+        .code-snippet__class .code-snippet__title {
             color: #0e9ce5;
-            font-weight: normal
         }
 
-        .code-snippet__regexp,.code-snippet__link {
-            color: #ca7d37
+        .code-snippet__tag,
+        .code-snippet__name,
+        .code-snippet__attribute {
+            color: #0e9ce5;
+            font-weight: normal;
         }
 
-        .code-snippet__symbol,.code-snippet__bullet {
-            color: #d14
+        .code-snippet__regexp,
+        .code-snippet__link {
+            color: #ca7d37;
         }
 
-        .code-snippet__built_in,.code-snippet__builtin-name {
-            color: #ca7d37
+        .code-snippet__symbol,
+        .code-snippet__bullet {
+            color: #d14;
+        }
+
+        .code-snippet__built_in,
+        .code-snippet__builtin-name {
+            color: #ca7d37;
         }
 
         .code-snippet__meta {
-            color: #afafaf
+            color: #afafaf;
         }
 
         .code-snippet__deletion {
-            background: #fdd
+            background: #fdd;
         }
 
         .code-snippet__addition {
-            background: #dfd
+            background: #dfd;
         }
 
         .code-snippet__emphasis {
-            font-style: italic
+            font-style: italic;
         }
 
         .code-snippet__strong {
-            font-weight: bold
-        }
-
-        pre {
-            margin: 0;
-            overflow-x: auto;
-            padding: 1em;
-            padding-left: 1em;
-            padding-left: 0;
-            white-space: normal;
-            flex: 1;
-            -webkit-overflow-scrolling: touch;
-        }
-        code {
-            text-align: left;
-            font-size: 14px;
-            display: block;
-            white-space: pre;
-            display: flex;
-            position: relative;
-            font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-weight: bold;
         }
     }
     // from https://www.mdnice.com/

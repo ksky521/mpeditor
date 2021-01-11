@@ -4476,6 +4476,11 @@ markdown-it-implicit-figures@^0.10.0:
   resolved "https://registry.npm.taobao.org/markdown-it-implicit-figures/download/markdown-it-implicit-figures-0.10.0.tgz#0e75e80b846da1e3117a3fc6d6b013d0cc3f2a8c"
   integrity sha1-DnXoC4RtoeMRej/G1rAT0Mw/Kow=
 
+markdown-it-imsize@~2.0.1:
+  version "2.0.1"
+  resolved "http://registry.npm.baidu-int.com/markdown-it-imsize/-/markdown-it-imsize-2.0.1.tgz#cca0427905d05338a247cb9ca9d968c5cddd5170"
+  integrity sha1-zKBCeQXQUziiR8ucqdloxc3dUXA=
+
 markdown-it@~12.0.4:
   version "12.0.4"
   resolved "http://registry.npm.baidu-int.com/markdown-it/-/markdown-it-12.0.4.tgz#eec8247d296327eac3ba9746bdeec9cfcc751e33"

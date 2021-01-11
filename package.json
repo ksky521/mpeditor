@@ -69,8 +69,9 @@
     "main": "src/js/mpeditor",
     "dependencies": {
         "highlight.js":"~10.5.0",
-        "markdown-it-implicit-figures":"^0.10.0",
         "markdown-it":"~12.0.4",
+        "markdown-it-implicit-figures":"^0.10.0",
+        "markdown-it-imsize":"~2.0.1",
         "clipboard": "^2.0.6",
         "normalize.css": "^8.0.1",
         "pangu": "^4.0.7"
