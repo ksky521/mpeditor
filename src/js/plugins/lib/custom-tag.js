@@ -47,8 +47,8 @@ export default function (tokens, idx) {
                                     </section>
                                 </section>
                                 <p style="margin: 15px auto 5px; clear: both; min-height: 1em;margin:0 !important;color:#888;">${
-                                    content ? content : '上下滑动展示更多'
-                                }</p>
+    content ? content : '上下滑动展示更多'
+}</p>
                             </section>
                             `;
                 }

@@ -20,9 +20,9 @@ exports.htmlInlineParser = function (html) {
                         if (a.indexOf('=') !== -1) {
                             const idx = a.indexOf('=');
                             return [a.slice(0, idx), a.slice(idx + 1)];
-                        } else {
-                            return [a, ''];
                         }
+                        return [a, ''];
+
                     })
                     .reduce((prev, next) => {
                         prev[next[0]] = next[1] ? next[1].replace(/^['"]|['"]$/g, '') : true;

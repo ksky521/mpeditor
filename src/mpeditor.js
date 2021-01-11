@@ -101,6 +101,7 @@ const tmpl = `<div class="mpeditor">
 /* eslint-enable  max-len */
 
 const KEYS_MAPS = {
+    'Cmd-S': 'save',
     'Cmd-B': 'bold',
     'Cmd-I': 'italicize',
     'Cmd-\'': 'blockquote',
@@ -112,7 +113,7 @@ const KEYS_MAPS = {
 };
 export default class Editor {
     actions = {
-        'Cmd-S'(instance) {
+        save(instance) {
             this._save();
         },
         bold() {

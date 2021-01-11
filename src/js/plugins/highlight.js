@@ -117,7 +117,7 @@ export default function (md) {
             );
             numbers.push('<li></li>');
         }
-        return `<section class="code-snippet code-snippet__fix code-snippet__js">
+        return `<section class="code-snippet code-snippet__fix code-snippet__js code-snippet_nowrap">
             <ul class="code-snippet__line-index code-snippet__js">
             ${numbers.join('')}
             </ul>

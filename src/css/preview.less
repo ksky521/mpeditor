@@ -260,20 +260,20 @@
     }
 
     /*wechat code block*/
-    .code-snippet {
-        font-size: 14px;
-        margin: 10px 0;
-        display: block;
-        overflow-x: auto;
-        color: #333;
-        position: relative;
-        background-color: rgba(0, 0, 0, 0.03);
-        border: 1px solid #f0f0f0;
-        border-radius: 2px;
-        counter-reset: line;
-        line-height: 26px;
-        white-space: normal;
-    }
+    // .code-snippet {
+    //     font-size: 14px;
+    //     margin: 10px 0;
+    //     display: block;
+    //     overflow-x: auto;
+    //     color: #333;
+    //     position: relative;
+    //     background-color: rgba(0, 0, 0, 0.03);
+    //     border: 1px solid #f0f0f0;
+    //     border-radius: 2px;
+    //     counter-reset: line;
+    //     line-height: 26px;
+    //     white-space: normal;
+    // }
     .rich_media_content .code-snippet *,
     .rich_media_content .code-snippet__fix * {
         max-width: 1000% !important;
@@ -282,7 +282,6 @@
         word-wrap: break-word !important;
         font-size: 14px;
         margin: 10px 0;
-        display: block;
         color: #333;
         position: relative;
         background-color: rgba(0, 0, 0, 0.03);
@@ -300,27 +299,23 @@
             -webkit-overflow-scrolling: touch;
         }
         code {
+            white-space: pre;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
             text-align: left;
             font-size: 14px;
-            display: block;
             white-space: pre;
-            display: flex;
             position: relative;
             background: transparent;
             color: @color-text-primary;
             font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
         }
-        .code-snippet_nowrap code {
-            white-space: pre;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-        }
         .code-snippet__line-index {
             counter-reset: line;
             flex-shrink: 0;
             height: 100%;
-            padding: 14px 10px;
+            padding: 1em 10px;
             margin: 0;
             list-style-type: none;
         }
