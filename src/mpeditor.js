@@ -91,6 +91,8 @@ const tmpl = `<div class="mpeditor">
       <li class="mpe-nav-item mpe-nav-select" style="width: 120px;">
         <select eid="prismTheme">
           <option selected value="prism">default</option>
+          <option value="wechat">wechat</option>
+          <option value="wechat-prism">wechat-prism</option>
           <option value="prism-dark">dark</option>
           <option value="prism-funky">funky</option>
           <option value="prism-okaidia">okaidia</option>
@@ -404,6 +406,39 @@ export default class Editor {
             LS.mpe_editorTheme = theme;
         });
         this.$prismTheme.on('change', function () {
+            that.updatePreview();
+            if (this.value === 'wechat-prism') {
+                $('.linenums').each((index, dom) => {
+                    let newHtml = '';
+                    $(dom).find('code').each((index, code) => {
+                        let codeSnippets = code.innerHTML.split('\n').map(line => {
+                            let res = line.replace(/class=\"token\s(.+?)\"/ig, (origin, target) => {
+                                //  Prismjs -> wechat highlight.js
+                                if (target === 'function') {
+                                    target = 'title';
+                                }
+                                return `class="code-snippet__${target}"`;
+                            });
+                            return `<code>${res}</code>`;
+                        }).join('\n');
+                        newHtml += codeSnippets;
+                    });
+                    dom.classList.add('code-snippet__js', 'code-snippet', 'code-snippet_nowrap');
+                    dom.innerHTML = newHtml;
+                });
+                return;
+            }
+            else if (this.value === 'wechat') {
+                $('.linenums').each((index, dom) => {
+                    let lines = dom.textContent.split('\n');
+                    let newHtml = lines.map(text => {
+                        return `<code>${text}</code>`;
+                    }).join('\n');
+                    dom.classList.add('code-snippet__js', 'code-snippet', 'code-snippet_nowrap');
+                    dom.innerHTML = newHtml;
+                });
+                return;
+            }
             let theme = this.value;
 
             $('#prismjs-style').attr('href', `https://prismjs.com/themes/${theme}.css`);
