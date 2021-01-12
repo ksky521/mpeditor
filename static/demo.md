@@ -125,8 +125,11 @@ echo 'hello,world'
 
 另外还支持`<image-flow>`标签语法，添加图片横屏滑动幻灯片（灵感来自MarkdownNice）
 
-<image-flow images="http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkx1YibJjvrLPk4lvuv78spVzucdibRuDGLYqFe5ib1ZbAYbj0UoSrv4dww/640.jpeg,http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkbZ8lcG8TyYoiaga2vBatzWnxvyg3a1EJ36k9OjLS84ewXsUgq4ic9owg/640.jpeg,http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkiazYw2XlUKNicLoNzvyJbDSp46cTlMvjgsboibG7drKY8z1psvNzg4uUQ/640.jpeg">左右滑动展示更多</image-flow>
+<image-flow images="https://wximg.yiban.io/img_proxy?src=http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkx1YibJjvrLPk4lvuv78spVzucdibRuDGLYqFe5ib1ZbAYbj0UoSrv4dww/640.jpeg,https://wximg.yiban.io/img_proxy?src=http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkbZ8lcG8TyYoiaga2vBatzWnxvyg3a1EJ36k9OjLS84ewXsUgq4ic9owg/640.jpeg,https://wximg.yiban.io/img_proxy?src=http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkiazYw2XlUKNicLoNzvyJbDSp46cTlMvjgsboibG7drKY8z1psvNzg4uUQ/640.jpeg">左右滑动展示更多</image-flow>
 
+这是个竖向滑动的
+
+<image-flow vertical images="https://wximg.yiban.io/img_proxy?src=http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkx1YibJjvrLPk4lvuv78spVzucdibRuDGLYqFe5ib1ZbAYbj0UoSrv4dww/640.jpeg,https://wximg.yiban.io/img_proxy?src=http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkbZ8lcG8TyYoiaga2vBatzWnxvyg3a1EJ36k9OjLS84ewXsUgq4ic9owg/640.jpeg,https://wximg.yiban.io/img_proxy?src=http://mmbiz.qpic.cn/mmbiz_jpg/yqVAqoZvDibGYNY6cUEiayxW9z2LhUwibmkiazYw2XlUKNicLoNzvyJbDSp46cTlMvjgsboibG7drKY8z1psvNzg4uUQ/640.jpeg">上下滑动展示更多</image-flow>
 ## 7. 引用
 
 > MPEditor 解决了微信公众号编辑中遇见的一些编辑问题，增加了「工（ma）程（nong）师（men）」经常遇见的代码高亮、emoji 问题。希望你会喜欢这种极（zhuang）客（bi）的体验

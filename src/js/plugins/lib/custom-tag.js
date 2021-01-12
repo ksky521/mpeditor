@@ -29,21 +29,44 @@ export default function (tokens, idx) {
         </section>`;
         case 'image-flow':
             if (attrs.images) {
+                if (attrs.vertical) {
+                    let wrappedContent = '';
+                    const {width = 320, height = 344} = attrs;
+                    attrs.images.split(',').forEach(src => {
+                        wrappedContent += `<section style="clear: both;margin:0 !important; min-height: 1em;">
+                        <img  src="${src}" style="width: ${width}px; vertical-align: top; height: auto !important;">
+                    </section>`;
+                    });
+                    return `
+                            <section style="text-align: center; border-width: 1px; border-style: solid; border-color: rgb(240, 240, 240);overflow:hidden;">
+                                <section style="display: inline-block;overflow:hidden;">
+                                    <section style="overflow: hidden scroll; height: ${height}px; display: inline-block; color: inherit;">
+                                        <section style="padding: 3px 2px; color: inherit; border-color: rgb(252, 180, 43);">
+                                        ${wrappedContent}
+                                        </section>
+                                    </section>
+                                </section>
+                                <p style="margin: 15px auto 5px; clear: both; min-height: 1em;margin:0 !important;color:#888;">${
+                                    content ? content : '上下滑动展示更多'
+                                }</p>
+                            </section>
+                            `;
+                }
                 let wrappedContent = '';
                 attrs.images.split(',').forEach(src => {
                     wrappedContent += `<section class="imageflow-item"><img src="${src}" class="imageflow-img" /></section>`;
                 });
 
                 return `
-                <section class="imageflow">
-                    <section class="imageflow-wrap">
-                        <section class="imageflow-box">
-                            ${wrappedContent}
+                    <section class="imageflow">
+                        <section class="imageflow-wrap">
+                            <section class="imageflow-box">
+                                ${wrappedContent}
+                            </section>
                         </section>
+                        <p class="imageflow-text">${content ? content : '左右滑动展示更多'}</p>
                     </section>
-                    <p class="imageflow-text">${content ? content : '左右滑动展示更多'}</p>
-                </section>
-                `;
+                    `;
             }
 
         case 'qrcode-box':

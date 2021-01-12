@@ -1,5 +1,6 @@
 const autoCloseTagRe = /^<([A-Za-z][A-Za-z0-9\-]*)[^\<]*\/>$/;
 const openCloseTagRe = /^<([A-Za-z][A-Za-z0-9\-]*)([^\<]*)>(.*?)<\/\1>$/;
+
 exports.htmlInlineParser = function (html) {
     if ('<' === html.charAt(0)) {
         // 自闭和
@@ -16,7 +17,12 @@ exports.htmlInlineParser = function (html) {
                 attrs = attrs
                     .split(/\s+/)
                     .map(a => {
-                        return a.split('=');
+                        if (a.indexOf('=') !== -1) {
+                            const idx = a.indexOf('=');
+                            return [a.slice(0, idx), a.slice(idx + 1)];
+                        } else {
+                            return [a, ''];
+                        }
                     })
                     .reduce((prev, next) => {
                         prev[next[0]] = next[1] ? next[1].replace(/^['"]|['"]$/g, '') : true;
