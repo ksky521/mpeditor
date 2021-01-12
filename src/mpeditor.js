@@ -2,59 +2,34 @@ import './css/common.less';
 import './css/mpeditor.less';
 import './css/theme-white.less';
 import Clipboard from 'clipboard';
-import _ from 'underscore';
 import $ from 'jQuery';
 import pangu from 'pangu';
-// ace
-import * as ace from 'brace';
-import 'brace/mode/markdown';
-import 'brace/theme/solarized_light';
-import 'brace/theme/solarized_dark';
-import 'brace/theme/chrome';
-import 'brace/theme/chaos';
-import 'brace/theme/ambiance';
-import 'brace/theme/clouds';
-import 'brace/theme/clouds_midnight';
-import 'brace/theme/cobalt';
-import 'brace/theme/dawn';
-import 'brace/theme/github';
-import 'brace/theme/monokai';
-import 'brace/theme/textmate';
-import 'brace/theme/kuroir';
-import 'brace/theme/twilight';
-import 'brace/theme/merbivore';
-import 'brace/theme/mono_industrial';
-import 'brace/theme/merbivore_soft';
-import 'brace/theme/tomorrow';
-import 'brace/theme/tomorrow_night';
-import 'brace/theme/tomorrow_night_bright';
-import 'brace/theme/tomorrow_night_blue';
-import hotkeys from 'hotkeys-js';
+/* globals CodeMirror, $, jQuery */
+// markdown-it
+import markdownIt from 'markdown-it';
+import mdImgSize from 'markdown-it-imsize';
 
-// showdown
-import showdown from 'showdown';
-import './js/showdown-plugins/showdown-block.js';
+import mdHighlight from './js/plugins/highlight';
+import mdFootnote from './js/plugins/footnote';
+import mdBlockQuote from './js/plugins/blockquote';
+import mdList from './js/plugins/list';
+import mdImage from './js/plugins/image';
+import blockifyTag from './js/plugins/blockify-tag';
+import mdTableContainter from './js/plugins/table-container';
 
-import './js/showdown-plugins/showdown-prettify-for-wechat.js';
-import './js/showdown-plugins/showdown-task-list.js';
-import './js/showdown-plugins/showdown-section-divider.js';
-import './js/showdown-plugins/showdown-emoji.js';
-import './js/showdown-plugins/showdown-image-size.js';
-import './js/showdown-plugins/showdown-rich.js';
-import './js/showdown-plugins/showdown-warning.js';
+// output plugin
 import downloadBlobAsFile from './js/download.js';
 
 // 语法高亮
 
 const LS = window.localStorage;
-LS.mpe_previewClass = LS.mpe_previewClass || 'mpe_fr';
-LS.mpe_editorClass = LS.mpe_editorClass || 'mpe_fl';
-
+LS.mpe_previewClass = LS.mpe_previewClass || '';
+LS.mpe_editorClass = LS.mpe_editorClass || '';
+/* eslint-disable  max-len */
 const tmpl = `<div class="mpeditor">
 <div class="mpe-nav-wrap" eid="nav">
   <div class="mpe-nav">
     <ul class="mpe-nav-tools mpe_fl">
-
     </ul>
     <ul class="mpe-nav-tools mpe_fr">
       <li class="mpe-nav-item mpe-nav-text">
@@ -62,44 +37,13 @@ const tmpl = `<div class="mpeditor">
       </li>
       <li class="mpe-nav-item mpe-nav-select">
         <select eid="editorTheme">
-          <option value="solarized_light">「默认」solarized_light</option>
-          <option selected value="solarized_dark">solarized_dark</option>
-          <option value="chrome">chrome</option>
-          <option value="chaos">chaos</option>
-          <option value="ambiance">ambiance</option>
-          <option value="clouds">clouds</option>
-          <option value="clouds_midnight">clouds_midnight</option>
-          <option value="cobalt">cobalt</option>
-          <option value="dawn">dawn</option>
-          <option value="github">github</option>
+          <option value="default">default</option>
+          <option value="solarized">solarized</option>
           <option value="monokai">monokai</option>
-          <option value="textmate">textmate</option>
-          <option value="kuroir">kuroir</option>
           <option value="twilight">twilight</option>
-          <option value="merbivore">merbivore</option>
-          <option value="mono_industrial">mono_industrial</option>
-          <option value="merbivore_soft">merbivore_soft</option>
-          <option value="tomorrow">tomorrow</option>
-          <option value="tomorrow_night">tomorrow_night</option>
-          <option value="tomorrow_night_bright">tomorrow_night_bright</option>
-          <option value="tomorrow_night_blue">tomorrow_night_blue</option>
-        </select>
-      </li>
-      <li class="mpe-nav-item mpe-nav-text">
-        <span>Prismjs主题</span>
-      </li>
-      <li class="mpe-nav-item mpe-nav-select" style="width: 120px;">
-        <select eid="prismTheme">
-          <option selected value="prism">default</option>
-          <option value="wechat">wechat</option>
-          <option value="wechat-prism">wechat-prism</option>
-          <option value="prism-dark">dark</option>
-          <option value="prism-funky">funky</option>
-          <option value="prism-okaidia">okaidia</option>
-          <option value="prism-twilight">twilight</option>
-          <option value="prism-coy">coy</option>
-          <option value="prism-solarizedlight">solarized_light</option>
-          <option value="prism-tomorrow">tomorrow_night</option>
+          <option value="material">material</option>
+          <option value="night">night</option>
+          <option value="midnight">midnight</option>
         </select>
       </li>
       <li class="mpe-nav-item">
@@ -108,10 +52,16 @@ const tmpl = `<div class="mpeditor">
         </a>
       </li>
       <li class="mpe-nav-item">
-        <a href="javascript:void(0)" eid="transferBtn" title="左右屏转换">
-            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M789.333333 532.138667a64 64 0 0 1 64 64v194.389333a64 64 0 0 1-64 64h-194.368a64 64 0 0 1-64-64v-194.389333a64 64 0 0 1 64-64H789.333333z m0 64h-194.368v194.389333H789.333333v-194.389333z m-436.16-64.021334v137.514667L490.666667 669.610667v64h-137.472a64 64 0 0 1-64-64l-0.021334-137.472 64-0.021334zM426.666667 169.472a64 64 0 0 1 64 64v194.389333a64 64 0 0 1-64 64h-194.368a64 64 0 0 1-64-64v-194.389333a64 64 0 0 1 64-64H426.666667z m241.770666 120.896a64 64 0 0 1 64 64v137.472l-64-0.021333v-137.450667h-137.493333v-64h137.493333zM426.666667 233.472h-194.368v194.389333H426.666667v-194.389333z" /></svg>
+        <a href="javascript:void(0)" eid="pcBtn" title="切换PC视图" >
+            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M661.333333 768v64H362.666667v-64h298.666666z m149.333334-576a64 64 0 0 1 64 64v405.333333a64 64 0 0 1-64 64H213.333333a64 64 0 0 1-64-64V256a64 64 0 0 1 64-64h597.333334z m0 64H213.333333v405.333333h597.333334V256z m-149.333334 170.666667v64H362.666667v-64h298.666666z" /></svg>
         </a>
       </li>
+      <li class="mpe-nav-item">
+        <a href="javascript:void(0)" eid="mobileBtn" title="切换手机视图" style="display:none">
+        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M704 149.333333a64 64 0 0 1 64 64v597.333334a64 64 0 0 1-64 64H320a64 64 0 0 1-64-64V213.333333a64 64 0 0 1 64-64h384z m0 64H320v597.333334h384V213.333333z m-192 469.333334a42.666667 42.666667 0 1 1 0 85.333333 42.666667 42.666667 0 0 1 0-85.333333z m85.333333-437.333334v64h-170.666666v-64h170.666666z" /></svg>
+        </a>
+      </li>
+
       <li class="mpe-nav-item">
         <a href="javascript:void(0)" eid="copyBtn" title="复制内容">
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M746.666667 149.333333a64 64 0 0 1 64 64v181.333334a64 64 0 0 1 64 64v49.664l-64 58.496v-87.573334l-239.104 197.376a95.978667 95.978667 0 0 1-117.632 3.050667l-3.84-2.986667-236.757334-192V800h372.330667l62.805333 64H213.333333a64 64 0 0 1-64-64v-341.333333a64 64 0 0 1 64-64V213.333333a64 64 0 0 1 64-64h469.333334z m126.869333 467.861334l44.928 45.610666-174.08 171.456-105.536-104.106666 44.970667-45.568 60.586666 59.818666 129.130667-127.210666zM746.666667 213.333333H277.333333v240.853334l213.184 172.906666a32 32 0 0 0 37.845334 1.984l2.56-1.92L746.666667 449.109333V213.333333z m-149.333334 192v64H362.666667v-64h234.666666z m64-128v64H362.666667v-64h298.666666z" /></svg>
@@ -131,13 +81,13 @@ const tmpl = `<div class="mpeditor">
   </div>
 </div>
 <div class="mpe-wrap">
-  <div eclass="mpe-col" class="mpe-editor-col mpe-col ${LS.mpe_editorClass}">
+  <div eclass="mpe-col" class="mpe-editor-col mpe-col ${LS.mpe_editorClass}" data-index=1>
     <div class="mpe-editor-wrap">
-      <div eid="editor" class="mpe-editor"></div>
+      <textarea eid="editor" class="mpe-editor" type="textarea" placeholder="Your markdown here." style="display: none;height:100%;"></textarea>
     </div>
   </div>
-  <div eclass="mpe-col" class="mpe-preview-col mpe-col ${LS.mpe_previewClass}">
-    <div class="mpe-preview-wrap">
+  <div eclass="mpe-col" class="mpe-preview-col mpe-col ${LS.mpe_previewClass}" data-index=2>
+    <div class="mpe-preview-wrap mobile" eid="previewContainer">
       <div class="mpe-preview" eid="preview"></div>
     </div>
   </div>
@@ -148,18 +98,60 @@ const tmpl = `<div class="mpeditor">
 </div>
 </div>
 `;
-const $win = $(window);
-let mdSections = [];
-let offsetBegin = 0;
-$win.on('createMdSection', (evt, ...data) => {
-    mdSections = data;
-}).on('markdownTrim', (e, offset) => {
-    offsetBegin = offset;
-});
+/* eslint-enable  max-len */
 
+const KEYS_MAPS = {
+    'Cmd-S': 'save',
+    'Cmd-B': 'bold',
+    'Cmd-I': 'italicize',
+    'Cmd-\'': 'blockquote',
+    'Cmd-U': 'strikethrough',
+    // 'Cmd-U': 'unorderedList',
+    'Cmd-P': 'image',
+    'Cmd-H': 'headerbox',
+    'Cmd-K': 'link'
+};
 export default class Editor {
+    actions = {
+        save(instance) {
+            this._save();
+        },
+        bold() {
+            this.toggleAround('**', '**');
+        },
+        italicize() {
+            this.toggleAround('*', '*');
+        },
+        strikethrough() {
+            this.toggleAround('~~', '~~');
+        },
+        code() {
+            this.toggleAround('```\r\n', '\r\n```');
+        },
+        blockquote() {
+            this.toggleBefore('> ');
+        },
+        orderedList() {
+            this.toggleBefore('1. ');
+        },
+        unorderedList() {
+            this.toggleBefore('* ');
+        },
+        image() {
+            this.toggleAround('![', '](http://)');
+        },
+        link() {
+            this.toggleAround('[', '](http://)');
+        },
+        headerbox() {
+            this.toggleAround('<header-box>', '</header-box>');
+        }
+    };
     constructor(node, {text, updateDelayTime = 300} = {}) {
         let $container = $(node).html(tmpl);
+        this.scale = 1;
+        this.index = 1;
+
         this.$container = $container;
         let that = this;
         $container.find('[eid]').each((i, dom) => {
@@ -167,10 +159,12 @@ export default class Editor {
             let id = dom.attr('eid');
             that['$' + id] = dom;
         });
+        // 在创建codeMirror之前
+        const extraKeys = this.registerKeyMaps();
 
         this.resize();
-        let editor = (this.editor = this._initEditor(this.$editor[0], text));
-        this.converter = this._initShowdown();
+        let editor = (this.editor = this._initEditor(this.$editor[0], text, extraKeys));
+        this.converter = this._initMarkdownRender();
         if (text) {
             this.updatePreview(text);
         }
@@ -189,47 +183,116 @@ export default class Editor {
         // 自动保存
         this._autoSave();
     }
+
+    _setCurrentIndex(index) {
+        this.index = parseInt(index, 10);
+    }
     setValue(content) {
-        this.editor.getSession().setValue(content);
+        this.editor.setValue(content);
         this.updatePreview();
         return this;
+    }
+    render(content) {
+        let text = this.converter.render(content || this.editor.getValue());
+        return text;
     }
     updatePreview(content) {
         // this._isInput = false;
         this._isUpdatePreview = true;
         // console.log(this.editor.getValue())
-        let val = this.converter.makeHtml(content || this.editor.getValue());
+        let val = this.render(content);
         this.$preview.html(val);
         // pangu
         pangu.spacingNode(this.$preview[0]);
-        this._buildSection();
-        // eslint-disable-next-line no-undef
-        Prism.highlightAll();
+        // TODO 收集footnote
         return this;
     }
+    toggleAround(start, end) {
+        let doc = this.editor.getDoc();
+        let cursor = doc.getCursor();
 
+        if (doc.somethingSelected()) {
+            let selection = doc.getSelection();
+            if (selection.startsWith(start) && selection.endsWith(end)) {
+                doc.replaceSelection(selection.substring(start.length, selection.length - end.length), 'around');
+            }
+            else {
+                doc.replaceSelection(start + selection + end, 'around');
+            }
+        }
+        else {
+            // If no selection then insert start and end args and set cursor position between the two.
+            doc.replaceRange(start + end, {line: cursor.line, ch: cursor.ch});
+            doc.setCursor({line: cursor.line, ch: cursor.ch + start.length});
+        }
+    }
+    toggleBefore(insertion) {
+        let doc = this.editor.getDoc();
+        let cursor = doc.getCursor();
+
+        if (doc.somethingSelected()) {
+            let selections = doc.listSelections();
+            let remove = null;
+            this.editor.operation(function () {
+                selections.forEach(function (selection) {
+                    let pos = [selection.head.line, selection.anchor.line].sort();
+
+                    // Remove if the first text starts with it
+                    if (remove == null) {
+                        remove = doc.getLine(pos[0]).startsWith(insertion);
+                    }
+
+                    for (let i = pos[0]; i <= pos[1]; i++) {
+                        if (remove) {
+                            // Don't remove if we don't start with it
+                            if (doc.getLine(i).startsWith(insertion)) {
+                                doc.replaceRange('', {line: i, ch: 0}, {line: i, ch: insertion.length});
+                            }
+                        }
+                        else {
+                            doc.replaceRange(insertion, {line: i, ch: 0});
+                        }
+                    }
+                });
+            });
+        }
+        else {
+            let line = cursor.line;
+            if (doc.getLine(line).startsWith(insertion)) {
+                doc.replaceRange('', {line: line, ch: 0}, {line: line, ch: insertion.length});
+            }
+            else {
+                doc.replaceRange(insertion, {line: line, ch: 0});
+            }
+        }
+    }
+    registerKeyMaps(keyMaps = KEYS_MAPS) {
+        const extraKeys = {};
+        Object.keys(keyMaps).forEach(key => {
+            const actionName = keyMaps[key];
+            if (typeof this.actions[actionName] !== 'function') {
+                throw `MPEditor CodeMirror: ${actionName} is not a registered action`;
+            }
+
+            let realName = key
+                .replace('Cmd-', CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Cmd-' : 'Ctrl-')
+                .replace('Alt-', CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Shift-' : 'Alt-');
+            extraKeys[realName] = this.actions[actionName].bind(this);
+        });
+        return extraKeys;
+    }
     // 改变大小
     resize(height) {
         height = height || this.$container.height();
-        let $nav = this.$nav;
-        height = height - ($nav.is(':hidden') ? 0 : $nav.height());
-        this.$editor.height(height);
-        this.$preview.height(height);
-        this.$container.find('[eclass=mpe-col]').height(height);
-        this.editor && this.editor.resize();
-        this._buildSection();
+        // let $nav = this.$nav;
+        // height = height;
+        // this.$editor.height(height);
+        this.$previewContainer.height(height);
+        // this.$container.find('[eclass=mpe-col]').height(height);
+        // this.editor && this.editor.resize();
     }
     // 私有方法
-    _initShowdown() {
-        let converter = new showdown.Converter({
-            extensions: ['prettify', 'tasklist', 'section-divider', 'emoji', 'warning', 'rich'],
-            tables: true,
-            simpleLineBreaks: true,
-            strikethrough: true,
-        });
-        // converter.listen('images.before', ()=>{console.log(arguments)})
-        return converter;
-    }
+
     _autoSave() {
         // this._autoSaveTimer = setInterval(() => {
         let text = this.editor.getValue();
@@ -238,212 +301,61 @@ export default class Editor {
         }
         // }, 10e3)
     }
-    _buildScrollLink() {
-        return _.throttle(() => {
-            let that = this;
-            if (that._isUpdatePreview) {
-                // 方式更新html的时候发生滚动
-                that._isUpdatePreview = false;
-                return;
-            }
-            let mdSectionList = this._mdSectionList;
-            let htmlSectionList = this._htmlSectionList;
-            let aceEditor = this.editor;
-            // console.log( mdSectionList.length,htmlSectionList.length)
-            if (mdSectionList.length === 0 || mdSectionList.length !== htmlSectionList.length) {
-                this._doScrollLink();
-                return;
-            }
+    _handleScroll() {
+        const markdownEditor = this.editor;
 
-            let editorScrollTop = aceEditor.renderer.getScrollTop();
-            if (editorScrollTop < 0) {
-                editorScrollTop = 0;
-            }
+        const $preview = this.$preview;
+        const $container = this.$container;
 
-            let $previewElt = this.$preview;
-            let previewScrollTop = $previewElt.scrollTop();
-            function getDestScrollTop(srcScrollTop, srcSectionList, destSectionList) {
-                let sectionIndex;
-                let srcSection = _.find(srcSectionList, (section, index) => {
-                    sectionIndex = index;
-                    return srcScrollTop < section.endOffset;
-                });
-                if (srcSection === undefined) {
-                    return;
-                }
-                let posInSection = (srcScrollTop - srcSection.startOffset) / (srcSection.height || 1);
-                let destSection = destSectionList[sectionIndex];
-                return destSection.startOffset + destSection.height * posInSection;
-            }
-            let lastEditorScrollTop = this.lastEditorScrollTop;
-            let lastPreviewScrollTop = this.lastPreviewScrollTop;
-            let destScrollTop;
-            let isScrollEditor = this._scrollSyncLeader === 'editor';
-            let isScrollPreview = this._scrollSyncLeader === 'preview';
-            let scrollingHelper = this._scrollingHelper;
-            if (isScrollEditor === true) {
-                if (Math.abs(editorScrollTop - lastEditorScrollTop) <= 9) {
-                    return;
-                }
-                isScrollEditor = false;
-                lastEditorScrollTop = editorScrollTop;
-                destScrollTop = getDestScrollTop(editorScrollTop, mdSectionList, htmlSectionList);
-                destScrollTop = _.min([destScrollTop, $previewElt.prop('scrollHeight') - $previewElt.outerHeight()]);
-                if (Math.abs(destScrollTop - previewScrollTop) <= 9) {
-                    lastPreviewScrollTop = previewScrollTop;
-                    return;
-                }
-                scrollingHelper
-                    .stop('scrollLinkFx', true)
-                    .css('value', 0)
-                    .animate(
-                        {
-                            value: destScrollTop - previewScrollTop,
-                        },
-                        {
-                            // easing: 'easeOutSine',
-                            duration: 200,
-                            queue: 'scrollLinkFx',
-                            step(now) {
-                                that._isPreviewMoving = true;
-                                lastPreviewScrollTop = previewScrollTop + now;
-                                // console.log(lastPreviewScrollTop)
-                                $previewElt.scrollTop(lastPreviewScrollTop);
-                            },
-                            done() {
-                                _.defer(function () {
-                                    that._isPreviewMoving = false;
-                                });
-                            },
-                        }
-                    )
-                    .dequeue('scrollLinkFx');
-            }
-            else if (isScrollPreview === true) {
-                if (Math.abs(previewScrollTop - lastPreviewScrollTop) <= 9) {
-                    return;
-                }
-                // 暂停同步
-                // return;
-                isScrollPreview = false;
-                lastPreviewScrollTop = previewScrollTop;
-                destScrollTop = getDestScrollTop(previewScrollTop, htmlSectionList, mdSectionList);
-
-                destScrollTop = _.min([
-                    destScrollTop,
-                    aceEditor.session.getScreenLength() * aceEditor.renderer.lineHeight
-                        + aceEditor.renderer.scrollMargin.bottom
-                        - aceEditor.renderer.$size.scrollerHeight,
-                ]);
-                destScrollTop < 0 && (destScrollTop = 0);
-
-                if (Math.abs(destScrollTop - editorScrollTop) <= 9) {
-                    lastEditorScrollTop = editorScrollTop;
-                    return;
-                }
-                scrollingHelper
-                    .stop('scrollLinkFx', true)
-                    .css('value', 0)
-                    .animate(
-                        {
-                            value: destScrollTop - editorScrollTop,
-                        },
-                        {
-                            // easing: 'easeOutSine',
-                            duration: 200,
-                            queue: 'scrollLinkFx',
-                            step(now) {
-                                that._isEditorMoving = true;
-                                lastEditorScrollTop = editorScrollTop + now;
-                                aceEditor.session.setScrollTop(lastEditorScrollTop);
-                            },
-                            done() {
-                                _.defer(function () {
-                                    that._isEditorMoving = false;
-                                });
-                            },
-                        }
-                    )
-                    .dequeue('scrollLinkFx');
-            }
-        }, 100);
+        const cmData = markdownEditor.getScrollInfo();
+        const editorToTop = cmData.top;
+        const editorScrollHeight = cmData.height - cmData.clientHeight;
+        this.scale = ($preview[0].offsetHeight - $container[0].offsetHeight + 40) / editorScrollHeight;
+        const $previewContainer = this.$previewContainer;
+        if (this.index === 1) {
+            $previewContainer.scrollTop(editorToTop * this.scale);
+        }
+        else {
+            markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale + 40);
+        }
     }
-
     _bindEvent() {
-        let sessionEditor = this.editor.getSession();
-        let $preview = this.$preview;
+        const markdownEditor = this.editor;
+        const $preview = this.$preview;
         // let $editor = this.$editor
-        let $container = this.$container;
-        let that = this;
-
-        let buildSection = this._buildSection();
-        this._doScrollLink = this._buildScrollLink();
-        sessionEditor.on('changeScrollTop', () => {
-            if (that._isEditorMoving === false) {
-                that._scrollSyncLeader = 'editor';
-                buildSection();
-            }
+        const that = this;
+        // TODO
+        this.$container.find('[eclass=mpe-col]').mouseover(function () {
+            that._setCurrentIndex(this.dataset.index);
         });
 
-        $preview.on('scroll', () => {
-            if (that._isPreviewMoving === false) {
-                that._scrollSyncLeader = 'preview';
-                buildSection();
-            }
-        });
+        markdownEditor.on('scroll', this._handleScroll.bind(this));
+
+        $preview.parent().on('scroll', this._handleScroll.bind(this));
         // 工具栏
-        let clipboard = new Clipboard(this.$copyBtn[0], {
+        const clipboard = new Clipboard(this.$copyBtn[0], {
             action: 'cut',
-            target: () => this.$preview[0],
+            target: () => this.$preview[0]
         });
         clipboard.on('success', e => {
             this._createTips(this.$copyBtn, '复制成功');
         });
         this.$editorTheme.on('change', function () {
             let theme = this.value;
-            that.editor.setTheme('ace/theme/' + theme);
+            const removeClasses = that.editor.display.wrapper.className.split(/\s+/).filter(a => /^cm\-s\-/.test(a));
+            $(that.editor.display.wrapper).removeClass(removeClasses.join(' ')).addClass(`cm-s-${theme}`);
             // 存储
             LS.mpe_editorTheme = theme;
         });
-        this.$prismTheme.on('change', function () {
-            that.updatePreview();
-            if (this.value === 'wechat-prism') {
-                $('.linenums').each((index, dom) => {
-                    let newHtml = '';
-                    $(dom).find('code').each((index, code) => {
-                        let codeSnippets = code.innerHTML.split('\n').map(line => {
-                            let res = line.replace(/class=\"token\s(.+?)\"/ig, (origin, target) => {
-                                //  Prismjs -> wechat highlight.js
-                                if (target === 'function') {
-                                    target = 'title';
-                                }
-                                return `class="code-snippet__${target}"`;
-                            });
-                            return `<code>${res}</code>`;
-                        }).join('\n');
-                        newHtml += codeSnippets;
-                    });
-                    dom.classList.add('code-snippet__js', 'code-snippet', 'code-snippet_nowrap');
-                    dom.innerHTML = newHtml;
-                });
-                return;
-            }
-            else if (this.value === 'wechat') {
-                $('.linenums').each((index, dom) => {
-                    let lines = dom.textContent.split('\n');
-                    let newHtml = lines.map(text => {
-                        return `<code>${text}</code>`;
-                    }).join('\n');
-                    dom.classList.add('code-snippet__js', 'code-snippet', 'code-snippet_nowrap');
-                    dom.innerHTML = newHtml;
-                });
-                return;
-            }
-            let theme = this.value;
-
-            $('#prismjs-style').attr('href', `https://prismjs.com/themes/${theme}.css`);
-            // 存储
-            // LS.mpe_prismTheme = theme;
+        this.$mobileBtn.on('click', () => {
+            this.$previewContainer.addClass('mobile');
+            this.$mobileBtn.hide();
+            this.$pcBtn.show();
+        });
+        this.$pcBtn.on('click', () => {
+            this.$previewContainer.removeClass('mobile');
+            this.$pcBtn.hide();
+            this.$mobileBtn.show();
         });
         this.$downloadBtn.on('click', () => {
             let text = this.editor.getValue();
@@ -454,46 +366,15 @@ export default class Editor {
                 alert('写点啥再下载吧');
             }
         });
-        this.$transferBtn.on('click', () => {
-            [LS.mpe_previewClass, LS.mpe_editorClass] = [LS.mpe_editorClass, LS.mpe_previewClass];
-            $container.find('.mpe-col').toggleClass('mpe_fr mpe_fl');
-        });
         this.$clearBtn.on('click', () => {
             delete LS.mpe_content;
             this.setValue('');
         });
-        // 快捷键
-        hotkeys('⌘+⌥+u, ctrl+alt+u', () => {
-            this.$nav.toggle();
-            this.resize();
-            return false;
-        });
-        // hotkeys('⌘+⌥+c, ctrl+alt+c', () => {
-        //     this.$nav.toggle();
-        //     this.resize();
-        //     return false;
-        // });
-        function save() {
-            that._autoSave();
-            let $toast = that.$toast.show();
-            setTimeout(() => $toast.hide(), 800);
-        }
-        hotkeys('⌘+s, ctrl+s', () => {
-            save();
-            return false;
-        });
-        this.editor.commands.addCommand({
-            name: 'customSave',
-            bindKey: {win: 'Ctrl-s', mac: 'Command-s'},
-            exec() {
-                save();
-            },
-        });
-        // hotkeys('⌘+alt+n, ctrl+alt+n', (e) => {
-        //   delete LS.mpe_content
-        //   this.setValue('')
-        //   return false
-        // })
+    }
+    _save() {
+        this._autoSave();
+        let $toast = this.$toast.show();
+        setTimeout(() => $toast.hide(), 800);
     }
     _createTips(node, text, dir = 'bottom', timeout = 2000) {
         let tmpl = `
@@ -506,7 +387,7 @@ export default class Editor {
         let $tip = $(tmpl).appendTo(this.$container);
         $tip.css({
             top: pos.top - 20,
-            left: pos.left - $(node).width() / 2,
+            left: pos.left - $(node).width() / 2
         }).animate({opacity: 1, top: pos.top + $(node).height() + 20}, 300);
         setTimeout(() => {
             $tip.animate({opacity: 0}, 300, () => {
@@ -515,89 +396,53 @@ export default class Editor {
         }, timeout);
         return $tip;
     }
-    _buildSection() {
-        return _.throttle(() => {
-            // console.log('buildSection')
-            let $preview = this.$preview;
-            let preScrollTop = $preview.scrollTop();
-            // 处理预览html
-            let startOffset;
-            let htmlSectionList = [];
-            $preview.find('.mpe-section-divider').each((i, dom) => {
-                if (startOffset === undefined) {
-                    startOffset = 0;
-                    return;
-                }
-                let $node = $(dom);
-                let top = $node.position().top + preScrollTop;
-                htmlSectionList.push({
-                    startOffset: startOffset,
-                    endOffset: top,
-                    height: top - startOffset,
-                });
-                startOffset = top;
-            });
-            let scrollHeight = $preview.prop('scrollHeight');
-            htmlSectionList.push({
-                startOffset: startOffset,
-                endOffset: scrollHeight,
-                height: scrollHeight - startOffset,
-            });
+    _initMarkdownRender() {
+        let md = markdownIt({
+            html: true, // Enable HTML tags in source
+            xhtmlOut: false, // Use '/' to close single tags (<br />).
+            // This is only for full CommonMark compatibility.
+            breaks: false, // Convert '\n' in paragraphs into <br>
+            langPrefix: 'language-', // CSS language prefix for fenced blocks. Can be
+            // useful for external highlighters.
+            linkify: false, // Autoconvert URL-like text to links
+            // Enable some language-neutral replacement + quotes beautification
+            // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js
+            typographer: false,
 
-            // 处理编辑器
-            let mdSectionList = [];
-            let mdSectionOffset = 0;
-            let mdTextOffset = 0;
-            let editorSession = this.editor.session;
-            let editorLineHeight = this.editor.renderer.lineHeight;
+            // Double + single quotes replacement pairs, when typographer enabled,
+            // and smartquotes on. Could be either a String or an Array.
+            //
+            // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+            // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+            quotes: '“”‘’'
+        });
+        // 添加plugin
+        md.use(mdBlockQuote) // blockquote嵌套
+            .use(mdHighlight) // 语法高亮
+            .use(mdFootnote) // footnote
+            .use(mdTableContainter)
+            .use(mdImage) // 图示
+            .use(mdList) // li列表处理
+            .use(blockifyTag) // 自定义样式
+            .use(mdImgSize); // 图片
 
-            let firstSectionOffset = offsetBegin;
-
-            mdSections.forEach(section => {
-                mdTextOffset += section.text.length + firstSectionOffset;
-                firstSectionOffset = 0;
-                let documentPosition = editorSession.doc.indexToPosition(mdTextOffset);
-                let screenPosition = editorSession.documentToScreenPosition(
-                    documentPosition.row,
-                    documentPosition.column
-                );
-                let newSectionOffset = screenPosition.row * editorLineHeight;
-                let sectionHeight = newSectionOffset - mdSectionOffset;
-                mdSectionList.push({
-                    startOffset: mdSectionOffset,
-                    endOffset: newSectionOffset,
-                    height: sectionHeight,
-                });
-                mdSectionOffset = newSectionOffset;
-            });
-            this._mdSectionList = mdSectionList;
-            this._htmlSectionList = htmlSectionList;
-            // apply Scroll Link (-10 to have a gap > 9px)
-            this.lastEditorScrollTop = -10;
-            this.lastPreviewScrollTop = -10;
-            this._doScrollLink();
-        }, 80);
+        return md;
     }
-
     // 初始化编辑器
-    _initEditor(id, val) {
-        let editor = ace.edit(id);
-        let aceSession = editor.getSession();
-        let aceRenderer = editor.renderer;
-        editor.setOption('scrollPastEnd', true);
-        aceRenderer.setShowPrintMargin(false);
+    _initEditor(id, val, extraKeys) {
+        let theme = LS.mpe_editorTheme ? LS.mpe_editorTheme : 'default';
+        // eslint-disable-next-line
+        let editor = CodeMirror.fromTextArea(id, {
+            lineNumbers: false,
+            lineWrapping: true,
+            styleActiveLine: true,
+            theme,
+            extraKeys,
+            mode: 'text/x-markdown'
+        });
 
-        aceRenderer.setShowGutter(false);
-        aceSession.setUseWrapMode(true);
-        aceSession.setNewLineMode('unix');
-        aceSession.setMode('ace/mode/markdown');
-        aceSession.$selectLongWords = true;
-        aceRenderer.setPadding(15);
-        let theme = LS.mpe_editorTheme ? LS.mpe_editorTheme : 'solarized_light';
-        this.$editorTheme.val(theme);
-        editor.setTheme('ace/theme/' + theme);
         if (val) {
-            aceSession.setValue(val);
+            editor.setValue(val);
         }
         return editor;
     }
