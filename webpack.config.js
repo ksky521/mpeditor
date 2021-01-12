@@ -36,6 +36,22 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.html$/i,
+                loader: 'html-loader',
+                options: {
+                    minimize: true,
+                    attributes: {
+                        list: [
+                            {
+                                tag: 'img',
+                                attribute: 'data-src',
+                                type: 'src'
+                            }
+                        ]
+                    }
+                }
+            },
+            {
                 test: /\.less$/,
                 use: [
                     isProd ? MiniCssExtractPlugin.loader : 'style-loader',
@@ -62,9 +78,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: 'style-loader'
-                    },
+                    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
                     {
                         loader: 'css-loader',
                         options: {

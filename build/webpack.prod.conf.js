@@ -15,15 +15,15 @@ const webpackConfig = merge(baseWebpackConfig, {
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
-            extract: true,
-        }),
+            extract: true
+        })
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
         path: config.build.assetsRoot,
         publicPath: './',
         filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
-        chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js'),
+        chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js')
     },
     optimization: {
         minimizer: [
@@ -40,13 +40,13 @@ const webpackConfig = merge(baseWebpackConfig, {
                         // 移除 console
                         drop_console: true, // eslint-disable-line
                         // 移除无用的代码
-                        dead_code: true, // eslint-disable-line
+                        dead_code: true // eslint-disable-line
                     },
                     ie8: false,
                     safari10: true,
                     warnings: false,
-                    toplevel: true,
-                },
+                    toplevel: true
+                }
             }),
             new OptimizeCSSAssetsPlugin({
                 assetNameRegExp: /\.css$/g,
@@ -65,11 +65,11 @@ const webpackConfig = merge(baseWebpackConfig, {
                     // 使用postcss的autoprefixer功能
                     autoprefixer: false,
                     discardComments: {
-                        removeAll: true,
-                    },
+                        removeAll: true
+                    }
                 },
-                canPrint: true,
-            }),
+                canPrint: true
+            })
         ],
         splitChunks: {
             chunks: 'all',
@@ -81,30 +81,24 @@ const webpackConfig = merge(baseWebpackConfig, {
             automaticNameDelimiter: '~',
             cacheGroups: {
                 default: false,
-                brace: {
-                    name: 'ace',
-                    test: /[\\/]node_modules[\\/]brace[\\/]/,
-                    enforce: true,
-                    priority: 10,
-                },
                 common: {
                     name: 'vendor',
                     test: /[\\/]node_modules[\\/]/,
                     enforce: true,
-                    priority: 9,
-                },
-            },
-        },
+                    priority: 9
+                }
+            }
+        }
     },
     plugins: [
         // http://vuejs.github.io/vue-loader/en/workflow/production.html
         new webpack.DefinePlugin({
-            'process.env': env,
+            'process.env': env
         }),
         // extract css into its own file
         new MiniCssExtractPlugin({
             filename: utils.assetsPath('css/[name].[contenthash:7].css'),
-            chunkFilename: '[name].css',
+            chunkFilename: '[name].css'
         }),
         // generate dist index.html with correct asset hash for caching.
         // you can customize output by editing /index.html
@@ -116,14 +110,14 @@ const webpackConfig = merge(baseWebpackConfig, {
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
-                removeAttributeQuotes: true,
+                removeAttributeQuotes: true
                 // more options:
                 // https://github.com/kangax/html-minifier#options-quick-reference
             },
             // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-            chunksSortMode: 'dependency',
-        }),
-    ],
+            chunksSortMode: 'dependency'
+        })
+    ]
 });
 
 if (config.build.bundleAnalyzerReport) {
