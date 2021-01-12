@@ -26,7 +26,7 @@ npm run build
 ```
 
 ## 广告
-![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode_for_me.jpg)
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)
 
 上面是个「三水清」的微信公众号二维码，欢迎扫描关注
 

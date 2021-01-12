@@ -117,11 +117,11 @@ echo 'hello,world'
 
 图片支持简单的样式，例如下面的：
 
-![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg)
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)
 
 还支持在`()`中填写图片的尺寸，例如换个小点的头像：
 
-![关注三水清](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p.jpg =120x120)
+![关注三水清](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg  =120x120)
 
 另外还支持`<image-flow>`标签语法，添加图片横屏滑动幻灯片（灵感来自MarkdownNice）
 
@@ -150,7 +150,7 @@ echo 'hello,world'
 >
 > [网站](https://js8.in)
 >
-> ![这里写图片描述](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p)
+> ![这里写图片描述](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)
 
 当使用多个 `>` 符号时，就会变成多级引用
 
@@ -162,7 +162,7 @@ echo 'hello,world'
 > >
 > > [网站](https://js8.in)
 > >
-> > ![这里写图片描述](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p)
+> > ![这里写图片描述](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)
 
 三级引用如下：
 
@@ -172,7 +172,7 @@ echo 'hello,world'
 > > >
 > > > [网站](https://js8.in)
 > > >
-> > > ![这里写图片描述](https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p)
+> > > ![这里写图片描述](https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg)
 
 ## 8. 分割线
 
@@ -222,5 +222,5 @@ echo 'hello,world'
 
 <center>
     <p style="font-size:12px">下面是个「三水清」的微信公众号二维码，欢迎扫描关注：</p>
-    <img src="https://wx3.sinaimg.cn/orj360/796f423bly1gfzytdw3qhj20by0byq3p" width="200px"/>
+    <img src="https://raw.githubusercontent.com/ksky521/mpeditor/master/static/qrcode-ssq.jpg" width="200px"/>
 </center>
