@@ -9,12 +9,13 @@ import pangu from 'pangu';
 import markdownIt from 'markdown-it';
 import mdImgSize from 'markdown-it-imsize';
 
-import mdHighlight from './js/markdown-plugins/highlight';
-import mdBlockQuote from './js/markdown-plugins/blockquote';
-import mdList from './js/markdown-plugins/list';
-import mdImageFlow from './js/markdown-plugins/image-flow';
-import mdImplicitFigures from 'markdown-it-implicit-figures';
-import blockifyTag from './js/markdown-plugins/blockify-tag';
+import mdHighlight from './js/plugins/highlight';
+import mdFootnote from './js/plugins/footnote';
+import mdBlockQuote from './js/plugins/blockquote';
+import mdList from './js/plugins/list';
+import mdImage from './js/plugins/image';
+import blockifyTag from './js/plugins/blockify-tag';
+import mdTableContainter from './js/plugins/table-container';
 
 // output plugin
 import downloadBlobAsFile from './js/download.js';
@@ -51,12 +52,12 @@ const tmpl = `<div class="mpeditor">
         </a>
       </li>
       <li class="mpe-nav-item">
-        <a href="javascript:void(0)" eid="pcBtn" title="切换PC视图" style="display:none">
+        <a href="javascript:void(0)" eid="pcBtn" title="切换PC视图" >
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M661.333333 768v64H362.666667v-64h298.666666z m149.333334-576a64 64 0 0 1 64 64v405.333333a64 64 0 0 1-64 64H213.333333a64 64 0 0 1-64-64V256a64 64 0 0 1 64-64h597.333334z m0 64H213.333333v405.333333h597.333334V256z m-149.333334 170.666667v64H362.666667v-64h298.666666z" /></svg>
         </a>
       </li>
       <li class="mpe-nav-item">
-        <a href="javascript:void(0)" eid="mobileBtn" title="切换手机视图">
+        <a href="javascript:void(0)" eid="mobileBtn" title="切换手机视图" style="display:none">
         <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M704 149.333333a64 64 0 0 1 64 64v597.333334a64 64 0 0 1-64 64H320a64 64 0 0 1-64-64V213.333333a64 64 0 0 1 64-64h384z m0 64H320v597.333334h384V213.333333z m-192 469.333334a42.666667 42.666667 0 1 1 0 85.333333 42.666667 42.666667 0 0 1 0-85.333333z m85.333333-437.333334v64h-170.666666v-64h170.666666z" /></svg>
         </a>
       </li>
@@ -86,7 +87,7 @@ const tmpl = `<div class="mpeditor">
     </div>
   </div>
   <div eclass="mpe-col" class="mpe-preview-col mpe-col ${LS.mpe_previewClass}" data-index=2>
-    <div class="mpe-preview-wrap" eid="previewContainer">
+    <div class="mpe-preview-wrap mobile" eid="previewContainer">
       <div class="mpe-preview" eid="preview"></div>
     </div>
   </div>
@@ -102,7 +103,7 @@ const tmpl = `<div class="mpeditor">
 const KEYS_MAPS = {
     'Cmd-B': 'bold',
     'Cmd-I': 'italicize',
-    'Cmd-\'': 'blockquote',
+    "Cmd-'": 'blockquote',
     'Cmd-U': 'strikethrough',
     // 'Cmd-U': 'unorderedList',
     'Cmd-P': 'image',
@@ -213,12 +214,10 @@ export default class Editor {
             let selection = doc.getSelection();
             if (selection.startsWith(start) && selection.endsWith(end)) {
                 doc.replaceSelection(selection.substring(start.length, selection.length - end.length), 'around');
-            }
-            else {
+            } else {
                 doc.replaceSelection(start + selection + end, 'around');
             }
-        }
-        else {
+        } else {
             // If no selection then insert start and end args and set cursor position between the two.
             doc.replaceRange(start + end, {line: cursor.line, ch: cursor.ch});
             doc.setCursor({line: cursor.line, ch: cursor.ch + start.length});
@@ -246,20 +245,17 @@ export default class Editor {
                             if (doc.getLine(i).startsWith(insertion)) {
                                 doc.replaceRange('', {line: i, ch: 0}, {line: i, ch: insertion.length});
                             }
-                        }
-                        else {
+                        } else {
                             doc.replaceRange(insertion, {line: i, ch: 0});
                         }
                     }
                 });
             });
-        }
-        else {
+        } else {
             let line = cursor.line;
             if (doc.getLine(line).startsWith(insertion)) {
                 doc.replaceRange('', {line: line, ch: 0}, {line: line, ch: insertion.length});
-            }
-            else {
+            } else {
                 doc.replaceRange(insertion, {line: line, ch: 0});
             }
         }
@@ -272,13 +268,9 @@ export default class Editor {
                 throw `MPEditor CodeMirror: ${actionName} is not a registered action`;
             }
 
-            let realName = key.replace(
-                'Cmd-',
-                CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Cmd-' : 'Ctrl-'
-            ).replace(
-                'Alt-',
-                CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Shift-' : 'Alt-'
-            );
+            let realName = key
+                .replace('Cmd-', CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Cmd-' : 'Ctrl-')
+                .replace('Alt-', CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault ? 'Shift-' : 'Alt-');
             extraKeys[realName] = this.actions[actionName].bind(this);
         });
         return extraKeys;
@@ -316,8 +308,7 @@ export default class Editor {
         const $previewContainer = this.$previewContainer;
         if (this.index === 1) {
             $previewContainer.scrollTop(editorToTop * this.scale);
-        }
-        else {
+        } else {
             markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale + 40);
         }
     }
@@ -363,8 +354,7 @@ export default class Editor {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            }
-            else {
+            } else {
                 alert('写点啥再下载吧');
             }
         });
@@ -421,17 +411,17 @@ export default class Editor {
         // 添加plugin
         md.use(mdBlockQuote) // blockquote嵌套
             .use(mdHighlight) // 语法高亮
-            .use(mdImplicitFigures, {figcaption: true}) // 图示
+            .use(mdFootnote) // footnote
+            .use(mdTableContainter)
+            .use(mdImage) // 图示
             .use(mdList) // li列表处理
             .use(blockifyTag) // 自定义样式
-            .use(mdImgSize) // 图片
-            .use(mdImageFlow); // 滚动图片
+            .use(mdImgSize); // 图片
 
         return md;
     }
     // 初始化编辑器
     _initEditor(id, val, extraKeys) {
-        const that = this;
         let theme = LS.mpe_editorTheme ? LS.mpe_editorTheme : 'default';
         // eslint-disable-next-line
         let editor = CodeMirror.fromTextArea(id, {

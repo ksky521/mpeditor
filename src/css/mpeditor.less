@@ -48,6 +48,7 @@
                 margin: 0 0 15px;
             }
         }
+
         &-wrap {
             display: flex;
             margin-top: @nav-height;
@@ -56,6 +57,7 @@
         &-nav-wrap {
             position: fixed;
         }
+
         // editor
         &-editor {
             width: 100%;
@@ -65,8 +67,12 @@
             line-height: @editor-line-height;
 
             &-wrap {
+                // padding-top: 10px;
                 // height: 100%;
                 // padding: 0 20px 0 0;
+            }
+            .CodeMirror{
+                padding: 10px 0;
             }
         }
     }

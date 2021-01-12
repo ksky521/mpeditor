@@ -6,7 +6,7 @@ export default function (tokens, idx) {
         case 'header-box':
             if (attrs['sub-title'] && typeof attrs['sub-title'] === 'string') {
                 return `
-                <section style="display: flex;justify-content: center;align-items: center;width: 100%;"><section>
+                <section style="display: flex;justify-content: center;align-items: center;width: 100%;margin:0 auto;"><section>
                 <section style="margin-right: 10px;margin-left: 10px;display: flex;flex-direction: column;align-items: center;">
                     <section><p style="font-size: 15px;text-align: center;margin-bottom:0;font-family: PingFangSC-Medium, PingFang SC;font-weight: bold;">${attrs['sub-title']}</p></section>
                 </section>
@@ -18,7 +18,7 @@ export default function (tokens, idx) {
             </section></section>`;
             }
             return `
-            <section style="display: flex;justify-content: center;align-items: center;width: 100%;padding: 10px;">
+            <section style="display: flex;justify-content: center;align-items: center;width: 100%;padding: 10px;margin:0 auto;">
             <section style="display: flex;justify-content: center;align-items: center;">
                 <section style="background: #409EFF;">
                     <section style="text-align: left;padding: 7px 17px 5px 17px;transform: translate(-4.1px, -4.1px);background: #F9F9F9;border: 1px solid #333333;">
@@ -27,9 +27,28 @@ export default function (tokens, idx) {
                 </section>
             </section>
         </section>`;
+        case 'image-flow':
+            if (attrs.images) {
+                let wrappedContent = '';
+                attrs.images.split(',').forEach(src => {
+                    wrappedContent += `<section class="imageflow-item"><img src="${src}" class="imageflow-img" /></section>`;
+                });
+
+                return `
+                <section class="imageflow">
+                    <section class="imageflow-wrap">
+                        <section class="imageflow-box">
+                            ${wrappedContent}
+                        </section>
+                    </section>
+                    <p class="imageflow-text">${content ? content : '左右滑动展示更多'}</p>
+                </section>
+                `;
+            }
+
         case 'qrcode-box':
             return `
-<section style="width: 100%;display: flex;flex-direction: column;align-items: center;justify-content: flex-start;" >
+<section style="width: 100%;display: flex;flex-direction: column;align-items: center;justify-content: flex-start;margin:0 auto;" >
 <section style="width: 304px;background-repeat: no-repeat;background-size: 100% 100%;height: 22px;margin: 0 0 -20px 0;z-index: 20;"></section>
 <section style="width: 300px;display: flex;flex-direction: column;align-items: center;justify-content: flex-start;">
     <section style="width: 100%;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 12px 18px;background: #ecf8ff;border-radius: 11px;border: 1px solid #50bfff;">

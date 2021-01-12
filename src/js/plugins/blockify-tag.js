@@ -1,6 +1,6 @@
 import {htmlInlineParser} from '../utils';
 import customTag from './lib/custom-tag';
-const diyTags = ['header-box', 'qrcode-box'];
+const diyTags = ['header-box', 'qrcode-box', 'image-flow'];
 export default (md, opts) => {
     const tokenize = (state, start) => {
         let token;
