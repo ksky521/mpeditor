@@ -4,3 +4,6 @@ gh-pages
 node_modules/
 npm-debug.log
 test/unit/coverage
+dist
+yarn.lock
+package-lock.json
