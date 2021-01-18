@@ -20,7 +20,7 @@ function renderFootnoteCaption(tokens, idx) {
 }
 
 // eslint-disable-next-line
-  function renderFootnoteWord(tokens, idx, options, env, slf) {
+function renderFootnoteWord(tokens, idx, options, env, slf) {
     return '<span class="footnote-word">' + tokens[idx].content + '</span>';
 }
 
@@ -31,7 +31,7 @@ function renderFootnoteRef(tokens, idx, options, env, slf) {
 }
 
 // eslint-disable-next-line
-  function renderFootnoteBlockOpen(tokens, idx, options) {
+function renderFootnoteBlockOpen(tokens, idx, options) {
     return '<h3 class="footnotes-sep"></h3>\n<section class="footnotes">\n';
 }
 
@@ -68,10 +68,7 @@ function normalizeReference(str) {
     // use .toUpperCase() instead of .toLowerCase()
     // here to avoid a conflict with Object.prototype
     // members (most notably, `__proto__`)
-    return str
-        .trim()
-        .replace(/\s+/g, ' ')
-        .toUpperCase();
+    return str.trim().replace(/\s+/g, ' ').toUpperCase();
 }
 
 function linkFoot(state, silent) {
@@ -133,8 +130,7 @@ function linkFoot(state, silent) {
             footnoteContent = res.str;
             if (state.md.validateLink(href)) {
                 pos = res.pos;
-            }
-            else {
+            } else {
                 href = '';
             }
         }
@@ -164,13 +160,12 @@ function linkFoot(state, silent) {
                     break;
                 }
             }
-        }
-        else {
+        } else {
             title = '';
         }
 
         if (pos >= max || state.src.charCodeAt(pos) !== 0x29 /* ) */) {
-        // parsing a valid shortcut link failed, fallback to reference
+            // parsing a valid shortcut link failed, fallback to reference
             parseReference = true;
         }
         pos++;
@@ -189,12 +184,10 @@ function linkFoot(state, silent) {
             pos = state.md.helpers.parseLinkLabel(state, pos);
             if (pos >= 0) {
                 label = state.src.slice(start, pos++);
-            }
-            else {
+            } else {
                 pos = labelEnd + 1;
             }
-        }
-        else {
+        } else {
             pos = labelEnd + 1;
         }
 
@@ -333,16 +326,14 @@ function footnoteTail(state) {
             token = new state.Token('paragraph_close', 'p', -1);
             token.block = true;
             tokens.push(token);
-        }
-        else if (list[i].label) {
+        } else if (list[i].label) {
             tokens = refTokens[':' + list[i].label];
         }
 
         state.tokens = state.tokens.concat(tokens);
         if (state.tokens[state.tokens.length - 1].type === 'paragraph_close') {
             lastParagraph = state.tokens.pop();
-        }
-        else {
+        } else {
             lastParagraph = null;
         }
 

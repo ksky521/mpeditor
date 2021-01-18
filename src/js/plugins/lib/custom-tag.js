@@ -6,7 +6,7 @@ export default function (tokens, idx) {
         case 'header-box':
             if (attrs['sub-title'] && typeof attrs['sub-title'] === 'string') {
                 return `
-                <section style="display: flex;justify-content: center;align-items: center;width: 100%;margin:0 auto;"><section>
+                <section style="display: flex;justify-content: center;align-items: center;margin:20px auto 10px;"><section>
                 <section style="margin-right: 10px;margin-left: 10px;display: flex;flex-direction: column;align-items: center;">
                     <section><p style="font-size: 15px;text-align: center;margin-bottom:0;font-family: PingFangSC-Medium, PingFang SC;font-weight: bold;">${attrs['sub-title']}</p></section>
                 </section>
@@ -18,7 +18,7 @@ export default function (tokens, idx) {
             </section></section>`;
             }
             return `
-            <section style="display: flex;justify-content: center;align-items: center;width: 100%;padding: 10px;margin:0 auto;">
+            <section style="display: flex;justify-content: center;align-items: center;padding: 10px;margin:20px auto 10px">
             <section style="display: flex;justify-content: center;align-items: center;">
                 <section style="background: #409EFF;">
                     <section style="text-align: left;padding: 7px 17px 5px 17px;transform: translate(-4.1px, -4.1px);background: #F9F9F9;border: 1px solid #333333;">

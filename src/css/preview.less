@@ -2,7 +2,7 @@
 @import 'theme';
 
 .mpe-preview {
-    @def-color: @color-text-primary;
+    @def-color: #3f3f3f;
     @def-link-color: @color-primary;
     @warn-color: @color-warning;
     @title-color: #000;
@@ -17,11 +17,10 @@
 
     // preview
     overflow: auto;
-    padding: 10px 20px;
+    padding: 10px 15px;
     position: relative;
     border: none;
     font-size: @editor-font-size;
-    line-height: @editor-line-height;
 
     &::selection {
         background: #fde6ba;
@@ -56,6 +55,7 @@
     h6 {
         margin: 12px 0 8px;
         font-weight: bold;
+        color: @title-color;
     }
     h1 {
         line-height: 1.75;
