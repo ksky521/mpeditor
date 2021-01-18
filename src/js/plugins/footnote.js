@@ -130,7 +130,8 @@ function linkFoot(state, silent) {
             footnoteContent = res.str;
             if (state.md.validateLink(href)) {
                 pos = res.pos;
-            } else {
+            }
+            else {
                 href = '';
             }
         }
@@ -160,7 +161,8 @@ function linkFoot(state, silent) {
                     break;
                 }
             }
-        } else {
+        }
+        else {
             title = '';
         }
 
@@ -184,10 +186,12 @@ function linkFoot(state, silent) {
             pos = state.md.helpers.parseLinkLabel(state, pos);
             if (pos >= 0) {
                 label = state.src.slice(start, pos++);
-            } else {
+            }
+            else {
                 pos = labelEnd + 1;
             }
-        } else {
+        }
+        else {
             pos = labelEnd + 1;
         }
 
@@ -326,14 +330,16 @@ function footnoteTail(state) {
             token = new state.Token('paragraph_close', 'p', -1);
             token.block = true;
             tokens.push(token);
-        } else if (list[i].label) {
+        }
+        else if (list[i].label) {
             tokens = refTokens[':' + list[i].label];
         }
 
         state.tokens = state.tokens.concat(tokens);
         if (state.tokens[state.tokens.length - 1].type === 'paragraph_close') {
             lastParagraph = state.tokens.pop();
-        } else {
+        }
+        else {
             lastParagraph = null;
         }
 
