@@ -271,16 +271,16 @@ export default class Editor {
             // 存储
             LS.mpe_editorTheme = theme;
         });
-        this.$mobileBtn.on('click', () => {
-            this.$previewContainer.addClass('mobile');
-            this.$mobileBtn.hide();
-            this.$pcBtn.show();
-        });
-        this.$pcBtn.on('click', () => {
-            this.$previewContainer.removeClass('mobile');
-            this.$pcBtn.hide();
-            this.$mobileBtn.show();
-        });
+        // this.$mobileBtn.on('click', () => {
+        //     this.$previewContainer.addClass('mobile');
+        //     this.$mobileBtn.hide();
+        //     this.$pcBtn.show();
+        // });
+        // this.$pcBtn.on('click', () => {
+        //     this.$previewContainer.removeClass('mobile');
+        //     this.$pcBtn.hide();
+        //     this.$mobileBtn.show();
+        // });
         this.$downloadBtn.on('click', () => {
             let text = this.editor.getValue();
             if (text.trim()) {
