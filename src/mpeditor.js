@@ -33,7 +33,7 @@ const KEYS_MAPS = {
     'Cmd-S': 'save',
     'Cmd-B': 'bold',
     'Cmd-I': 'italicize',
-    "Cmd-'": 'blockquote',
+    'Cmd-\'': 'blockquote',
     'Cmd-U': 'strikethrough',
     // 'Cmd-U': 'unorderedList',
     'Cmd-P': 'image',
@@ -138,9 +138,11 @@ export default class Editor {
     }
     render(content) {
         content = content || this.editor.getValue();
-        const template = handlebars.compile(content);
+        // const template = handlebars.compile(content);
         // console.log(content, this.getSysVar());
-        let text = this.converter.render(template(this.getSysVar()));
+        // let text = this.converter.render(template(this.getSysVar()));
+        let text = this.converter.render(content);
+
         return text;
     }
     updatePreview(content) {
@@ -162,10 +164,12 @@ export default class Editor {
             let selection = doc.getSelection();
             if (selection.startsWith(start) && selection.endsWith(end)) {
                 doc.replaceSelection(selection.substring(start.length, selection.length - end.length), 'around');
-            } else {
+            }
+            else {
                 doc.replaceSelection(start + selection + end, 'around');
             }
-        } else {
+        }
+        else {
             // If no selection then insert start and end args and set cursor position between the two.
             doc.replaceRange(start + end, {line: cursor.line, ch: cursor.ch});
             doc.setCursor({line: cursor.line, ch: cursor.ch + start.length});
@@ -193,17 +197,20 @@ export default class Editor {
                             if (doc.getLine(i).startsWith(insertion)) {
                                 doc.replaceRange('', {line: i, ch: 0}, {line: i, ch: insertion.length});
                             }
-                        } else {
+                        }
+                        else {
                             doc.replaceRange(insertion, {line: i, ch: 0});
                         }
                     }
                 });
             });
-        } else {
+        }
+        else {
             let line = cursor.line;
             if (doc.getLine(line).startsWith(insertion)) {
                 doc.replaceRange('', {line: line, ch: 0}, {line: line, ch: insertion.length});
-            } else {
+            }
+            else {
                 doc.replaceRange(insertion, {line: line, ch: 0});
             }
         }
@@ -256,7 +263,8 @@ export default class Editor {
         const $previewContainer = this.$previewContainer;
         if (this.index === 1) {
             $previewContainer.scrollTop(editorToTop * this.scale);
-        } else {
+        }
+        else {
             markdownEditor.scrollTo(null, $previewContainer.scrollTop() / this.scale + 40);
         }
     }
@@ -302,7 +310,8 @@ export default class Editor {
             let text = this.editor.getValue();
             if (text.trim()) {
                 downloadBlobAsFile(text, 'untitled.md');
-            } else {
+            }
+            else {
                 alert('写点啥再下载吧');
             }
         });

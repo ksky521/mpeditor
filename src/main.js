@@ -12,7 +12,8 @@ $(() => {
     }
     if (queryObj.tpl) {
         $.get(`./static/${queryObj.tpl}`).done(createEditor);
-    } else {
+    }
+    else {
         LS.mpe_content ? createEditor(LS.mpe_content) : $.get('./static/demo.md').done(createEditor);
     }
 });

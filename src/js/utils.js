@@ -55,7 +55,7 @@ exports.dateFormat = function dateFormat(d = new Date(), pattern = 'yyyy-MM-dd')
     pattern = pattern.replace(/(y+)/gi, (a, b) => y.substr(4 - Math.min(4, b.length)));
     Object.keys(o).forEach(i => {
         pattern = pattern.replace(new RegExp('(' + i + '+)', 'g'), (a, b) =>
-            o[i] < 10 && b.length > 1 ? '0' + o[i] : o[i]
+            (o[i] < 10 && b.length > 1 ? '0' + o[i] : o[i])
         );
     });
     return pattern;
