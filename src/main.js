@@ -5,7 +5,16 @@ const $win = $(window);
 const LS = window.localStorage;
 $(() => {
     $('#js-mpeditor').height($win.height());
-    LS.mpe_content ? createEditor(LS.mpe_content) : $.get('./static/demo.md').done(createEditor);
+    const query = new URLSearchParams(window.location.search);
+    const queryObj = {};
+    for (let [k, v] of query) {
+        queryObj[k] = v;
+    }
+    if (queryObj.tpl) {
+        $.get(`./static/${queryObj.tpl}`).done(createEditor);
+    } else {
+        LS.mpe_content ? createEditor(LS.mpe_content) : $.get('./static/demo.md').done(createEditor);
+    }
 });
 
 function createEditor(data) {
