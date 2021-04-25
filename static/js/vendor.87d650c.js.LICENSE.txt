@@ -1,0 +1,26 @@
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * clipboard.js v2.0.6
+ * https://clipboardjs.com/
+ * 
+ * Licensed MIT © Zeno Rocha
+ */
+
+/*!
+ * pangu.js
+ * --------
+ * @version: 4.0.7
+ * @homepage: https://github.com/vinta/pangu.js
+ * @license: MIT
+ * @author: Vinta Chen <vinta.chen@gmail.com> (https://github.com/vinta)
+ */
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
